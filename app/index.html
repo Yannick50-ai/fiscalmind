@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FiscalMind Africa - Copilote Comptable &amp; Fiscal SYSCOHADA</title>
+    <meta name="description" content="FiscalMind Africa : le copilote comptable et fiscal des PME en zone SYSCOHADA/OHADA. Journal, bilan, compte de résultat, TAFIRE, calendrier fiscal 17 pays.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/src/styles/afrique-premium.css">
+    <link rel="stylesheet" href="/src/styles/app.css">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#EA580C">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="FiscalMind">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png">
+</head>
+<body>
+    <div id="app">
+        <div class="toast-container" id="toastContainer"></div>
+        <div id="landingPage" class="page-section active">
+            <nav style="padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(255, 251, 245, 0.9); backdrop-filter: blur(10px);">
+                <div class="logo">
+                    <div class="logo-icon">🧠</div>
+                    <div class="logo-text">FiscalMind<span>Africa</span></div>
+                </div>
+                <div style="display: flex; gap: 16px; align-items: center;">
+                    <a href="#/connexion" style="color: var(--text); text-decoration: none; font-weight: 500;">Connexion</a>
+                    <button class="btn btn-primary" data-nav="pricing">Essai gratuit</button>
+                </div>
+            </nav>
+
+            <section class="landing-hero">
+                <div class="hero-content">
+                    <div class="hero-badge reveal"><i class="fas fa-sparkles"></i> Propulsé par l'IA pour la zone OHADA</div>
+                    <h1 class="hero-title reveal reveal-d1">Le copilote comptable que les PME africaines attendaient</h1>
+                    <p class="hero-subtitle reveal reveal-d2">FiscalMind Africa révolutionne la gestion comptable et fiscale des PME en zone SYSCOHADA. De la clôture annuelle aux contrôles fiscaux, votre IA experte vous guide pas à pas.</p>
+                    <div class="hero-cta reveal reveal-d3">
+                        <button class="btn btn-primary btn-hero" data-nav="pricing"><i class="fas fa-rocket"></i> Démarrer gratuitement</button>
+                        <a href="#/journal" data-demo-enter class="btn btn-secondary btn-hero"><i class="fas fa-play"></i> Voir la démo</a>
+                    </div>
+                    <div class="reveal reveal-d4" style="margin-top:22px;display:flex;gap:20px;justify-content:center;flex-wrap:wrap;font-size:13px;color:var(--text-muted);">
+                        <span><i class="fas fa-check" style="color:#16A34A;"></i> 14 jours d'essai gratuit</span>
+                        <span><i class="fas fa-cloud" style="color:var(--primary);"></i> 1 Go de stockage cloud inclus</span>
+                        <span><i class="fas fa-lock" style="color:var(--primary);"></i> Données isolées par compte</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="stats-band reveal">
+                <div class="stat-item"><div class="stat-num" data-count="17" data-stat="pays">0</div><div class="stat-lbl">pays de la zone<br>OHADA couverts</div></div>
+                <div class="stat-item"><div class="stat-num" data-count="1420" data-stat="comptes">0</div><div class="stat-lbl">comptes du plan<br>SYSCOHADA révisé</div></div>
+                <div class="stat-item"><div class="stat-num" data-count="500">0</div><div class="stat-lbl">questions IA / mois<br>(plan Pro)</div></div>
+                <div class="stat-item"><div class="stat-num" data-count="38">0</div><div class="stat-lbl">sources officielles<br>vérifiées</div></div>
+            </section>
+            <div class="ohada-marquee" aria-hidden="true"><div class="marquee-track">
+                <span>Bénin</span><i>●</i><span>Burkina Faso</span><i>●</i><span>Cameroun</span><i>●</i><span>Comores</span><i>●</i><span>Congo</span><i>●</i><span>Côte d’Ivoire</span><i>●</i><span>Gabon</span><i>●</i><span>Guinée</span><i>●</i><span>Guinée-Bissau</span><i>●</i><span>Guinée équatoriale</span><i>●</i><span>Mali</span><i>●</i><span>Niger</span><i>●</i><span>RCA</span><i>●</i><span>RD Congo</span><i>●</i><span>Sénégal</span><i>●</i><span>Tchad</span><i>●</i><span>Togo</span><i>●</i>
+                <span>Bénin</span><i>●</i><span>Burkina Faso</span><i>●</i><span>Cameroun</span><i>●</i><span>Comores</span><i>●</i><span>Congo</span><i>●</i><span>Côte d’Ivoire</span><i>●</i><span>Gabon</span><i>●</i><span>Guinée</span><i>●</i><span>Guinée-Bissau</span><i>●</i><span>Guinée équatoriale</span><i>●</i><span>Mali</span><i>●</i><span>Niger</span><i>●</i><span>RCA</span><i>●</i><span>RD Congo</span><i>●</i><span>Sénégal</span><i>●</i><span>Tchad</span><i>●</i><span>Togo</span><i>●</i>
+            </div></div>
+
+            <section class="features-section" id="features">
+                <div class="section-header reveal">
+                    <div class="section-label">Fonctionnalités</div>
+                    <h2 class="section-title">Tout ce dont votre comptabilité a besoin</h2>
+                    <p class="section-desc">Six modules puissants conçus spécifiquement pour la réalité des PME africaines</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card reveal" data-nav="pricing"><div class="feature-icon">🤖</div><h3 class="feature-title">Copilote IA Fiscal</h3><p class="feature-desc">Posez vos questions en français sur le CGI, le SYSCOHADA révisé, la fiscalité locale. Réponses instantanées basées sur vos données.</p></div>
+                    <div class="feature-card reveal reveal-d1" data-nav="pricing"><div class="feature-icon">📋</div><h3 class="feature-title">Audit Readiness</h3><p class="feature-desc">Préparez vos contrôles fiscaux (Brigade, DGE) avec des checklists dynamiques et un suivi d'avancement en temps réel.</p></div>
+                    <div class="feature-card reveal reveal-d2" data-nav="pricing"><div class="feature-icon">📂</div><h3 class="feature-title">Classeur Intelligent</h3><p class="feature-desc">Importez vos factures : OCR automatique et classement par poste. <strong>1 Go d’espace cloud dédié</strong> pour archiver vos justificatifs en sécurité.</p></div>
+                    <div class="feature-card reveal reveal-d3" data-nav="pricing"><div class="feature-icon">📊</div><h3 class="feature-title">États Financiers SYSCOHADA</h3><p class="feature-desc">Générez votre bilan, compte de résultat et TAFIRE aux normes SYSCOHADA en quelques clics, calculés depuis votre journal avec contrôles d'équilibre.</p></div>
+                    <div class="feature-card reveal reveal-d4" data-nav="pricing"><div class="feature-icon">🔔</div><h3 class="feature-title">Calendrier Fiscal</h3><p class="feature-desc">Ne manquez plus aucune échéance : TVA, IS, IUTS, DSF, déclarations CNSS. Alertes personnalisées.</p></div>
+                    <div class="feature-card reveal reveal-d5" data-nav="pricing"><div class="feature-icon">💱</div><h3 class="feature-title">Convertisseur Devises</h3><p class="feature-desc">Taux de référence du marché pour convertir NGN, USD, EUR en XOF, avec historique.</p></div>
+                </div>
+            </section>
+
+            <section class="pricing-section" id="pricing">
+                <div class="section-header reveal">
+                    <div class="section-label">Tarifs</div>
+                    <h2 class="section-title">Simple et transparent</h2>
+                    <p class="section-desc">Choisissez le plan adapté à la taille de votre entreprise</p>
+                </div>
+                <div class="pricing-grid">
+                    <div class="pricing-card reveal">
+                        <div class="pricing-name">Gratuit</div>
+                        <div class="pricing-price">0 <span>XOF</span></div>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> Copilote IA (10 questions/mois)</li>
+                            <li><i class="fas fa-check"></i> 30 écritures / mois</li>
+                            <li><i class="fas fa-check"></i> 100 Mo de stockage</li>
+                            <li><i class="fas fa-check"></i> 1 utilisateur</li>
+                            <li><i class="fas fa-check"></i> 1 entreprise</li>
+                        </ul>
+                        <button class="btn btn-secondary" style="width: 100%;" data-plan="gratuit">Commencer gratuitement</button>
+                    </div>
+                    <div class="pricing-card reveal reveal-d1 featured">
+                        <div class="pricing-name">Essentiel</div>
+                        <div class="pricing-price">14 900 <span>XOF/mois</span></div>
+                        <div class="muted-sm" style="margin-bottom:8px;">ou 149 000 XOF/an (2 mois offerts)</div>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> Copilote IA (30 questions/mois)</li>
+                            <li><i class="fas fa-check"></i> Écritures illimitées</li>
+                            <li><i class="fas fa-check"></i> 500 Mo de stockage</li>
+                            <li><i class="fas fa-check"></i> 1 utilisateur</li>
+                            <li><i class="fas fa-check"></i> 1 entreprise</li>
+                            <li><i class="fas fa-check"></i> Calendrier fiscal complet</li>
+                        </ul>
+                        <button class="btn btn-primary" style="width: 100%;margin-bottom:8px;" data-plan="essentiel" data-saspay="https://link.saspay.me/z9bcbdu2dpc">Choisir Essentiel — Mensuel</button>
+                        <button class="btn btn-secondary" style="width: 100%;" data-plan="essentiel" data-saspay="https://link.saspay.me/6omguaao7we">Annuel : 149 000 XOF (-2 mois)</button>
+                        <div class="muted-sm" style="margin-top:8px;">🎖️ Fondateur : 10 400 XOF/mois à vie (50 premiers)</div>
+                    </div>
+                    <div class="pricing-card reveal reveal-d2">
+                        <div class="pricing-name">Pro</div>
+                        <div class="pricing-price">44 900 <span>XOF/mois</span></div>
+                        <div class="muted-sm" style="margin-bottom:8px;">ou 449 000 XOF/an (2 mois offerts)</div>
+                        <ul class="pricing-features">
+                            <li><i class="fas fa-check"></i> Copilote IA (300 questions/mois)</li>
+                            <li><i class="fas fa-check"></i> Écritures illimitées</li>
+                            <li><i class="fas fa-check"></i> 1 Go de stockage / utilisateur</li>
+                            <li><i class="fas fa-check"></i> 3 utilisateurs</li>
+                            <li><i class="fas fa-check"></i> 1 entreprise</li>
+                            <li><i class="fas fa-check"></i> Support prioritaire</li>
+                        </ul>
+                        <button class="btn btn-primary" style="width: 100%;margin-bottom:8px;" data-plan="pro" data-saspay="https://link.saspay.me/wcvjrykr8uc">Choisir Pro — Mensuel</button>
+                        <button class="btn btn-secondary" style="width: 100%;" data-plan="pro" data-saspay="https://link.saspay.me/oiuz_mfqe0u">Annuel : 449 000 XOF (-2 mois)</button>
+                        <div class="muted-sm" style="margin-top:8px;">🎖️ Fondateur : 31 400 XOF/mois à vie (50 premiers)</div>
+                    </div>
+                </div>
+            </section>
+
+            <footer style="padding: 60px 24px 28px; border-top: 1px solid var(--border);">
+                <div style="max-width: 1020px; margin: 0 auto;">
+                    <div style="display: flex; flex-wrap: wrap; gap: 36px; justify-content: space-between; margin-bottom: 40px;">
+                        <div style="min-width: 200px; flex: 1;">
+                            <div class="logo" style="margin-bottom: 14px;">
+                                <div class="logo-icon">🧠</div>
+                                <div class="logo-text">FiscalMind<span>Africa</span></div>
+                            </div>
+                            <p style="color: var(--text-muted); font-size: 13px; line-height: 1.6; max-width: 260px;">Le copilote comptable et fiscal des PME en zone SYSCOHADA : comptabilité, fiscalité, états financiers et <strong>1 Go de stockage cloud</strong> par utilisateur.</p>
+                        </div>
+                        <div style="min-width: 140px;">
+                            <div style="font-weight: 700; margin-bottom: 16px; font-size: 15px;">Produit</div>
+                            <a href="#features" style="display:block;color:var(--text-muted);font-size:14px;text-decoration:none;margin-bottom:12px;">Fonctionnalités</a>
+                            <a href="#pricing" style="display:block;color:var(--text-muted);font-size:14px;text-decoration:none;margin-bottom:12px;">Tarifs</a>
+                            <a href="#" data-nav="pricing" style="display:block;color:var(--text-muted);font-size:14px;text-decoration:none;margin-bottom:12px;">Essai gratuit</a>
+                            <a href="#/journal" data-demo-enter style="display:block;color:var(--text-muted);font-size:14px;text-decoration:none;">Voir la démo</a>
+                        </div>
+                        <div style="min-width: 140px;">
+                            <div style="font-weight: 700; margin-bottom: 16px; font-size: 15px;">Ressources</div>
+                            <a href="#" data-nav="securite" style="display:block;color:var(--text-muted);font-size:14px;text-decoration:none;margin-bottom:12px;">Sécurité des données</a>
+                            <a href="https://wa.me/221764061145" target="_blank" rel="noopener" style="display:block;color:var(--text-muted);font-size:14px;text-decoration:none;margin-bottom:12px;">💬 WhatsApp</a>
+                            <a href="mailto:wagaexpress.bf@gmail.com" style="display:block;color:var(--text-muted);font-size:14px;text-decoration:none;">✉️ Email</a>
+                        </div>
+                        <div style="min-width: 140px;">
+                            <div style="font-weight: 700; margin-bottom: 16px; font-size: 15px;">Entreprise</div>
+                            <a href="#" data-nav="apropos" style="display:block;color:var(--text-muted);font-size:14px;text-decoration:none;margin-bottom:12px;">À propos</a>
+                            <a href="#" data-nav="cgu" style="display:block;color:var(--text-muted);font-size:14px;text-decoration:none;margin-bottom:12px;">CGU</a>
+                            <a href="#" data-nav="mentions" style="display:block;color:var(--text-muted);font-size:14px;text-decoration:none;margin-bottom:12px;">Mentions légales</a>
+                            <a href="#" data-nav="confidentialite" style="display:block;color:var(--text-muted);font-size:14px;text-decoration:none;">Confidentialité</a>
+                        </div>
+                    </div>
+                    <div style="text-align: center; padding-top: 24px; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 13px;">
+                        © 2026 FiscalMind Africa · Conforme SYSCOHADA révisé 2018 · Zone OHADA
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+
+        <div id="cguPage" class="page-section">
+            <nav style="padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(255, 251, 245, 0.9); backdrop-filter: blur(10px);">
+                <div class="logo" data-nav="landing" style="cursor:pointer;">
+                    <div class="logo-icon">🧠</div>
+                    <div class="logo-text">FiscalMind<span>Africa</span></div>
+                </div>
+                <a href="#" data-nav="landing" style="color: var(--text); text-decoration: none; font-weight: 500;"><i class="fas fa-arrow-left"></i> Retour à l'accueil</a>
+            </nav>
+
+            <div class="legal-hero">
+                <div class="section-label">Document juridique</div>
+                <h1 class="section-title">Conditions Générales d'Utilisation</h1>
+                <p class="section-desc">En vigueur depuis le 8 octobre 2026</p>
+            </div>
+
+            <div class="legal-content">
+                <div class="legal-card">
+                    <h2>1. Objet</h2>
+                    <p>Les présentes Conditions Générales d'Utilisation (ci-après « CGU ») régissent l'accès et l'utilisation de <strong>FiscalMind Africa</strong>, logiciel en ligne (SaaS) d'aide à la comptabilité et à la fiscalité en zone SYSCOHADA/OHADA, édité par FiscalMind Africa, Ouagadougou, Burkina Faso (ci-après « l'Éditeur »).</p>
+                    <p>Toute inscription au Service vaut acceptation pleine et entière des présentes CGU.</p>
+
+                    <h2>2. Définitions</h2>
+                    <p><strong>Service :</strong> l'ensemble des fonctionnalités proposées sur fiscalmind-africa.pages.dev (copilote IA, classeur intelligent, journal, états financiers, calendrier fiscal, etc.).<br>
+                    <strong>Utilisateur :</strong> toute personne physique disposant d'un compte.<br>
+                    <strong>Abonnement :</strong> licence d'utilisation payante d'une durée de 30 jours.<br>
+                    <strong>Essai gratuit :</strong> accès limité de 14 jours offert à l'inscription.</p>
+
+                    <h2>3. Inscription et compte</h2>
+                    <p><strong>3.1.</strong> L'inscription est ouverte à toute personne âgée de 18 ans ou plus, agissant pour son propre compte ou pour le compte d'une entreprise qu'elle représente.<br>
+                    <strong>3.2.</strong> L'Utilisateur fournit une adresse email valide et choisit un mot de passe robuste. Il est seul responsable de la confidentialité de ses identifiants.<br>
+                    <strong>3.3.</strong> Un compte est strictement personnel. Tout partage massif ou revente d'accès est interdit.</p>
+
+                    <h2>4. Essai gratuit</h2>
+                    <p>À l'inscription, l'Utilisateur bénéficie d'un essai gratuit de <strong>14 jours</strong> incluant 20 questions au copilote IA, sans carte bancaire requise. À l'issue de l'essai, l'accès aux fonctions avancées est suspendu jusqu'à la souscription d'un Abonnement.</p>
+
+                    <h2>5. Abonnements et tarifs</h2>
+                    <p><strong>5.1.</strong> Les offres en vigueur sont :<br>
+                    • <strong>Starter</strong> — 29 900 XOF / 30 jours : 50 questions copilote par mois, 1 Go de stockage cloud.<br>
+                    • <strong>Pro</strong> — 79 900 XOF / 30 jours : 500 questions copilote par mois, 1 Go de stockage cloud par utilisateur.<br>
+                    • <strong>Enterprise</strong> — tarif sur mesure.<br>
+                    <strong>5.2.</strong> Le paiement s'effectue en ligne via notre prestataire Chariow (mobile money, cartes bancaires). Le renouvellement est <strong>manuel</strong> : aucun prélèvement automatique n'est effectué.<br>
+                    <strong>5.3.</strong> Les tarifs sont affichés en francs CFA (XOF), toutes taxes comprises lorsque la TVA est applicable.</p>
+
+                    <h2>6. Quotas et limites d'usage</h2>
+                    <p><strong>6.1.</strong> Le copilote IA est soumis à un quota mensuel de questions selon l'offre (Essai : 20, Starter : 50, Pro : 500, Enterprise : 5 000). Au-delà, l'Utilisateur peut souscrire à l'offre supérieure.<br>
+                    <strong>6.2.</strong> Le stockage des documents est limité à <strong>1 Go par utilisateur</strong> et 50 Mo par fichier (formats acceptés : JPG, PNG, WebP, PDF). Au-delà, l'envoi est refusé avec un message explicite.<br>
+                    <strong>6.3.</strong> Tout contournement technique des quotas (automatisation abusive, partage de comptes à grande échelle) peut entraîner la suspension du compte.</p>
+
+                    <h2>7. Obligations de l'Utilisateur</h2>
+                    <p>L'Utilisateur s'engage à : utiliser le Service de manière loyale et conforme aux lois en vigueur ; saisir des données exactes ; ne pas porter atteinte au Service ni tenter d'y accéder frauduleusement.<br>
+                    <strong>Important :</strong> FiscalMind Africa est un outil d'aide à la décision. L'Utilisateur reste <strong>seul responsable</strong> de ses déclarations fiscales et sociales, de ses écritures comptables et de ses choix de gestion. Les réponses du copilote IA, bien que sourcées, ne constituent pas un conseil fiscal opposable : en cas de doute, consultez un expert-comptable.</p>
+
+                    <h2>8. Propriété intellectuelle</h2>
+                    <p>Le logiciel, la marque « FiscalMind Africa », les textes, visuels et l'ensemble des contenus du Service restent la propriété exclusive de l'Éditeur. Les données saisies par l'Utilisateur (écritures, documents, paramètres) lui appartiennent et ne sont ni revendues ni exploitées commercialement.</p>
+
+                    <h2>9. Données personnelles</h2>
+                    <p>Les données personnelles sont traitées conformément à notre politique de confidentialité. L'Utilisateur dispose d'un droit d'accès, de rectification et de suppression de ses données, exerçable via WhatsApp (+221 76 406 11 45) ou par email (wagaexpress.bf@gmail.com).</p>
+
+                    <h2>10. Disponibilité du Service</h2>
+                    <p>L'Éditeur s'efforce d'assurer une disponibilité élevée du Service, sans garantie absolue. Des interruptions pour maintenance ou cas de force majeure peuvent survenir. Il est recommandé à l'Utilisateur de conserver ses propres copies de ses documents importants (exports PDF/Excel disponibles).</p>
+
+                    <h2>11. Responsabilité</h2>
+                    <p>La responsabilité de l'Éditeur ne saurait être engagée pour les décisions de gestion, fiscales ou comptables prises par l'Utilisateur sur la base du Service. En tout état de cause, la responsabilité de l'Éditeur est limitée au montant de l'Abonnement payé au cours des 12 derniers mois.</p>
+
+                    <h2>12. Résiliation</h2>
+                    <p><strong>12.1.</strong> L'Utilisateur peut supprimer son compte à tout moment depuis les paramètres ; ses données sont alors effacées.<br>
+                    <strong>12.2.</strong> L'Éditeur peut suspendre ou résilier un compte en cas de violation des présentes CGU, de fraude ou d'impayé, après notification lorsque cela est possible.</p>
+
+                    <h2>13. Modification des CGU</h2>
+                    <p>L'Éditeur peut modifier les présentes CGU. Les Utilisateurs en sont informés sur le site ; la poursuite de l'utilisation du Service après modification vaut acceptation.</p>
+
+                    <h2>14. Droit applicable et juridiction</h2>
+                    <p>Les présentes CGU sont régies par le droit burkinabè et le droit OHADA. Tout litige relève de la compétence exclusive des tribunaux de Ouagadougou (Burkina Faso).</p>
+                </div>
+            </div>
+
+            <footer style="padding: 40px 24px; text-align: center; border-top: 1px solid var(--border);">
+                <p style="color: var(--text-muted); font-size: 13px;">© 2026 FiscalMind Africa · <a href="#" data-nav="landing" style="color: var(--primary);">Retour à l'accueil</a></p>
+            </footer>
+        </div>
+
+        <!-- ===================== MENTIONS LÉGALES ===================== -->
+
+        <div id="mentionsPage" class="page-section">
+            <nav style="padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(255, 251, 245, 0.9); backdrop-filter: blur(10px);">
+                <div class="logo" data-nav="landing" style="cursor:pointer;">
+                    <div class="logo-icon">🧠</div>
+                    <div class="logo-text">FiscalMind<span>Africa</span></div>
+                </div>
+                <a href="#" data-nav="landing" style="color: var(--text); text-decoration: none; font-weight: 500;"><i class="fas fa-arrow-left"></i> Retour à l'accueil</a>
+            </nav>
+
+            <div class="legal-hero">
+                <div class="section-label">Document juridique</div>
+                <h1 class="section-title">Mentions Légales</h1>
+                <p class="section-desc">En vigueur depuis le 8 octobre 2026</p>
+            </div>
+
+            <div class="legal-content">
+                <div class="legal-card">
+                    <h2>Éditeur du site</h2>
+                    <p><strong>FiscalMind Africa</strong><br>
+                    Ouagadougou, Burkina Faso<br>
+                    Responsable de publication : Bebsirda Williams Yannick Ouédraogo<br>
+                    Contact : <a href="https://wa.me/221764061145" target="_blank" rel="noopener">WhatsApp</a> — <a href="mailto:wagaexpress.bf@gmail.com">wagaexpress.bf@gmail.com</a></p>
+
+                    <h2>Hébergement</h2>
+                    <p>Le site et les données sont hébergés sur des infrastructures cloud professionnelles sécurisées.</p>
+
+                    <h2>Propriété intellectuelle</h2>
+                    <p>L'ensemble du site et du logiciel FiscalMind Africa (textes, visuels, code, marque) est protégé par le droit de la propriété intellectuelle. Toute reproduction ou représentation, même partielle, sans autorisation écrite préalable est interdite.<br>
+                    Les données saisies par les utilisateurs (écritures comptables, documents, paramètres d'entreprise) restent leur propriété exclusive.</p>
+
+                    <h2>Données personnelles</h2>
+                    <p>Les informations collectées (email, nom, données comptables) sont utilisées uniquement pour la fourniture du Service. Conformément à la réglementation applicable, vous disposez d'un droit d'accès, de rectification, d'opposition et de suppression de vos données, exerçable via WhatsApp (+221 76 406 11 45) ou par email (wagaexpress.bf@gmail.com).</p>
+
+                    <h2>Cookies</h2>
+                    <p>Le site utilise uniquement les cookies techniques nécessaires à son fonctionnement (session de connexion, préférences d'affichage). Aucun cookie publicitaire ou de suivi tiers n'est déposé.</p>
+
+                    <h2>Crédits</h2>
+                    <p>Conception et développement : FiscalMind Africa.<br>
+                    Référentiel comptable : SYSCOHADA révisé (OHADA).</p>
+                </div>
+            </div>
+
+            <footer style="padding: 40px 24px; text-align: center; border-top: 1px solid var(--border);">
+                <p style="color: var(--text-muted); font-size: 13px;">© 2026 FiscalMind Africa · <a href="#" data-nav="landing" style="color: var(--primary);">Retour à l'accueil</a></p>
+            </footer>
+        </div>
+
+        <!-- ===================== CONFIDENTIALITÉ ===================== -->
+
+        <div id="confidentialitePage" class="page-section">
+            <nav style="padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(255, 251, 245, 0.9); backdrop-filter: blur(10px);">
+                <div class="logo" data-nav="landing" style="cursor:pointer;">
+                    <div class="logo-icon">🧠</div>
+                    <div class="logo-text">FiscalMind<span>Africa</span></div>
+                </div>
+                <a href="#" data-nav="landing" style="color: var(--text); text-decoration: none; font-weight: 500;"><i class="fas fa-arrow-left"></i> Retour à l'accueil</a>
+            </nav>
+
+            <div class="legal-hero">
+                <div class="section-label">Document juridique</div>
+                <h1 class="section-title">Confidentialité et sécurité</h1>
+                <p class="section-desc">En vigueur depuis le 11 octobre 2026</p>
+            </div>
+
+            <div class="legal-content">
+                <div class="legal-card">
+                    <h2>Données collectées</h2>
+                    <p>Nous collectons uniquement les données nécessaires au service : votre email, le nom de votre entreprise, votre pays, et les données comptables que vous saisissez (écritures, tiers, pièces justificatives).</p>
+
+                    <h2>Utilisation</h2>
+                    <p>Vos données servent exclusivement à fournir le service : tenue comptable, états financiers, calendrier fiscal et réponses du copilote IA. Elles ne sont ni vendues, ni partagées à des tiers commerciaux.</p>
+
+                    <h2>Sécurité</h2>
+                    <p>Vos données sont hébergées en sécurité sur des infrastructures cloud professionnelles, avec chiffrement des connexions, isolation stricte des données par compte (chaque client ne voit que ses propres données) et sauvegardes régulières.</p>
+
+                    <h2>Vos droits</h2>
+                    <p>Vous disposez d'un droit d'accès, de rectification et de suppression de vos données personnelles, exerçable via WhatsApp (+221 76 406 11 45) ou par email (wagaexpress.bf@gmail.com).</p>
+
+                    <h2>Conservation</h2>
+                    <p>Vos données comptables sont conservées tant que votre compte est actif. En cas de suppression de compte, vos données sont effacées sous 30 jours.</p>
+                </div>
+            </div>
+
+            <footer style="padding: 40px 24px; text-align: center; border-top: 1px solid var(--border);">
+                <p style="color: var(--text-muted); font-size: 13px;">© 2026 FiscalMind Africa · <a href="#" data-nav="landing" style="color: var(--primary);">Retour à l'accueil</a></p>
+            </footer>
+        </div>
+
+        <!-- ===================== À PROPOS ===================== -->
+
+        <div id="aproposPage" class="page-section">
+            <nav style="padding: 20px 40px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(255, 251, 245, 0.9); backdrop-filter: blur(10px);">
+                <div class="logo" data-nav="landing" style="cursor:pointer;">
+                    <div class="logo-icon">🧠</div>
+                    <div class="logo-text">FiscalMind<span>Africa</span></div>
+                </div>
+                <a href="#" data-nav="landing" style="color: var(--text); text-decoration: none; font-weight: 500;"><i class="fas fa-arrow-left"></i> Retour à l'accueil</a>
+            </nav>
+
+            <div class="legal-hero">
+                <div class="section-label">À propos</div>
+                <h1 class="section-title">Le copilote comptable des PME africaines</h1>
+                <p class="section-desc">Des outils de gestion pensés pour la réalité des entreprises en zone OHADA — pas des adaptations de logiciels étrangers.</p>
+            </div>
+
+            <div class="legal-content">
+                <div class="legal-card">
+                    <h2>🎯 Notre mission</h2>
+                    <p>Des milliers de PME africaines tiennent encore leur comptabilité sur des cahiers ou des tableurs approximatifs, faute d'outils adaptés : trop chers, trop complexes, pensés pour d'autres fiscalités. <strong>FiscalMind Africa</strong> change cela : un assistant comptable et fiscal intelligent, en français, qui parle SYSCOHADA et connaît la fiscalité locale.</p>
+
+                    <h2>🧰 Ce que fait FiscalMind</h2>
+                    <p>• <strong>Copilote IA fiscal</strong> — des réponses basées sur le CGI, le SYSCOHADA révisé, la TVA, l'IUTS, la TPA…<br>
+                    • <strong>Classeur intelligent</strong> — OCR de vos factures, écritures proposées, <strong>1 Go d'archivage cloud</strong> par utilisateur.<br>
+                    • <strong>États financiers</strong> — bilan, compte de résultat, TAFIRE calculés depuis votre journal.<br>
+                    • <strong>Calendrier fiscal</strong> — ne manquez plus aucune échéance (DGI, CNSS).<br>
+                    • <strong>Audit Readiness</strong> — préparez vos contrôles fiscaux sereinement.</p>
+
+                    <h2>👥 Pour qui</h2>
+                    <p>Les dirigeants de PME, les comptables indépendants et les cabinets d'expertise des <strong>17 pays de l'espace OHADA</strong> — du Burkina Faso au Sénégal, de la Côte d'Ivoire au Cameroun.</p>
+
+                    <h2>💡 Pourquoi c'est différent</h2>
+                    <p>• <strong>SYSCOHADA natif</strong>, pas traduit : plan comptable, états financiers et contrôles d'équilibre conformes au référentiel révisé.<br>
+                    • <strong>Fiscalité locale réelle</strong> : TVA à 18 %, acomptes IS, retenues à la source, timbres…<br>
+                    • <strong>Mobile-first</strong> : l'appli est pensée pour le téléphone, l'outil de travail n°1 des entrepreneurs.<br>
+                    • <strong>Prix justes</strong> : en francs CFA, sans surprise, à partir de 29 900 XOF par mois.</p>
+
+                    <h2>🤝 Nos engagements</h2>
+                    <p><strong>Sécurité</strong> — vos données sont isolées par compte et hébergées en sécurité sur des infrastructures cloud professionnelles. Pensez à exporter régulièrement votre sauvegarde.<br>
+                    <strong>Simplicité</strong> — pas de formation de trois jours : si vous savez lire un bilan, vous savez utiliser FiscalMind.<br>
+                    <strong>Proximité</strong> — une équipe qui comprend vos réalités, joignable et à l'écoute.</p>
+
+                    <div style="text-align:center; margin-top: 32px;">
+                        <button class="btn btn-primary btn-hero" data-nav="pricing"><i class="fas fa-rocket"></i> Essayer gratuitement</button>
+                    </div>
+                </div>
+            </div>
+
+            <footer style="padding: 40px 24px; text-align: center; border-top: 1px solid var(--border);">
+                <p style="color: var(--text-muted); font-size: 13px;">© 2026 FiscalMind Africa · <a href="#" data-nav="landing" style="color: var(--primary);">Retour à l'accueil</a></p>
+            </footer>
+        </div>
+
+    </div>
+
+    <!-- Coquille applicative (phase 2) : masquée tant que la route est la landing -->
+    <div id="appShell" class="app-shell" hidden>
+        <header class="app-header">
+            <button class="icon-btn" id="drawerBtn" aria-label="Ouvrir le menu" title="Menu"><i class="fas fa-bars"></i></button>
+            <div class="logo" id="appLogo">
+                <div class="logo-icon">🧠</div>
+                <div class="logo-text">FiscalMind<span>Africa</span></div>
+            </div>
+            <div id="appTitle">Journal</div>
+            <span class="app-user" id="appUserEmail"></span>
+            <button class="icon-btn" id="logoutBtn" aria-label="Déconnexion" title="Déconnexion"><i class="fas fa-sign-out-alt"></i></button>
+        </header>
+        <div class="drawer-backdrop" id="drawerBackdrop"></div>
+        <aside class="drawer" id="drawer" aria-label="Menu des modules">
+            <div class="drawer-head">
+                <div class="logo"><div class="logo-icon">🧠</div><div class="logo-text">FiscalMind<span>Africa</span></div></div>
+                <button class="icon-btn" id="drawerClose" aria-label="Fermer le menu"><i class="fas fa-times"></i></button>
+            </div>
+            <nav class="drawer-nav">
+                <button class="drawer-item" data-goto="/" data-route=""><i class="fas fa-home"></i><span>Accueil</span></button>
+                <button class="drawer-item" data-goto="/journal" data-route="journal"><i class="fas fa-book"></i><span>Journal</span></button>
+                <button class="drawer-item" data-goto="/etats" data-route="etats"><i class="fas fa-chart-bar"></i><span>États financiers</span></button>
+                <button class="drawer-item" data-goto="/pilotage" data-route="pilotage"><i class="fas fa-gauge-high"></i><span>Pilotage</span></button>
+                <button class="drawer-item" data-goto="/ratios" data-route="ratios"><i class="fas fa-chart-pie"></i><span>Ratios de gestion</span></button>
+                <button class="drawer-item" data-goto="/notes" data-route="notes"><i class="fas fa-file-lines"></i><span>Notes annexes</span></button>
+                <button class="drawer-item" data-goto="/fiches" data-route="fiches"><i class="fas fa-clipboard-list"></i><span>Fiches DSF</span></button>
+                <button class="drawer-item" data-goto="/classeur" data-route="classeur"><i class="fas fa-folder-open"></i><span>Classeur Intelligent</span></button>
+                <button class="drawer-item" data-goto="/lettrage" data-route="lettrage"><i class="fas fa-link"></i><span>Lettrage</span></button>
+                <button class="drawer-item" data-goto="/audit" data-route="audit"><i class="fas fa-clipboard-check"></i><span>Audit Readiness</span></button>
+                <button class="drawer-item" data-goto="/echanges" data-route="echanges"><i class="fas fa-file-export"></i><span>Échanges DGI</span></button>
+                <button class="drawer-item" data-goto="/amortissements" data-route="amortissements"><i class="fas fa-chart-line"></i><span>Amortissements</span></button>
+                <button class="drawer-item" data-goto="/assurances" data-route="assurances"><i class="fas fa-shield-alt"></i><span>Assurances</span></button>
+                <button class="drawer-item" data-goto="/calendrier" data-route="calendrier"><i class="fas fa-calendar-alt"></i><span>Calendrier fiscal</span></button>
+                <button class="drawer-item" data-goto="/convertisseur" data-route="convertisseur"><i class="fas fa-exchange-alt"></i><span>Convertisseur</span></button>
+                <button class="drawer-item" data-goto="/copilote" data-route="copilote"><i class="fas fa-robot"></i><span>Copilote IA</span></button>
+                <button class="drawer-item" data-goto="/config" data-route="config"><i class="fas fa-cog"></i><span>Configuration</span></button>
+                <button class="drawer-item" data-goto="/admin" data-route="admin" data-admin-only style="display:none;"><i class="fas fa-user-shield"></i><span>Administration</span></button>
+            </nav>
+        </aside>
+        <main id="appMain" class="app-main"></main>
+        <nav class="bottom-nav" aria-label="Navigation principale">
+            <button class="nav-btn" data-goto="/journal" data-route="journal"><i class="fas fa-book"></i><span>Journal</span></button>
+            <button class="nav-btn" data-goto="/etats" data-route="etats"><i class="fas fa-chart-bar"></i><span>États</span></button>
+            <button class="nav-btn" data-goto="/copilote" data-route="copilote"><i class="fas fa-robot"></i><span>Copilote</span></button>
+            <div class="fab-menu" id="fabMenu" hidden>
+                <button class="fab-menu-item" id="fabNewEntry"><i class="fas fa-pen"></i><span>Nouvelle écriture</span></button>
+                <button class="fab-menu-item" id="fabScanDoc"><i class="fas fa-camera"></i><span>Scanner un document</span></button>
+            </div>
+            <button class="nav-fab" id="newEntryFab" aria-label="Actions rapides" aria-expanded="false"><i class="fas fa-plus"></i></button>
+            <button class="nav-btn" data-goto="/lettrage" data-route="lettrage"><i class="fas fa-link"></i><span>Lettrage</span></button>
+            <button class="nav-btn" data-goto="/calendrier" data-route="calendrier"><i class="fas fa-calendar-alt"></i><span>Calendrier</span></button>
+            <button class="nav-btn" data-goto="/admin" data-route="admin" style="display:none;"><i class="fas fa-shield-alt"></i><span>Admin</span></button>
+            <button class="nav-btn" data-goto="/" data-route=""><i class="fas fa-home"></i><span>Accueil</span></button>
+        </nav>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+    <script type="module" src="/src/anim.js"></script>
+    <script type="module" src="/src/app.js"></script>
+    <script>
+    // Parcours d'achat : si pas connecté → inscription d'abord, puis paiement
+    document.addEventListener('click', async (e) => {
+      // Plan gratuit : vers l'inscription directement
+      const btnGratuit = e.target.closest('[data-plan="gratuit"]');
+      if (btnGratuit) {
+        e.preventDefault();
+        window.location.hash = '#/connexion?tab=signup';
+        return;
+      }
+      const btn = e.target.closest('[data-plan][data-saspay]');
+      if (!btn) return;
+      e.preventDefault();
+      const saspayUrl = btn.dataset.saspay;
+      const plan = btn.dataset.plan;
+      // Vérifier si connecté (via Supabase)
+      try {
+        const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2.39.3');
+        const supabase = createClient(
+          'https://eetmaaopaatbbwhwbdcx.supabase.co',
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVldG1hYW9wYWF0YmJ3aHdiZGN4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTEyODE5NzQsImV4cCI6MjEwNjg1Nzk3NH0.NyQxrMPoUb2YL7BeJc6cvsp2QxLfmsmaMuJWtudTdhk'
+        );
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session) {
+          // Connecté → vers SasPay directement
+          window.open(saspayUrl, '_blank');
+        } else {
+          // Pas connecté → inscription avec retour vers le paiement
+          window.__fmPendingPayment = saspayUrl;
+          window.location.hash = '#/connexion?tab=signup';
+          setTimeout(() => {
+            const toast = document.createElement('div');
+            toast.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#f59e0b;color:#fff;padding:12px 20px;border-radius:8px;z-index:9999;font-size:14px;';
+            toast.textContent = 'Créez votre compte gratuit, puis vous serez redirigé vers le paiement.';
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
+          }, 500);
+        }
+      } catch (err) {
+        // En cas d'erreur, rediriger vers l'inscription par sécurité
+        window.__fmPendingPayment = saspayUrl;
+        window.location.hash = '#/connexion?tab=signup';
+      }
+    });
+    </script>
+</body>
+</html>
