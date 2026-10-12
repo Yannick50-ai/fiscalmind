@@ -1,0 +1,4123 @@
+===== BoutonsBalance.bas =====
+Sub ViderBalanceN1_Image3_Cliquer()
+
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+ActiveSheet.Unprotect "Menz12011956MSG"
+Worksheets("BALANCE N-1").Range("B4:I4001").Locked = False
+Worksheets("BALANCE N-1").Range("B4:I4001").ClearContents
+
+Worksheets("TABLES DE CORRESPONDENCE").Range("DS593:DU600").ClearContents
+Worksheets("TABLES DE CORRESPONDENCE").Range("EB593:EB600").ClearContents
+Worksheets("CONTRÔLE D'EQUILIBRE").Range("L31:L36").ClearContents
+
+Worksheets("TABLES DE CORRESPONDENCE").Range("EH593:EJ600").ClearContents
+Worksheets("TABLES DE CORRESPONDENCE").Range("EQ593:EQ600").ClearContents
+Worksheets("CONTRÔLE D'EQUILIBRE").Range("L42:L47").ClearContents
+Worksheets("NOTE 31").Range("J11:K11,I12:K13,I15:K16,I18:K22,I24:K25,I27:K31").ClearContents
+ActiveSheet.Protect "Menz12011956MSG", AllowFiltering:=True
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+Range("B4").Activate
+End Sub
+
+Sub ViderBalanceN_Cliquer()
+
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+
+ActiveSheet.Unprotect "Menz12011956MSG"
+Worksheets("BALANCE N").Range("B4:I4001").Locked = False
+Worksheets("BALANCE N").Range("B4:I4001").ClearContents
+
+Worksheets("TABLES DE CORRESPONDENCE").Range("DS593:DU600").ClearContents
+Worksheets("TABLES DE CORRESPONDENCE").Range("EB593:EB600").ClearContents
+Worksheets("CONTRÔLE D'EQUILIBRE").Range("L31:L36").ClearContents
+
+Worksheets("TABLES DE CORRESPONDENCE").Range("EH593:EJ600").ClearContents
+Worksheets("TABLES DE CORRESPONDENCE").Range("EQ593:EQ600").ClearContents
+Worksheets("CONTRÔLE D'EQUILIBRE").Range("L42:L47").ClearContents
+Worksheets("NOTE 27B").Range("E12:J15,L12:M15,O12:R15,E18:J18,L18:M18,O18:R18,E22:J25,L22:M25,E28:J28,L28:M28,R22:S24").ClearContents
+ActiveSheet.Protect "Menz12011956MSG", AllowFiltering:=True
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+Range("B4").Activate
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== ChargerDonnées.bas =====
+Sub Charger_Donnée()
+Application.Calculation = xlCalculationManual
+With ActiveWorkbook
+.Unprotect "Menz12011956MSG"
+Worksheets("ACCUEIL").Range("F15").value = Worksheets("Format Import").Range("D6").value
+Worksheets("ACCUEIL").Range("I15").value = Worksheets("Format Import").Range("E6").value
+Worksheets("ACCUEIL").Range("F99").value = Worksheets("Format Import").Range("D7").value
+Worksheets("ACCUEIL").Range("F17").value = Worksheets("Format Import").Range("D8").value
+Worksheets("ACCUEIL").Range("F19").value = Worksheets("Format Import").Range("D9").value
+Worksheets("ACCUEIL").Range("F21").value = Worksheets("Format Import").Range("D10").value
+Worksheets("ACCUEIL").Range("F23").value = Worksheets("Format Import").Range("D11").value
+Worksheets("ACCUEIL").Range("F28").value = Worksheets("Format Import").Range("E11").value
+Worksheets("ACCUEIL").Range("F29").value = Worksheets("Format Import").Range("F11").value
+Worksheets("ACCUEIL").Range("F30").value = Worksheets("Format Import").Range("G11").value
+Worksheets("ACCUEIL").Range("F31").value = Worksheets("Format Import").Range("H11").value
+Worksheets("ACCUEIL").Range("F32").value = Worksheets("Format Import").Range("I11").value
+Worksheets("ACCUEIL").Range("F33").value = Worksheets("Format Import").Range("J11").value
+Worksheets("ACCUEIL").Range("F34").value = Worksheets("Format Import").Range("K11").value
+Range("Dénomination").value = Worksheets("Format Import").Range("D12").value
+Range("Sigle").value = Worksheets("Format Import").Range("E12").value
+Worksheets("ACCUEIL").Range("F40").value = Worksheets("Format Import").Range("D13").value
+Worksheets("ACCUEIL").Range("F42").value = Worksheets("Format Import").Range("E13").value
+Worksheets("ACCUEIL").Range("F44").value = Worksheets("Format Import").Range("F13").value
+Worksheets("ACCUEIL").Range("H44").value = Worksheets("Format Import").Range("G13").value
+Worksheets("ACCUEIL").Range("I44").value = Worksheets("Format Import").Range("H13").value
+Worksheets("ACCUEIL").Range("F46").value = Worksheets("Format Import").Range("D14").value
+Worksheets("ACCUEIL").Range("F48").value = Worksheets("Format Import").Range("D15").value
+Worksheets("ACCUEIL").Range("E28").value = Worksheets("Format Import").Range("E15").value
+Worksheets("ACCUEIL").Range("E29").value = Worksheets("Format Import").Range("F15").value
+Worksheets("ACCUEIL").Range("E30").value = Worksheets("Format Import").Range("G15").value
+Worksheets("ACCUEIL").Range("E31").value = Worksheets("Format Import").Range("H15").value
+Worksheets("ACCUEIL").Range("E32").value = Worksheets("Format Import").Range("I15").value
+Worksheets("ACCUEIL").Range("E33").value = Worksheets("Format Import").Range("J15").value
+Worksheets("ACCUEIL").Range("E34").value = Worksheets("Format Import").Range("K15").value
+Worksheets("ACCUEIL").Range("F49").value = Worksheets("Format Import").Range("D16").value
+Worksheets("ACCUEIL").Range("F51").value = Worksheets("Format Import").Range("D17").value
+Worksheets("ACCUEIL").Range("F52").value = Worksheets("Format Import").Range("E17").value
+Worksheets("ACCUEIL").Range("F53").value = Worksheets("Format Import").Range("F17").value
+Worksheets("ACCUEIL").Range("F54").value = Worksheets("Format Import").Range("G17").value
+Worksheets("ACCUEIL").Range("F55").value = Worksheets("Format Import").Range("H17").value
+Worksheets("ACCUEIL").Range("F57").value = Worksheets("Format Import").Range("D18").value
+Worksheets("ACCUEIL").Range("F58").value = Worksheets("Format Import").Range("E18").value
+Worksheets("ACCUEIL").Range("F59").value = Worksheets("Format Import").Range("F18").value
+Worksheets("ACCUEIL").Range("F60").value = Worksheets("Format Import").Range("G18").value
+Worksheets("ACCUEIL").Range("F62").value = Worksheets("Format Import").Range("D19").value
+Worksheets("ACCUEIL").Range("F65").value = Worksheets("Format Import").Range("D20").value
+Worksheets("ACCUEIL").Range("F69").value = Worksheets("Format Import").Range("D21").value
+Worksheets("ACCUEIL").Range("F109").value = Worksheets("Format Import").Range("D22").value
+Worksheets("ACCUEIL").Range("F107").value = Worksheets("Format Import").Range("E22").value
+Worksheets("ACCUEIL").Range("F101").value = Worksheets("Format Import").Range("D23").value
+
+Worksheets("ACCUEIL").Range("F95").value = Worksheets("Format Import").Range("E23").value
+Worksheets("ACCUEIL").Range("F97").value = Worksheets("Format Import").Range("F23").value
+
+Worksheets("ACCUEIL").Range("F103").value = Worksheets("Format Import").Range("D24").value
+Worksheets("ACCUEIL").Range("F105").value = Worksheets("Format Import").Range("D25").value
+Worksheets("ACCUEIL").Range("F89").value = Worksheets("Format Import").Range("E25").value
+Worksheets("ACCUEIL").Range("F91").value = Worksheets("Format Import").Range("F25").value
+Worksheets("ACCUEIL").Range("F93").value = Worksheets("Format Import").Range("G25").value
+Worksheets("ACCUEIL").Range("Z15").value = Worksheets("Format Import").Range("D26").value
+Worksheets("ACCUEIL").Range("Z17").value = Worksheets("Format Import").Range("E26").value
+Worksheets("ACCUEIL").Range("H105").value = Worksheets("Format Import").Range("F26").value
+Worksheets("ACCUEIL").Range("Z19").value = Worksheets("Format Import").Range("G26").value
+Worksheets("ACCUEIL").Range("AL9").value = Worksheets("Format Import").Range("H26").value
+Worksheets("ACCUEIL").Range("F77").value = Worksheets("Format Import").Range("D27").value
+Worksheets("ACCUEIL").Range("F78").value = Worksheets("Format Import").Range("E27").value
+Worksheets("ACCUEIL").Range("F79").value = Worksheets("Format Import").Range("F27").value
+Worksheets("ACCUEIL").Range("F80").value = Worksheets("Format Import").Range("G27").value
+Worksheets("ACCUEIL").Range("F81").value = Worksheets("Format Import").Range("H27").value
+Worksheets("ACCUEIL").Range("F82").value = Worksheets("Format Import").Range("I27").value
+Worksheets("ACCUEIL").Range("F83").value = Worksheets("Format Import").Range("J27").value
+Worksheets("ACCUEIL").Range("F84").value = Worksheets("Format Import").Range("K27").value
+Worksheets("ACCUEIL").Range("F85").value = Worksheets("Format Import").Range("L27").value
+Worksheets("ACCUEIL").Range("F86").value = Worksheets("Format Import").Range("M27").value
+Worksheets("ACCUEIL").Range("F87").value = Worksheets("Format Import").Range("O27").value
+Worksheets("ACCUEIL").Range("H77").value = Worksheets("Format Import").Range("D28").value
+Worksheets("ACCUEIL").Range("H78").value = Worksheets("Format Import").Range("E28").value
+Worksheets("ACCUEIL").Range("H79").value = Worksheets("Format Import").Range("F28").value
+Worksheets("ACCUEIL").Range("H80").value = Worksheets("Format Import").Range("G28").value
+Worksheets("ACCUEIL").Range("H81").value = Worksheets("Format Import").Range("H28").value
+Worksheets("ACCUEIL").Range("H82").value = Worksheets("Format Import").Range("I28").value
+Worksheets("ACCUEIL").Range("H83").value = Worksheets("Format Import").Range("J28").value
+Worksheets("ACCUEIL").Range("H84").value = Worksheets("Format Import").Range("K28").value
+Worksheets("ACCUEIL").Range("H85").value = Worksheets("Format Import").Range("L28").value
+Worksheets("ACCUEIL").Range("H86").value = Worksheets("Format Import").Range("M28").value
+Worksheets("ACCUEIL").Range("H87").value = Worksheets("Format Import").Range("O28").value
+Worksheets("ACCUEIL").Range("F71").value = Worksheets("Format Import").Range("D29").value
+Worksheets("ACCUEIL").Range("F73").value = Worksheets("Format Import").Range("D30").value
+
+ If Worksheets("Format Import").Range("D6") = 0 Then Worksheets("ACCUEIL").Range("F15") = Null
+ If Worksheets("Format Import").Range("E6") = 0 Then Worksheets("ACCUEIL").Range("I15") = Null
+ If Worksheets("Format Import").Range("D7") = 0 Then Worksheets("ACCUEIL").Range("F99") = Null
+ If Worksheets("Format Import").Range("D8") = 0 Then Worksheets("ACCUEIL").Range("F17") = Null
+ If Worksheets("Format Import").Range("D9") = 0 Then Worksheets("ACCUEIL").Range("F19") = Null
+ If Worksheets("Format Import").Range("D10") = 0 Then Worksheets("ACCUEIL").Range("F21") = Null
+ If Worksheets("Format Import").Range("D11") = 0 Then Worksheets("ACCUEIL").Range("F23") = Null
+ If Worksheets("Format Import").Range("E11") = 0 Then Worksheets("ACCUEIL").Range("F28") = Null
+ If Worksheets("Format Import").Range("F11") = 0 Then Worksheets("ACCUEIL").Range("F29") = Null
+ If Worksheets("Format Import").Range("G11") = 0 Then Worksheets("ACCUEIL").Range("F30") = Null
+ If Worksheets("Format Import").Range("H11") = 0 Then Worksheets("ACCUEIL").Range("F31") = Null
+ If Worksheets("Format Import").Range("I11") = 0 Then Worksheets("ACCUEIL").Range("F32") = Null
+ If Worksheets("Format Import").Range("J11") = 0 Then Worksheets("ACCUEIL").Range("F33") = Null
+ If Worksheets("Format Import").Range("K11") = 0 Then Worksheets("ACCUEIL").Range("F34") = Null
+ If Worksheets("Format Import").Range("D12") = 0 Then Range("Dénomination") = Null
+ If Worksheets("Format Import").Range("E12") = 0 Then Range("Sigle") = Null
+ If Worksheets("Format Import").Range("D13") = 0 Then Worksheets("ACCUEIL").Range("F40") = Null
+ If Worksheets("Format Import").Range("E13") = 0 Then Worksheets("ACCUEIL").Range("F42") = Null
+ If Worksheets("Format Import").Range("F13") = 0 Then Worksheets("ACCUEIL").Range("F44") = Null
+ If Worksheets("Format Import").Range("G13") = 0 Then Worksheets("ACCUEIL").Range("H44") = Null
+ If Worksheets("Format Import").Range("H13") = 0 Then Worksheets("ACCUEIL").Range("I44") = Null
+ If Worksheets("Format Import").Range("D14") = 0 Then Worksheets("ACCUEIL").Range("F46") = Null
+ If Worksheets("Format Import").Range("D15") = 0 Then Worksheets("ACCUEIL").Range("F48") = Null
+ If Worksheets("Format Import").Range("E15") = 0 Then Worksheets("ACCUEIL").Range("E28") = Null
+ If Worksheets("Format Import").Range("F15") = 0 Then Worksheets("ACCUEIL").Range("E29") = Null
+ If Worksheets("Format Import").Range("G15") = 0 Then Worksheets("ACCUEIL").Range("E30") = Null
+ If Worksheets("Format Import").Range("H15") = 0 Then Worksheets("ACCUEIL").Range("E31") = Null
+ If Worksheets("Format Import").Range("I15") = 0 Then Worksheets("ACCUEIL").Range("E32") = Null
+ If Worksheets("Format Import").Range("J15") = 0 Then Worksheets("ACCUEIL").Range("E33") = Null
+ If Worksheets("Format Import").Range("K15") = 0 Then Worksheets("ACCUEIL").Range("E34") = Null
+ If Worksheets("Format Import").Range("D16") = 0 Then Worksheets("ACCUEIL").Range("F49") = Null
+ If Worksheets("Format Import").Range("D17") = 0 Then Worksheets("ACCUEIL").Range("F51") = Null
+ If Worksheets("Format Import").Range("E17") = 0 Then Worksheets("ACCUEIL").Range("F52") = Null
+ If Worksheets("Format Import").Range("F17") = 0 Then Worksheets("ACCUEIL").Range("F53") = Null
+ If Worksheets("Format Import").Range("G17") = 0 Then Worksheets("ACCUEIL").Range("F54") = Null
+ If Worksheets("Format Import").Range("H17") = 0 Then Worksheets("ACCUEIL").Range("F55") = Null
+ If Worksheets("Format Import").Range("D18") = 0 Then Worksheets("ACCUEIL").Range("F57") = Null
+ If Worksheets("Format Import").Range("E18") = 0 Then Worksheets("ACCUEIL").Range("F58") = Null
+ If Worksheets("Format Import").Range("F18") = 0 Then Worksheets("ACCUEIL").Range("F59") = Null
+ If Worksheets("Format Import").Range("G18") = 0 Then Worksheets("ACCUEIL").Range("F60") = Null
+ If Worksheets("Format Import").Range("D19") = 0 Then Worksheets("ACCUEIL").Range("F62") = Null
+ If Worksheets("Format Import").Range("D20") = 0 Then Worksheets("ACCUEIL").Range("F65") = Null
+ If Worksheets("Format Import").Range("D21") = 0 Then Worksheets("ACCUEIL").Range("F69") = Null
+ If Worksheets("Format Import").Range("D22") = 0 Then Worksheets("ACCUEIL").Range("F109") = Null
+ If Worksheets("Format Import").Range("E22") = 0 Then Worksheets("ACCUEIL").Range("F107") = Null
+ If Worksheets("Format Import").Range("D23") = 0 Then Worksheets("ACCUEIL").Range("F101") = Null
+ 
+ If Worksheets("Format Import").Range("E23") = 0 Then Worksheets("ACCUEIL").Range("F95") = Null
+ If Worksheets("Format Import").Range("F23") = 0 Then Worksheets("ACCUEIL").Range("F97") = 0
+ 
+ If Worksheets("Format Import").Range("D24") = 0 Then Worksheets("ACCUEIL").Range("F103") = Null
+ If Worksheets("Format Import").Range("D25") = 0 Then Worksheets("ACCUEIL").Range("F105") = Null
+ If Worksheets("Format Import").Range("E25") = 0 Then Worksheets("ACCUEIL").Range("F89") = Null
+ If Worksheets("Format Import").Range("F25") = 0 Then Worksheets("ACCUEIL").Range("F91") = Null
+ If Worksheets("Format Import").Range("G25") = 0 Then Worksheets("ACCUEIL").Range("F93") = Null
+ If Worksheets("Format Import").Range("D26") = 0 Then Worksheets("ACCUEIL").Range("Z15") = Null
+ If Worksheets("Format Import").Range("E26") = 0 Then Worksheets("ACCUEIL").Range("Z17") = Null
+ If Worksheets("Format Import").Range("F26") = 0 Then Worksheets("ACCUEIL").Range("H105") = Null
+ If Worksheets("Format Import").Range("G26") = 0 Then Worksheets("ACCUEIL").Range("Z19") = Null
+ If Worksheets("Format Import").Range("H26") = 0 Then Worksheets("ACCUEIL").Range("AL9") = Null
+ If Worksheets("Format Import").Range("D27") = 0 Then Worksheets("ACCUEIL").Range("F77") = Null
+ If Worksheets("Format Import").Range("E27") = 0 Then Worksheets("ACCUEIL").Range("F78") = Null
+ If Worksheets("Format Import").Range("F27") = 0 Then Worksheets("ACCUEIL").Range("F79") = Null
+ If Worksheets("Format Import").Range("G27") = 0 Then Worksheets("ACCUEIL").Range("F80") = Null
+ If Worksheets("Format Import").Range("H27") = 0 Then Worksheets("ACCUEIL").Range("F81") = Null
+ If Worksheets("Format Import").Range("I27") = 0 Then Worksheets("ACCUEIL").Range("F82") = Null
+ If Worksheets("Format Import").Range("J27") = 0 Then Worksheets("ACCUEIL").Range("F83") = Null
+ If Worksheets("Format Import").Range("K27") = 0 Then Worksheets("ACCUEIL").Range("F84") = Null
+ If Worksheets("Format Import").Range("L27") = 0 Then Worksheets("ACCUEIL").Range("F85") = Null
+ If Worksheets("Format Import").Range("M27") = 0 Then Worksheets("ACCUEIL").Range("F86") = Null
+ If Worksheets("Format Import").Range("O27") = 0 Then Worksheets("ACCUEIL").Range("F87") = Null
+ If Worksheets("Format Import").Range("D28") = 0 Then Worksheets("ACCUEIL").Range("H77") = Null
+ If Worksheets("Format Import").Range("E28") = 0 Then Worksheets("ACCUEIL").Range("H78") = Null
+ If Worksheets("Format Import").Range("F28") = 0 Then Worksheets("ACCUEIL").Range("H79") = Null
+ If Worksheets("Format Import").Range("G28") = 0 Then Worksheets("ACCUEIL").Range("H80") = Null
+ If Worksheets("Format Import").Range("H28") = 0 Then Worksheets("ACCUEIL").Range("H81") = Null
+ If Worksheets("Format Import").Range("I28") = 0 Then Worksheets("ACCUEIL").Range("H82") = Null
+ If Worksheets("Format Import").Range("J28") = 0 Then Worksheets("ACCUEIL").Range("H83") = Null
+ If Worksheets("Format Import").Range("K28") = 0 Then Worksheets("ACCUEIL").Range("H84") = Null
+ If Worksheets("Format Import").Range("L28") = 0 Then Worksheets("ACCUEIL").Range("H85") = Null
+ If Worksheets("Format Import").Range("M28") = 0 Then Worksheets("ACCUEIL").Range("H86") = Null
+ If Worksheets("Format Import").Range("O28") = 0 Then Worksheets("ACCUEIL").Range("H87") = Null
+ If Worksheets("Format Import").Range("D29") = 0 Then Worksheets("ACCUEIL").Range("F71") = Null
+ If Worksheets("Format Import").Range("D30") = 0 Then Worksheets("ACCUEIL").Range("F73") = Null
+
+Sheets("Format Import").Visible = False
+Sheets("ACCUEIL").Activate
+Range("A1").Select
+
+.Protect "Menz12011956MSG"
+ End With
+ 
+Application.Calculation = xlCalculationAutomatic
+End Sub
+
+-------------------------------------------------------------------------------
+
+
+===== CmdActivation.bas =====
+Sub Activation()
+Dim Activation As String
+Application.Calculation = xlCalculationAutomatic
+If Sheets("TBFT").Range("AB5").value <= 1 Then MsgBox "L'APPLICATION EST EN MODE ESSAI !", vbOKOnly, "ACTIVATION"
+If Sheets("TBFT").Range("AB5").value <= 1 Then Exit Sub
+
+If Sheets("TBFT").Range("AB8").value = 1 Then MsgBox "L'APPLICATION EST DEJA ACTIVEE !" & vbCr & "CLE:" & Sheets("TBFT").Range("AB6"), vbOKOnly, "ACTIVATION"
+If Sheets("TBFT").Range("AB8").value = 1 Then Exit Sub
+
+If Sheets("TBFT").Range("AA13").value = Sheets("TBFT").Range("AB13").value Then MsgBox "L'APPLICATION EST DEJA ACTIVEE !" & vbCr & "CLE:" & Sheets("TBFT").Range("AB6"), vbOKOnly, "ACTIVATION"
+If Sheets("TBFT").Range("AA13").value = Sheets("TBFT").Range("AB13").value Then Exit Sub
+
+Activation = InputBox("NOM:" & Sheets("TBFT").Range("AA3") & " / " & "ID:" & Sheets("TBFT").Range("AA12") & vbCr & "ENTREZ VOTRE CLE DE LICENCE NO-Pro.V2" & vbCr & "OU CONTACTEZ NOUS AU +2250707253016/+225 07 00 000 981 info@msg-innov.online POUR L'ACQUERIR", "BIEN VENU  " & Sheets("TBFT").Range("AA3"))
+Sheets("TBFT").Range("AB6").value = Activation
+If Activation <> Sheets("TBFT").Range("AA6").value And Activation <> Sheets("TBFT").Range("AA13").value And Sheets("TBFT").Range("AC5").value <> "vert" Then ActiveWorkbook.Close False
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== CompterSelection.bas =====
+Sub Compter_Selection()
+Dim x As Integer
+x = Application.ActiveWindow.SelectedSheets.count
+Sheets("ACCUEIL").Range("AR21") = x
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Concepteur.bas =====
+Sub Concepteur_Cliquer()
+UserForm9.Show
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== ConvFormule.bas =====
+Function Eval(Ref As String)
+Application.Volatile
+Eval = Application.Caller.Parent.Evaluate(Ref)
+End Function
+-------------------------------------------------------------------------------
+
+
+===== Deselection.bas =====
+Sub Deselectionner()
+Attribute Deselectionner.VB_ProcData.VB_Invoke_Func = " \n14"
+    Sheets("ACCUEIL").Select
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Dupliquer_Ligne10.bas =====
+'Macro permettant d'ajouter une ligne à la fin du tableau, en préservant les formules
+Public Sub DupliquerLigne10(codeTableau)
+
+    Dim onglet, adresseCellule, Formule As String
+    Dim i, nbLignes, premiereColonne, derniereColonne, derniereLigne As Integer
+        
+    'Demande le nombre de lignes à ajouter à l'utilisateur
+    nbLignes = InputBox("Nombre de lignes à insérer (entre 1 et 500) : ", "Saisir le nombre de lignes")
+    
+    'Vérification de la valeur saisie
+    If nbLignes = "" Then
+        Exit Sub
+    End If
+    If nbLignes < 1 Or nbLignes > 500 Then
+        Select Case MsgBox("Merci de saisir un nombre entre 1 et 500.", 0 + 64, "Erreur de saisie")
+        End Select
+        Exit Sub
+    End If
+    
+    On Error Resume Next
+    
+    'Recherche des informations du tableau
+    Set tableau = Sheets("tableaux").ListObjects("ListeTableaux").DataBodyRange.Columns(1).Find(codeTableau, LookAt:=xlWhole)
+    onglet = Trim(tableau.Offset(0, 3).Text)
+    
+    'Désactive la protection
+    Worksheets(onglet).Unprotect Password:="Menz12011956MSG"
+    
+    Set premiereCellule = Sheets(onglet).Range(Trim(tableau.Offset(0, 4).Text))
+    Set derniereCellule = Sheets(onglet).Range(Trim(tableau.Offset(0, 5).Text))
+    premiereColonne = premiereCellule.Column
+    derniereColonne = derniereCellule.Column
+    derniereLigne = derniereCellule.Row
+
+    'Cas particulier des tableaux avec une ligne fixe à la fin
+    If codeTableau = "FR2B" Then
+        ligne = derniereLigne
+    Else
+        ligne = derniereLigne + 1
+    End If
+        
+    For i = 1 To nbLignes
+    
+        'Ajout d'une nouvelle ligne
+        Rows(ligne).Insert Shift:=xlDown
+        
+        'Copie du contenu de la ligne d'au-dessus
+        Rows("10:10").RowHeight = 12
+        Rows(10).EntireRow.Copy Rows(ligne)
+      
+        Application.CutCopyMode = False
+        
+        'Nettoyage pour enlever le contenu copié (excepté les formules)
+                If premiereColonne = derniereColonne Then
+            Sheets(onglet).Cells(ligne, premiereColonne).Select
+        Else
+            Sheets(onglet).Range(Cells(ligne, premiereColonne).Address & ":" & Cells(ligne, derniereColonne).Address).Select
+        End If
+        Intersect(Selection, _
+            Selection.SpecialCells(xlCellTypeConstants)).ClearContents
+    
+        ligne = ligne + 1
+    Next
+    Rows("10:10").RowHeight = 0
+    'Réactive la protection
+   ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+End Sub
+
+-------------------------------------------------------------------------------
+
+
+===== Déverrouillage.bas =====
+Sub Déprot()
+For i = 1 To Sheets.count
+Sheets(i).Unprotect Password:="Menz12011956MSG"
+Next
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Explorer1.bas =====
+Sub FormatImport_Image1_Cliquer()
+With ActiveSheet
+.Unprotect "Menz12011956MSG"
+FileToOpen = Application.GetOpenFilename("Excel Files (*.xlsm), *.xlsm")
+If FileToOpen <> False Then
+    Range("Emplacement") = FileToOpen
+    
+    ThisWorkbook.RefreshAll
+Application.ScreenUpdating = True
+Range("C1").value = Right(FileToOpen, Len(FileToOpen) - InStrRev(FileToOpen, "\"))
+End If
+ End With
+
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Filtre_Nomenclature.bas =====
+Sub Nomenclature()
+With Worksheets("NOTE36 Suite (Nomenclature)") 'Nom feuille à adapter
+.Unprotect "Menz12011956MSG"
+.EnableAutoFilter = True
+.Protect "Menz12011956MSG", True, True, True, True, True
+If .AutoFilterMode Then
+.Cells.AutoFilter
+End If
+End With
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== ID.bas =====
+Function HdNum() As String
+    Dim fsObj   As Object
+    Dim drv     As Object
+    Set fsObj = CreateObject("Scripting.FileSystemObject")
+    Set drv = fsObj.Drives("C")
+    HdNum = Hex(drv.SerialNumber)
+End Function
+
+-------------------------------------------------------------------------------
+
+
+===== Licence_bas.bas =====
+Private Sub VerifLicence()
+Dim BaseRegistre As New Regs
+Dim md5Test As New MD5
+Dim CodeProduit As String
+Dim Licence As String
+CodeProduit = BaseRegistre.Lit_Val("SOFTWARE\KEY_LOCAL_MICROSOT\1DA242EAF2A6EAF11937EE18311CD2FD", "Produit")
+If CodeProduit = "" Then
+    CodeProduit = md5Test.DigestStrToHexStr(GetMACAddress & GetWinVer & Now & Environ("Username") & Environ("Userprofile"))
+    'BaseRegistre.CreateNewKey "SOFTWARE\KEY_LOCAL_MICROSOT"
+    BaseRegistre.CreateNewKey "SOFTWARE\KEY_LOCAL_MICROSOT\1DA242EAF2A6EAF11937EE18311CD2FD"
+    BaseRegistre.Enreg_Val "SOFTWARE\KEY_LOCAL_MICROSOT\1DA242EAF2A6EAF11937EE18311CD2FD", CodeProduit, ""
+    BaseRegistre.Enreg_Val "SOFTWARE\KEY_LOCAL_MICROSOT\1DA242EAF2A6EAF11937EE18311CD2FD", "Produit", CodeProduit
+End If
+Debug.Print CodeProduit
+Licence = BaseRegistre.Lit_Val("SOFTWARE\KEY_LOCAL_MICROSOT\1DA242EAF2A6EAF11937EE18311CD2FD", CodeProduit)
+If Licence = "" Then
+     BaseRegistre.Enreg_Val "SOFTWARE\KEY_LOCAL_MICROSOT\1DA242EAF2A6EAF11937EE18311CD2FD", CodeProduit, InputBox("Code Produit : " & CodeProduit & vbCrLf & "Entrez le N° de licence :" & vbCrLf & "Ou contactez votre agence commerciale.", "Gestionnaire de licence :")
+End If
+Licence = BaseRegistre.Lit_Val("SOFTWARE\KEY_LOCAL_MICROSOT\1DA242EAF2A6EAF11937EE18311CD2FD", CodeProduit)
+If md5Test.DigestStrToHexStr("1DA242EAF2A6EAF11937EE18311CD2FD" & CodeProduit) <> Licence Then
+    BaseRegistre.Enreg_Val "SOFTWARE\KEY_LOCAL_MICROSOT\1DA242EAF2A6EAF11937EE18311CD2FD", CodeProduit, ""
+    MsgBox "Petit malin !"
+    Application.DisplayAlerts = False
+    Application.Quit
+End If
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== MasquerAfficherLignes.bas =====
+Sub MasquerLignes()
+With Worksheets("COMMENTAIRE") 'Nom feuille à adapter
+.Unprotect "Menz12011956MSG"
+.EnableAutoFilter = True
+.Protect "Menz12011956MSG", True, True, True, True, True
+Sheets("COMMENTAIRE").Range("$i$1:$i$137").AutoFilter Field:=1, Criteria1:="1"
+End With
+End Sub
+Sub AfficherLignes()
+With Worksheets("COMMENTAIRE") 'Nom feuille à adapter
+.Unprotect "Menz12011956MSG"
+.EnableAutoFilter = True
+.Protect "Menz12011956MSG", True, True, True, True, True
+If .AutoFilterMode Then
+.Cells.AutoFilter
+End If
+End With
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module1.bas =====
+Sub AjoutLign_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+Sheets("tableaux").Range("F130").Formula = "='SUPPL4'!AV2"
+Call DupliquerLigne10("SUPPL4")
+Sheets("tableaux").Range("F130").Formula = "='SUPPL4'!AV2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+Sub SupprLigne_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+If Cells(ActiveCell.Row, "BJ").value Like "*TOTAL*" Then Exit Sub
+If Cells(ActiveCell.Row, "BJ").value Like "*Total*" Then Exit Sub
+If Cells(ActiveCell.Row, "BJ").value Like "*total*" Then Exit Sub
+Call Suppression_Ligne
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module10.bas =====
+
+Sub VidreN_Cliquer()
+Application.ScreenUpdating = False
+Application.Calculation = xlCalculationManual
+Range("D6:O30").Select
+Selection.ClearContents
+Range("C1").Select
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module12.bas =====
+Sub Remplacer_Image_avancement()
+Application.ScreenUpdating = False
+Application.Calculation = xlCalculationManual
+Worksheets("MENU PRINCIPAL").Unprotect "Menz12011956MSG"
+    Dim Emplacement As Range
+    Dim Img As Object
+    Dim ShapeObj As Shape
+'Ouvrir l'explorateur de fichier
+    If Application.Dialogs(xlDialogInsertPicture).Show Then
+    Set Emplacement = Range("LOGO1") 'Définit l'emplacement de l'image
+    Set Img = ActiveSheet.DrawingObjects(ActiveSheet.Shapes.count)
+'Boucle pour supprimer l'ancienne image
+    For Each ShapeObj In ActiveSheet.Shapes
+        If ShapeObj.Name = "Image_Avancement" Then ActiveSheet.Shapes("Image_Avancement").Delete
+    Next ShapeObj
+    With Img.ShapeRange
+        .Name = "Image_Avancement"          'Renommer l'image pour pouvoir la supprimer
+        .LockAspectRatio = msoFalse
+        .Top = Emplacement.Top + 2    'Si pas de chiffre = l'image sera aux mêmes dimensions que la cellule
+        .Left = Emplacement.Left + 15    'Si pas de chiffre = l'image sera aux mêmes dimensions que la cellule
+        .Width = Emplacement.Width - 30   'Si pas de chiffre = l'image sera aux mêmes dimensions que la cellule
+        .Height = Emplacement.Height + 155 'Si pas de chiffre = l'image sera aux mêmes dimensions que la cellule
+        Worksheets("MENU PRINCIPAL").Range("A29") = "Cliquez ici pour suprimer le logo"
+        Sheets("MENU PRINCIPAL").Shapes("SupprimerLogo").Visible = True
+        
+   
+        
+    End With
+    'Affecter la macro à l'image
+        Selection.OnAction = "Remplacer_Image_avancement"
+        [LOGO1].Select
+        
+     Worksheets("MENU PRINCIPAL").Shapes("Image_Avancement").Copy
+     Worksheets("COUVERTURE").Activate
+     Worksheets("COUVERTURE").Unprotect "Menz12011956MSG"
+     Worksheets("COUVERTURE").Shapes("Logo").Delete
+    Worksheets("COUVERTURE").Paste Range("E4")
+    ActiveSheet.Shapes.Range(Array("Image_Avancement")).Select
+    Selection.ShapeRange.ScaleWidth 0.5419630156, msoFalse, msoScaleFromTopLeft
+    Selection.ShapeRange.ScaleHeight 0.5619630156, msoFalse, msoScaleFromTopLeft
+    Selection.ShapeRange.IncrementTop -13.75
+    Selection.OnAction = ""
+    Worksheets("COUVERTURE").Protect "Menz12011956MSG"
+   Worksheets("MENU PRINCIPAL").Activate
+    Worksheets("MENU PRINCIPAL").Range("C1").Select
+    
+    Else
+        MsgBox _
+            "L'image n'a pas été insérée", vbInformation, "! Oups ! Action interrompue"
+            
+    End If
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+Worksheets("MENU PRINCIPAL").Protect "Menz12011956MSG"
+End Sub
+Sub SupprimerLogo_Cliquer()
+Application.ScreenUpdating = False
+Application.Calculation = xlCalculationManual
+Worksheets("MENU PRINCIPAL").Unprotect "Menz12011956MSG"
+    Dim Emplacement As Range
+    Dim Img As Object
+    Dim ShapeObj As Shape
+'Ouvrir l'explorateur de fichier
+    If Application.Dialogs(xlDialogInsertPicture).Show Then
+    Set Emplacement = Range("LOGO1") 'Définit l'emplacement de l'image
+    Set Img = ActiveSheet.DrawingObjects(ActiveSheet.Shapes.count)
+'Boucle pour supprimer l'ancienne image
+    For Each ShapeObj In ActiveSheet.Shapes
+        If ShapeObj.Name = "Image_Avancement" Then ActiveSheet.Shapes("Image_Avancement").Delete
+    Next ShapeObj
+    With Img.ShapeRange
+        .Name = "Image_Avancement"          'Renommer l'image pour pouvoir la supprimer
+        .LockAspectRatio = msoFalse
+        .Top = Emplacement.Top + 88      'Si pas de chiffre = l'image sera aux mêmes dimensions que la cellule
+        .Left = Emplacement.Left + 0    'Si pas de chiffre = l'image sera aux mêmes dimensions que la cellule
+        .Width = Emplacement.Width + 0   'Si pas de chiffre = l'image sera aux mêmes dimensions que la cellule
+        .Height = Emplacement.Height - 70 'Si pas de chiffre = l'image sera aux mêmes dimensions que la cellule
+        Worksheets("MENU PRINCIPAL").Range("A29").ClearContents
+        Sheets("MENU PRINCIPAL").Shapes("SupprimerLogo").Visible = False
+        
+        
+    End With
+    'Affecter la macro à l'image
+        Selection.OnAction = "Remplacer_Image_avancement"
+        [LOGO1].Select
+        
+     Worksheets("COUVERTURE").Activate
+     Worksheets("COUVERTURE").Shapes("Logo").Visible = False
+     Worksheets("MENU PRINCIPAL").Activate
+    Worksheets("MENU PRINCIPAL").Range("C1").Select
+     
+    Else
+    Worksheets("MENU PRINCIPAL").Range("A29") = "Cliquez ici pour suprimer le logo"
+        MsgBox _
+            "L'image n'a pas été supprimée", vbInformation, "! Oups ! Action interrompue"
+            
+    End If
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+Worksheets("MENU PRINCIPAL").Protect "Menz12011956MSG"
+End Sub
+
+
+-------------------------------------------------------------------------------
+
+
+===== Module13.bas =====
+Sub Accueil_Cliquer()
+Application.Calculation = xlCalculationManual
+ActiveSheet.Unprotect "Menz12011956MSG"
+
+
+Range("B:K,V:AO").EntireColumn.Hidden = True
+Range("L:U").EntireColumn.Hidden = False
+
+Rows("24:36").Hidden = True
+Rows("7:23").Hidden = False
+Rows("37:105").Hidden = False
+
+Rows("76").Hidden = True
+Rows("78:87").Hidden = True
+Rows("75").Hidden = False
+Range("N6").Select
+
+ActiveSheet.Protect "Menz12011956MSG"
+Application.Calculation = xlCalculationAutomatic
+End Sub
+Sub Entité_Cliquer()
+Application.Calculation = xlCalculationManual
+ActiveSheet.Unprotect "Menz12011956MSG"
+
+
+Range("L:AO").EntireColumn.Hidden = True
+Range("B:K").EntireColumn.Hidden = False
+
+Rows("24:36").Hidden = True
+Rows("7:23").Hidden = False
+Rows("37:105").Hidden = False
+
+Rows("76").Hidden = True
+Rows("78:87").Hidden = True
+Rows("75").Hidden = False
+Range("D6").Select
+
+ActiveSheet.Protect "Menz12011956MSG"
+Application.Calculation = xlCalculationAutomatic
+End Sub
+Sub Comptabilité_Cliquer()
+Application.Calculation = xlCalculationManual
+ActiveSheet.Unprotect "Menz12011956MSG"
+
+
+Range("V:AE").EntireColumn.Hidden = False
+Range("B:U").EntireColumn.Hidden = True
+Range("AF:AO").EntireColumn.Hidden = True
+
+Rows("24:36").Hidden = True
+Rows("7:23").Hidden = False
+Rows("37:105").Hidden = False
+
+Rows("76").Hidden = True
+Rows("78:87").Hidden = True
+Rows("75").Hidden = False
+Range("X6").Select
+
+ActiveSheet.Protect "Menz12011956MSG"
+Application.Calculation = xlCalculationAutomatic
+End Sub
+Sub TVA_Cliquer()
+Application.Calculation = xlCalculationManual
+ActiveSheet.Unprotect "Menz12011956MSG"
+
+
+Range("AF:AO").EntireColumn.Hidden = False
+Range("B:AE").EntireColumn.Hidden = True
+
+Rows("24:36").Hidden = True
+Rows("7:23").Hidden = False
+Rows("37:105").Hidden = False
+
+Rows("76").Hidden = True
+Rows("78:87").Hidden = True
+Rows("75").Hidden = False
+Range("AH6").Select
+
+ActiveSheet.Protect "Menz12011956MSG"
+Application.Calculation = xlCalculationAutomatic
+End Sub
+
+Sub deployer()
+Application.Calculation = xlCalculationManual
+ActiveSheet.Unprotect "Menz12011956MSG"
+
+Range("A:AP").EntireColumn.Hidden = False
+
+ActiveSheet.Protect "Menz12011956MSG"
+Application.Calculation = xlCalculationAutomatic
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module15.bas =====
+Sub Bilan_Cliquer()
+Application.Calculation = xlCalculationManual
+ActiveSheet.Unprotect "Menz12011956MSG"
+
+Range("M:IB").EntireColumn.Hidden = True
+Range("C:L").EntireColumn.Hidden = False
+
+With ActiveSheet 'Nom feuille à adapter
+.EnableAutoFilter = True
+On Error Resume Next
+If .AutoFilterMode Then
+.ShowAllData
+End If
+End With
+
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+Application.Calculation = xlCalculationAutomatic
+
+End Sub
+Sub Résultat_Cliquer()
+Application.Calculation = xlCalculationManual
+ActiveSheet.Unprotect "Menz12011956MSG"
+
+Range("C:CN,CY:IB").EntireColumn.Hidden = True
+Range("CO:CX").EntireColumn.Hidden = False
+
+With ActiveSheet 'Nom feuille à adapter
+.EnableAutoFilter = True
+On Error Resume Next
+If .AutoFilterMode Then
+.ShowAllData
+End If
+End With
+
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+Application.Calculation = xlCalculationAutomatic
+End Sub
+Sub TFT_Cliquer()
+Application.Calculation = xlCalculationManual
+ActiveSheet.Unprotect "Menz12011956MSG"
+
+Range("C:DR,EC:IB").EntireColumn.Hidden = True
+Range("DS:EB").EntireColumn.Hidden = False
+
+With ActiveSheet 'Nom feuille à adapter
+.EnableAutoFilter = True
+On Error Resume Next
+If .AutoFilterMode Then
+.ShowAllData
+End If
+End With
+
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+Application.Calculation = xlCalculationAutomatic
+End Sub
+
+
+Sub ActifNBrut_Cliquer()
+Application.Calculation = xlCalculationManual
+ActiveSheet.Unprotect "Menz12011956MSG"
+
+Range("M:IB").EntireColumn.Hidden = True
+Range("C:L").EntireColumn.Hidden = False
+
+With ActiveSheet 'Nom feuille à adapter
+.EnableAutoFilter = True
+On Error Resume Next
+If .AutoFilterMode Then
+.ShowAllData
+End If
+End With
+
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+Application.Calculation = xlCalculationAutomatic
+End Sub
+Sub ActifNAmort_Cliquer()
+Application.Calculation = xlCalculationManual
+ActiveSheet.Unprotect "Menz12011956MSG"
+
+Range("C:Q,AB:IB").EntireColumn.Hidden = True
+Range("R:AA").EntireColumn.Hidden = False
+
+With ActiveSheet 'Nom feuille à adapter
+.EnableAutoFilter = True
+On Error Resume Next
+If .AutoFilterMode Then
+.ShowAllData
+End If
+End With
+
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+Application.Calculation = xlCalculationAutomatic
+End Sub
+Sub PassifN_Cliquer()
+Application.Calculation = xlCalculationManual
+ActiveSheet.Unprotect "Menz12011956MSG"
+
+Range("C:AF,AQ:IB").EntireColumn.Hidden = True
+Range("AG:AP").EntireColumn.Hidden = False
+
+With ActiveSheet 'Nom feuille à adapter
+.EnableAutoFilter = True
+On Error Resume Next
+If .AutoFilterMode Then
+.ShowAllData
+End If
+End With
+
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+Application.Calculation = xlCalculationAutomatic
+End Sub
+Sub ActifN1Brut_Cliquer()
+Application.Calculation = xlCalculationManual
+ActiveSheet.Unprotect "Menz12011956MSG"
+
+Range("C:AU,BF:IB").EntireColumn.Hidden = True
+Range("AV:BE").EntireColumn.Hidden = False
+
+With ActiveSheet 'Nom feuille à adapter
+.EnableAutoFilter = True
+On Error Resume Next
+If .AutoFilterMode Then
+.ShowAllData
+End If
+End With
+
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+Application.Calculation = xlCalculationAutomatic
+End Sub
+Sub ActifN1Amort_Cliquer()
+Application.Calculation = xlCalculationManual
+ActiveSheet.Unprotect "Menz12011956MSG"
+
+Range("C:BJ,BU:IB").EntireColumn.Hidden = True
+Range("BK:BT").EntireColumn.Hidden = False
+
+With ActiveSheet 'Nom feuille à adapter
+.EnableAutoFilter = True
+On Error Resume Next
+If .AutoFilterMode Then
+.ShowAllData
+End If
+End With
+
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+Application.Calculation = xlCalculationAutomatic
+
+End Sub
+
+Sub PassifN1_Cliquer()
+Application.Calculation = xlCalculationManual
+ActiveSheet.Unprotect "Menz12011956MSG"
+
+Range("C:BY,CJ:IB").EntireColumn.Hidden = True
+Range("BZ:CI").EntireColumn.Hidden = False
+
+With ActiveSheet 'Nom feuille à adapter
+.EnableAutoFilter = True
+On Error Resume Next
+If .AutoFilterMode Then
+.ShowAllData
+End If
+End With
+
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+Application.Calculation = xlCalculationAutomatic
+
+End Sub
+
+
+Sub TOUTAFFICHER()
+ActiveSheet.Unprotect "Menz12011956MSG"
+
+Range("c:eg").EntireColumn.Hidden = False
+
+ActiveSheet.Protect "Menz12011956MSG"
+Application.Calculation = xlCalculationAutomati
+End Sub
+
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+Application.Calculation = xlCalculationAutom
+-------------------------------------------------------------------------------
+
+
+===== Module16.bas =====
+Sub RésultatN_Cliquer()
+Application.Calculation = xlCalculationManual
+ActiveSheet.Unprotect "Menz12011956MSG"
+
+Range("C:CN,CY:IB").EntireColumn.Hidden = True
+Range("CO:CX").EntireColumn.Hidden = False
+
+With ActiveSheet 'Nom feuille à adapter
+.EnableAutoFilter = True
+On Error Resume Next
+If .AutoFilterMode Then
+.ShowAllData
+End If
+End With
+
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+Application.Calculation = xlCalculationAutomatic
+End Sub
+Sub RésultatN1_Cliquer()
+Application.Calculation = xlCalculationManual
+ActiveSheet.Unprotect "Menz12011956MSG"
+
+Range("C:DC,DN:IB").EntireColumn.Hidden = True
+Range("DD:DM").EntireColumn.Hidden = False
+
+With ActiveSheet 'Nom feuille à adapter
+.EnableAutoFilter = True
+On Error Resume Next
+If .AutoFilterMode Then
+.ShowAllData
+End If
+End With
+
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+Application.Calculation = xlCalculationAutomatic
+End Sub
+
+Sub TFTN_Cliquer()
+Application.Calculation = xlCalculationManual
+ActiveSheet.Unprotect "Menz12011956MSG"
+
+Range("C:DR,EC:IB").EntireColumn.Hidden = True
+Range("DS:EB").EntireColumn.Hidden = False
+
+With ActiveSheet 'Nom feuille à adapter
+.EnableAutoFilter = True
+On Error Resume Next
+If .AutoFilterMode Then
+.ShowAllData
+End If
+End With
+
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+Application.Calculation = xlCalculationAutomatic
+End Sub
+Sub TFTN1_Cliquer()
+Application.Calculation = xlCalculationManual
+ActiveSheet.Unprotect "Menz12011956MSG"
+
+Range("C:EG").EntireColumn.Hidden = True
+Range("EH:EQ").EntireColumn.Hidden = False
+
+With ActiveSheet 'Nom feuille à adapter
+.EnableAutoFilter = True
+On Error Resume Next
+If .AutoFilterMode Then
+.ShowAllData
+End If
+End With
+
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+Application.Calculation = xlCalculationAutomatic
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module17.bas =====
+Sub TOUT_Cliquer()
+ActiveSheet.Unprotect "Menz12011956MSG"
+
+Range("C:EV").EntireColumn.Hidden = False
+
+ActiveSheet.Protect "Menz12011956MSG"
+Application.Calculation = xlCalculationAutomati
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module18.bas =====
+Sub RIEN_Cliquer()
+ActiveSheet.Unprotect "Menz12011956MSG"
+
+Range("M:Q,AB:AF,AQ:AU,BF:BJ,BU:BY,CJ:CN,CY:DC,DN:DR,EC:EG,ER:EV").EntireColumn.Hidden = True
+
+ActiveSheet.Protect "Menz12011956MSG"
+Application.Calculation = xlCalculationAutomati
+End Sub
+Sub AUTRE_Cliquer()
+ActiveSheet.Unprotect "Menz12011956MSG"
+
+Range("M:Q,AB:AF,AQ:AU,BF:BJ,BU:BY,CJ:CN,CY:DC,DN:DR,EC:EG,ER:EV").EntireColumn.Hidden = False
+
+ActiveSheet.Protect "Menz12011956MSG"
+Application.Calculation = xlCalculationAutomati
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module19.bas =====
+Sub Afficher_Toutes_Les_Notes_Cliquer()
+Application.ScreenUpdating = False
+Application.Calculation = xlCalculationManual
+With ActiveWorkbook
+.Unprotect "Menz12011956MSG"
+ For Sh = 1 To Sheets.count
+     Sheets(Sh).Visible = 1
+     Sheets("CODES ACTIVITES").Visible = Range("n9").value
+     Sheets("R4").Visible = Range("n9").value
+     Sheets("Codes R2").Visible = Range("n9").value
+     Sheets("Plan Comptable").Visible = Range("n9").value
+     Sheets("TBFT").Visible = Range("n9").value
+     Sheets("export").Visible = Range("n9").value
+     Sheets("champs variables").Visible = Range("n9").value
+     Sheets("champs fixes").Visible = Range("n9").value
+     Sheets("tableaux").Visible = Range("n9").value
+     Sheets("Referentiels").Visible = Range("n9").value
+     Sheets("Export XML").Visible = Range("n9").value
+     Sheets("TABLES DE CORRESPONDENCE").Visible = Range("ex1").value
+     Sheets("TABLES DE CORRESPONDENCE N-2").Visible = Range("ex1").value
+     Sheets("BILAN (N-2)").Visible = Range("an9").value
+     Sheets("BILAN DRAFT").Visible = Range("an9").value
+     Sheets("RESULTAT DRAFT").Visible = Range("an9").value
+     Sheets("TFT DRAFT").Visible = Range("an9").value
+     
+     Sheets("Format Export").Visible = Range("A57").value
+     Sheets("Format Import").Visible = Range("A57").value
+    
+    
+          
+     
+ Next Sh
+ .Protect "Menz12011956MSG"
+ End With
+ For i = 1 To Sheets.count
+With Sheets(i)
+.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+.EnableSelection = xlUnlockedCells
+.EnableSelection = xllockedCells
+Sheets("ACCUEIL").Activate
+Range("A1").Select
+End With
+Next
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+Sub Masquer_Notes_Vides_Cliquer()
+Application.ScreenUpdating = False
+Application.Calculation = xlCalculationManual
+With ActiveWorkbook
+.Unprotect "Menz12011956MSG"
+ Sheets("ACCUEIL").Select
+    Sheets("NOTE 1").Visible = Range("AX16").value
+    Sheets("NOTE 2").Visible = Range("AX17").value
+    Sheets("NOTE 3A").Visible = Range("AX18").value
+    Sheets("NOTE 3B").Visible = Range("AX19").value
+    Sheets("NOTE 3C").Visible = Range("AX20").value
+    Sheets("NOTE 3C BIS").Visible = Range("AX21").value
+    Sheets("NOTE 3D").Visible = Range("AX22").value
+    Sheets("NOTE 3E").Visible = Range("AX23").value
+    Sheets("NOTE 4").Visible = Range("AX24").value
+    Sheets("NOTE 5").Visible = Range("AX25").value
+    Sheets("NOTE 6").Visible = Range("AX26").value
+    Sheets("NOTE 7").Visible = Range("AX27").value
+    Sheets("NOTE 8").Visible = Range("AX28").value
+    Sheets("NOTE 8A").Visible = Range("AX29").value
+    Sheets("NOTE 8B").Visible = Range("AX30").value
+    Sheets("NOTE 8C").Visible = Range("AX31").value
+    Sheets("NOTE 9").Visible = Range("AX32").value
+    Sheets("NOTE 10").Visible = Range("AX33").value
+    Sheets("NOTE 11").Visible = Range("AX34").value
+    Sheets("NOTE 12").Visible = Range("AX35").value
+    Sheets("NOTE 13").Visible = Range("AX36").value
+    Sheets("NOTE 14").Visible = Range("AX37").value
+    Sheets("NOTE 15A").Visible = Range("AX38").value
+    Sheets("NOTE 15B").Visible = Range("AX39").value
+    Sheets("NOTE 16A").Visible = Range("AX40").value
+    Sheets("NOTE 16B").Visible = Range("AX41").value
+    Sheets("NOTE 16B BIS").Visible = Range("AX42").value
+    Sheets("NOTE 16C").Visible = Range("AX43").value
+    Sheets("NOTE 17").Visible = Range("AX44").value
+    Sheets("NOTE 18").Visible = Range("AX45").value
+    Sheets("NOTE 19").Visible = Range("AX46").value
+    Sheets("NOTE 20").Visible = Range("AX47").value
+    Sheets("NOTE 21").Visible = Range("AX48").value
+    Sheets("NOTE 22").Visible = Range("AX49").value
+    Sheets("NOTE 23").Visible = Range("AX50").value
+    Sheets("NOTE 24").Visible = Range("AX51").value
+    Sheets("NOTE 25").Visible = Range("AX52").value
+    Sheets("NOTE 26").Visible = Range("AX53").value
+    Sheets("NOTE 27A").Visible = Range("AX54").value
+    Sheets("NOTE 27B").Visible = Range("AX55").value
+    Sheets("NOTE 28").Visible = Range("AX56").value
+    Sheets("NOTE 29").Visible = Range("AX57").value
+    Sheets("NOTE 30").Visible = Range("AX58").value
+    Sheets("NOTE 31").Visible = Range("AX59").value
+    Sheets("NOTE 32").Visible = Range("AX60").value
+    Sheets("NOTE 33").Visible = Range("AX61").value
+    Sheets("NOTE 34").Visible = Range("AX62").value
+    Sheets("NOTE 35").Visible = Range("AX63").value
+    Sheets("NOTE 37").Visible = Range("AX64").value
+    Sheets("NOTE 38").Visible = Range("AX65").value
+    Sheets("NOTE 39").Visible = Range("AX66").value
+    Sheets("GARDE (DGI-INS)").Visible = Range("AX67").value
+   
+    Sheets("COMP-CHARGES").Visible = Range("AX71").value
+    Sheets("COMP-TVA").Visible = Range("AX72").value
+    Sheets("COMP-TVA (2)").Visible = Range("AX73").value
+    Sheets("SUPPL1").Visible = Range("AX74").value
+    Sheets("SUPPL2").Visible = Range("AX75").value
+    Sheets("SUPPL3").Visible = Range("AX76").value
+    Sheets("SUPPL4").Visible = Range("AX77").value
+    Sheets("SUPPL5").Visible = Range("AX78").value
+    Sheets("SUPPL6").Visible = Range("AX79").value
+    Sheets("SUPPL7").Visible = Range("AX80").value
+    Sheets("GARDE (BIC) ").Visible = Range("AX81").value
+    Sheets("GARDE (BNC)").Visible = Range("AX82").value
+    Sheets("GARDE (BA)").Visible = Range("AX83").value
+    Sheets("GARDE (301)").Visible = Range("AX84").value
+    Sheets("GARDE (302)").Visible = Range("AX85").value
+    Sheets("GARDE(3)").Visible = Range("AX86").value
+    Sheets("COMMENTAIRE").Visible = Range("AX87").value
+    Sheets("COMPTE D'EXPLOITATION REEL").Visible = Range("XX9").value
+     Sheets("COMPTE D'EXPLOITATION PREVISION").Visible = Range("XX9").value
+     Sheets("PLAN DE TRESORERIE REEL").Visible = Range("XX9").value
+     Sheets("PLAN DE TRESORERIE PREVISIONNEL").Visible = Range("XX9").value
+     Sheets("RATIOS DE GESTION").Visible = Range("XX9").value
+    
+     Sheets("CODES ACTIVITES").Visible = Range("n9").value
+     Sheets("R4").Visible = Range("n9").value
+     Sheets("Codes R2").Visible = Range("n9").value
+     Sheets("Plan Comptable").Visible = Range("n9").value
+     Sheets("TBFT").Visible = Range("n9").value
+     Sheets("TABLES DE CORRESPONDENCE").Visible = Range("FD4").value
+     Sheets("TABLES DE CORRESPONDENCE N-2").Visible = Range("FD4").value
+     Sheets("BILAN (N-2)").Visible = Range("an9").value
+     Sheets("BILAN DRAFT").Visible = Range("an9").value
+     Sheets("RESULTAT DRAFT").Visible = Range("an9").value
+     Sheets("TFT DRAFT").Visible = Range("an9").value
+     
+     Sheets("export").Visible = Range("n9").value
+     Sheets("champs variables").Visible = Range("n9").value
+     Sheets("champs fixes").Visible = Range("n9").value
+     Sheets("tableaux").Visible = Range("n9").value
+     Sheets("Referentiels").Visible = Range("n9").value
+     Sheets("Export XML").Visible = Range("n9").value
+     
+    
+     Sheets("Format Export").Visible = Range("A57").value
+     Sheets("Format Import").Visible = Range("A57").value
+     
+    .Protect "Menz12011956MSG"
+End With
+For i = 1 To Sheets.count
+With Sheets(i)
+.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+.EnableSelection = xlUnlockedCells
+.EnableSelection = xllockedCells
+Sheets("ACCUEIL").Activate
+Range("A1").Select
+End With
+Next
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module2.bas =====
+Sub VidreInfoGéné_Cliquer()
+Application.ScreenUpdating = False
+Application.Calculation = xlCalculationManual
+Range("P9, U9,J13,F15,I15,M15,E18,H18,S19:S25,E21,L21,E24,G24,K24,L24,N24,E28,E31,E34,G34,K34,M34,U34,E37,G37,M37,Q37,E41,E45,E53,I53,P53:W53,P56,E65,E68,L62:L72,S62:S72,Z19:Z26,AF19:AF25").Select
+Selection.ClearContents
+Range("S18").value = "A0101"
+Range("W13").value = "12"
+Range("E15").value = "10"
+Range("R31").value = "100%"
+Range("E56").value = "Personne morale"
+Range("G56").value = "SARL"
+Range("I56").value = " Réel normal"
+Range("J56").value = "Côte d'Ivoire"
+Range("E59").value = "Impôt BIC"
+Range("G59").value = "25%"
+Range("J59").value = "2%"
+Range("E62").value = "18%"
+Range("Z31").value = "NON"
+Range("Z30").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=+RC[6]"
+    Range("Z33").Select
+Range("Z33").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=+RC[6]"
+    Range("Z34").Select
+Range("Z34").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=+RC[6]"
+    Range("Z43").Select
+Range("Z43").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=+RC[6]"
+    Range("Z44").Select
+Range("Z44").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=RC[6]"
+    Range("Z45").Select
+Range("Z45").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=RC[6]"
+    Range("Z46").Select
+Range("Z46").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=RC[6]"
+    Range("Z47").Select
+Range("Z47").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=RC[6]"
+    Range("Z48").Select
+Range("Z51").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=RC[6]"
+    Range("Z52").Select
+Range("Z52").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=RC[6]"
+    Range("Z53").Select
+Range("Z53").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=RC[6]"
+    Range("Z54").Select
+Range("Z54").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=RC[6]"
+    Range("Z55").Select
+Range("Z55").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=RC[6]"
+    Range("Z56").Select
+    
+Range("Z58").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=RC[6]"
+    Range("Z59").Select
+Range("Z59").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=RC[6]"
+    Range("Z60").Select
+Range("Z60").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=RC[6]"
+    Range("Z61").Select
+Range("Z61").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=RC[6]"
+    Range("Z62").Select
+Range("Z62").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=RC[6]"
+    Range("Z63").Select
+Range("Z63").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=RC[6]"
+    Range("Z64").Select
+Range("Z66").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=RC[6]"
+    Range("Z67").Select
+Range("Z67").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=RC[6]"
+    Range("Z68").Select
+Range("Z68").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=RC[6]"
+    Range("Z69").Select
+Range("Z69").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=RC[6]"
+    Range("Z70").Select
+Range("Z70").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=RC[6]"
+    Range("Z71").Select
+Range("Z71").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=RC[6]"
+    Range("Z72").Select
+Range("J11:K11").Select
+    ActiveCell.FormulaR1C1 = "=R[-9]C[20]"
+Sheets("NOTE 38").Select
+Range("C8").Select
+    ActiveCell.FormulaR1C1 = "=R[-6]C[11]"
+    Range("C9").Select
+    Sheets("INFORMATIONS GENERALES").Select
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module20.bas =====
+Option Explicit
+
+' --- CONFIGURATION ---
+Private Const MOT_DE_PASSE As String = "Menz12011956MSG"
+
+' ==============================================================================
+' PROCÉDURE PRINCIPALE : LANCE L'EXPORTATION
+' ==============================================================================
+Sub Exporter_Vers_Excel_Cliquer()
+     Dim wbSource As Workbook
+    Dim wbNouveau As Workbook
+    Dim ws As Worksheet
+    Dim arrExclusions As Variant
+    Dim nomFeuille As Variant
+    Dim estExclue As Boolean
+    Dim compteur As Integer
+    
+    ' 1. Optimisation : On fige l'écran pour la rapidité
+    Application.ScreenUpdating = False
+    Application.DisplayAlerts = False
+    Application.Calculation = xlCalculationManual
+    
+    Set wbSource = ThisWorkbook
+    
+    ' 2. Liste des feuilles à EXCLURE
+    arrExclusions = Array("PLAN DES COMPTES", "ACCUEIL", "GRAND-LIVRE N", _
+                          "BALANCE N", "BALANCE N-1", "CONTRÔLE D'EQUILIBRE", _
+                          "Contrôle des reports")
+    
+    ' 3. Création du nouveau classeur
+    Set wbNouveau = Workbooks.Add(xlWBATWorksheet)
+    
+    
+    compteur = 0
+    
+    ' 4. Boucle sur toutes les feuilles du classeur source
+    For Each ws In wbSource.Worksheets
+        ' Vérifie si visible
+        If ws.Visible = xlSheetVisible Then
+            estExclue = False
+            
+            ' Vérifie si exclue par son nom
+            For Each nomFeuille In arrExclusions
+                If UCase(ws.Name) = UCase(nomFeuille) Then
+                    estExclue = True
+                    Exit For
+                End If
+            Next nomFeuille
+            
+            ' Si OK, on traite
+            If Not estExclue Then
+                ' Copie de la feuille
+                ws.Copy After:=wbNouveau.Sheets(wbNouveau.Sheets.count)
+                
+                ' Nettoyage complet de la feuille copiée
+                Call TraiterEtNettoyerFeuille(wbNouveau.ActiveSheet)
+                
+                compteur = compteur + 1
+            End If
+        End If
+    Next ws
+    
+    ' 5. Suppression de la feuille vide par défaut
+    If wbNouveau.Sheets.count > 1 Then
+        On Error Resume Next
+        wbNouveau.Sheets(1).Delete
+        On Error GoTo 0
+    End If
+    
+    ' 6. Rétablissement des paramètres
+    Application.ScreenUpdating = True
+    Application.DisplayAlerts = True
+    Application.Calculation = xlCalculationAutomatic
+    
+    
+    ' 7. Recadrage de la zone d'imprission de la feuille SUPPL4
+    With Sheets("SUPPL4").PageSetup
+        ' Définit la plage de A à N
+        .PrintArea = "$A:$N"
+        
+        ' Ajuste la largeur à une seule page
+        .Zoom = False
+        .FitToPagesWide = 1
+        .FitToPagesTall = False ' Laisse la longueur s'étendre sur plusieurs pages si nécessaire
+    End With
+    
+    
+    ' 8. REACTIVATION DES FILTRES
+    Sheets("NOTE36 Suite (Nomenclature)").Range("$o$11:$o$239").AutoFilter Field:=1, Criteria1:="1"
+    Sheets("COMPTE D'EXPLOITATION REEL").Range("$N$6:$AH$601").AutoFilter Field:=2, Criteria1:="1"
+    Sheets("COMPTE D'EXPLOITATION PREVISION").Range("$N$6:$AL$601").AutoFilter Field:=2, Criteria1:="1"
+    Sheets("PLAN DE TRESORERIE REEL").Range("$N$5:$AH$600").AutoFilter Field:=2, Criteria1:="1"
+    Sheets("PLAN DE TRESORERIE PREVISIONNEL").Range("$N$5:$AL$600").AutoFilter Field:=2, Criteria1:="1"
+    
+    ' 9. RETOUR A LA FEUILLE COUVERTURE
+    Sheets("COUVERTURE").Activate
+    
+    ' 10. Message de fin
+    If compteur > 0 Then
+        MsgBox "Export terminé avec succès !" & vbCrLf & compteur & " feuilles exportées.", vbInformation, "Export Réussi"
+    Else
+        MsgBox "Aucune feuille correspondant aux critères n'a été trouvée.", vbExclamation, "Attention"
+        wbNouveau.Close SaveChanges:=False
+    End If
+ End Sub
+
+' ==============================================================================
+' SOUS-PROCÉDURE : ORCHESTRE LE NETTOYAGE (CONSERVATION DU MODE FILTRE)
+' ==============================================================================
+Private Sub TraiterEtNettoyerFeuille(ws As Worksheet)
+    Dim rngUsed As Range
+    
+    ' 1. Déverrouiller la feuille
+    On Error Resume Next
+    ws.Unprotect Password:=MOT_DE_PASSE
+    On Error GoTo 0
+    
+    ' 2. GESTION DES FILTRES (RÉÉCRITURE : Affiche tout sans enlever les flèches)
+    ' Si un filtre est appliqué (lignes masquées), on efface les critères
+    If ws.FilterMode Then
+        ws.ShowAllData
+    End If
+    
+    ' Si l'AutoFilter n'était pas activé du tout, on pourrait l'activer sur la plage utilisée
+    ' Mais si vous voulez garder la structure d'origine, on ne touche à rien d'autre.
+    ' Les lignes masquées manuellement sont aussi réaffichées
+    ws.Rows.Hidden = False
+    
+    ' 3. CONVERSION EN VALEURS
+    ' Note : Le copier/coller en valeurs ne casse pas le mode filtre existant
+    Set rngUsed = ws.UsedRange
+    If Not rngUsed Is Nothing Then
+        rngUsed.Copy
+        rngUsed.PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+        Application.CutCopyMode = False
+    End If
+    
+    ' 4. NETTOYAGE DES OBJETS / IMAGES (Sauf "Logo" et "Image")
+    Call NettoyerObjets(ws)
+    
+    ' 5. RECADRAGE STRICT SUR LA ZONE D'IMPRESSION (Colonnes G/D)
+    Call RecadrerSurZoneImpression(ws)
+    
+    ' 6. Remise à zéro de la position
+    On Error Resume Next
+    Application.GoTo ws.Range("A1"), True
+    On Error GoTo 0
+    
+End Sub
+' ==============================================================================
+' SOUS-PROCÉDURE : SUPPRESSION DES OBJETS (IMAGES, FORMES...)
+' ==============================================================================
+Private Sub NettoyerObjets(ws As Worksheet)
+    Dim Shp As Shape
+    Dim i As Long
+    
+    ' On boucle à l'envers pour supprimer sans erreur d'index
+    For i = ws.Shapes.count To 1 Step -1
+        Set Shp = ws.Shapes(i)
+        
+        ' CONDITION 1 : L'objet doit être visible
+        ' CONDITION 2 : Le nom ne doit être ni "LOGO" ni "IMAGE"
+        If Shp.Visible = msoTrue Then
+            If UCase(Shp.Name) <> "LOGO" And UCase(Shp.Name) <> "IMAGE" Then
+                Shp.Delete
+            End If
+        End If
+    Next i
+End Sub
+' ==============================================================================
+' SOUS-PROCÉDURE : RECADRAGE COLONNES (GAUCHE ET DROITE)
+' ==============================================================================
+Private Sub RecadrerSurZoneImpression(ws As Worksheet)
+    Dim strPrintArea As String
+    Dim rngPrint As Range
+    Dim area As Range
+    Dim minCol As Long, maxCol As Long
+    Dim minRow As Long
+    Dim lastCol As Long
+    
+    strPrintArea = ws.PageSetup.PrintArea
+    
+    ' Si pas de zone d'impression, on quitte
+    If strPrintArea = "" Then Exit Sub
+    
+    On Error Resume Next
+    Set rngPrint = ws.Range(strPrintArea)
+    On Error GoTo 0
+    
+    If rngPrint Is Nothing Then Exit Sub
+    
+    ' Initialisation pour trouver les limites extrêmes
+    minCol = ws.Columns.count
+    maxCol = 0
+    minRow = ws.Rows.count
+    
+    ' Analyse de la zone d'impression (gère les zones multiples)
+    For Each area In rngPrint.Areas
+        If area.Column < minCol Then minCol = area.Column
+        If (area.Column + area.Columns.count - 1) > maxCol Then maxCol = area.Column + area.Columns.count - 1
+        If area.Row < minRow Then minRow = area.Row
+    Next area
+    
+    ' --- SUPPRESSION DROITE ---
+    lastCol = ws.UsedRange.Columns.count + ws.UsedRange.Column - 1
+    If lastCol > maxCol Then
+        ws.Range(ws.Columns(maxCol + 1), ws.Columns(ws.Columns.count)).Delete
+    End If
+    
+    ' --- SUPPRESSION GAUCHE ---
+    If minCol > 1 Then
+        ws.Range(ws.Columns(1), ws.Columns(minCol - 1)).Delete
+    End If
+    
+    ' --- SUPPRESSION HAUT (Entêtes hors zone) ---
+    If minRow > 1 Then
+        ws.Rows("1:" & (minRow - 1)).Delete
+    End If
+    
+    ' On retire la définition de la zone d'impression pour finir propre
+    ws.PageSetup.PrintArea = ""
+End Sub
+
+
+
+
+
+-------------------------------------------------------------------------------
+
+
+===== Module21.bas =====
+
+Sub ValiderTFTN_Cliquer()
+Worksheets("TABLES DE CORRESPONDENCE").Range("DS593:DU600").ClearContents
+Worksheets("TABLES DE CORRESPONDENCE").Range("EB593:EB600").ClearContents
+
+Worksheets("TABLES DE CORRESPONDENCE").Range("DS593:DS600").value = Worksheets("CONTRÔLE D'EQUILIBRE").Range("K31:K38").value
+Worksheets("TABLES DE CORRESPONDENCE").Range("DU593:DU600").value = Worksheets("CONTRÔLE D'EQUILIBRE").Range("M31:M38").value
+Worksheets("TABLES DE CORRESPONDENCE").Range("EB593:EB600").value = Worksheets("CONTRÔLE D'EQUILIBRE").Range("L31:L38").value
+End Sub
+
+Sub ValiderTFTN1_Cliquer()
+Worksheets("TABLES DE CORRESPONDENCE").Range("EH593:EJ600").ClearContents
+Worksheets("TABLES DE CORRESPONDENCE").Range("EQ593:EQ600").ClearContents
+
+
+Worksheets("TABLES DE CORRESPONDENCE").Range("EH593:EH600").value = Worksheets("CONTRÔLE D'EQUILIBRE").Range("K42:K49").value
+Worksheets("TABLES DE CORRESPONDENCE").Range("EJ593:EJ600").value = Worksheets("CONTRÔLE D'EQUILIBRE").Range("M42:M49").value
+Worksheets("TABLES DE CORRESPONDENCE").Range("EQ593:EQ600").value = Worksheets("CONTRÔLE D'EQUILIBRE").Range("L42:L49").value
+End Sub
+Sub AnnulerTFTN1_Cliquer()
+Worksheets("TABLES DE CORRESPONDENCE").Range("EH593:EJ600").ClearContents
+Worksheets("TABLES DE CORRESPONDENCE").Range("EQ593:EQ600").ClearContents
+Worksheets("CONTRÔLE D'EQUILIBRE").Range("L42:L47").ClearContents
+End Sub
+
+Sub AnnulerTFTN_Cliquer()
+Worksheets("TABLES DE CORRESPONDENCE").Range("DS593:DU600").ClearContents
+Worksheets("TABLES DE CORRESPONDENCE").Range("EB593:EB600").ClearContents
+Worksheets("CONTRÔLE D'EQUILIBRE").Range("L31:L36").ClearContents
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module23.bas =====
+Sub Liste1_Cliquer()
+UserForm1.Show
+End Sub
+Sub Liste2_Cliquer()
+UserForm2.Show
+End Sub
+Sub Liste3_Cliquer()
+UserForm3.Show
+End Sub
+Sub Liste4_Cliquer()
+UserForm4.Show
+End Sub
+Sub Liste5_Cliquer()
+UserForm5.Show
+End Sub
+Sub Liste6_Cliquer()
+UserForm6.Show
+End Sub
+Sub Liste7_Cliquer()
+UserForm7.Show
+End Sub
+Sub Liste8_Cliquer()
+UserForm8.Show
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module24.bas =====
+Sub Réinitialiser_Cliquer()
+
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+Application.ScreenUpdating = False
+Application.Calculation = xlCalculationManual
+
+Dim answer As Integer
+answer = MsgBox("Etes-vous certain de vouloir effacer toutes les informations et restaurer les valeurs par défaut?", vbOKCancel, "DEMANDE DE CONFIRMATION")
+If answer = vbOK Then
+
+
+
+Sheets("ACCUEIL").Activate
+Range("F9,F11,E28:H34,H35,I15,F17,F19,F21,F38,I38,F40,F42,F44,H44,I44,J44,F46,F48,F51,F52,F53,F54,F55,F57,F58,F59,F60,F62,F65,F71,F73,F77:H87,F99,F101,F103,F107,F109").Select
+Selection.ClearContents
+
+
+Range("F9:G9").Select
+    ActiveCell.FormulaR1C1 = "=R[4]C[39]"
+Range("F7").value = Range("AQ40")
+Range("I7").value = Range("AR40")
+Range("F11").value = Range("AR42")
+Range("F23").value = "A0101"
+Range("F13").value = "12"
+Range("F15").value = "10"
+Range("F49").value = "100%"
+Range("F69").value = "NON"
+Range("F89").value = "SARL"
+Range("F91").value = "Réel normal"
+Range("F93").value = "Côte d'Ivoire"
+Range("F95").value = "1"
+Range("F97").value = "0"
+Range("F105").value = "Personne Morale"
+Range("H105").value = "Prestataire de service"
+
+ActiveWorkbook.Unprotect "Menz12011956MSG"
+Sheets("NOTE 38").Visible = True
+Sheets("NOTE 38").Select
+Range("C8").Select
+ActiveCell.FormulaR1C1 = "=R[-6]C[11]"
+ActiveWorkbook.Unprotect "Menz12011956MSG"
+    
+Worksheets("FICHE R3").Range("A11,C11,D11,E11,F11,H11").value = ""
+Worksheets("NOTE 13").Range("A10,E10,F10,G10,H10,I10,J10").value = ""
+    
+Sheets("ACCUEIL").Activate
+ Else
+End If
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+Range("A1").Select
+ActiveSheet.Protect Password:="Menz12011956MSG"
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module27.bas =====
+Sub SuppressionLogo_Cliquer()
+    'Déclaration des variables pour plus de propreté
+    Dim wsAccueil As Worksheet
+    Dim wsCouverture As Worksheet
+    
+    'On définit les feuilles de travail pour éviter de les appeler tout le temps
+    Set wsAccueil = Worksheets("ACCUEIL")
+    Set wsCouverture = Worksheets("COUVERTURE")
+    
+    'Optimisation de l'affichage
+    Application.ScreenUpdating = False
+    Application.Calculation = xlCalculationManual
+    
+    'Déprotection de la feuille
+    wsAccueil.Unprotect "Menz12011956MSG"
+    
+    '--- SUPPRESSION DU LOGO SUR ACCUEIL ---
+    'On utilise "On Error Resume Next" pour éviter un bug si le logo n'existe pas
+    On Error Resume Next
+    wsAccueil.Shapes("Logo").Delete
+    On Error GoTo 0
+    
+    '--- GESTION DE LA FEUILLE COUVERTURE ---
+    'On cache le logo sur la couverture (ou on le supprime avec .Delete si vous préférez)
+    On Error Resume Next
+    wsCouverture.Shapes("Logo").Visible = False
+    On Error GoTo 0
+    
+    '--- REINITIALISATION DE L'INTERFACE ---
+    With wsAccueil
+        'Remettre le texte d'invitation
+        .Range("S19").value = "Cliquez ici pour insérer votre logo"
+        
+        'Vider la cellule S44 (chemin d'accès ?)
+        .Range("S44").ClearContents
+        
+        'Cacher le bouton de suppression (puisqu'il n'y a plus de logo)
+        On Error Resume Next
+        .Shapes("SuppressionLogo").Visible = False
+        On Error GoTo 0
+        
+        'Se replacer sur une cellule neutre (optionnel)
+        Application.GoTo .Range("L6"), Scroll:=False
+    End With
+    
+    'Protection et rétablissement des paramètres
+    wsAccueil.Protect "Menz12011956MSG"
+    
+    Application.Calculation = xlCalculationAutomatic
+    Application.ScreenUpdating = True
+
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module29.bas =====
+Sub Imputation_Cliquer()
+With ActiveWorkbook
+.Unprotect "Menz12011956MSG"
+Sheets("Plan Comptable").Visible = True
+Sheets("Plan Comptable").Activate
+Range("C1").Select
+.Protect "Menz12011956MSG"
+ End With
+End Sub
+
+Sub CorrespondenceN_Cliquer()
+With ActiveWorkbook
+.Unprotect "Menz12011956MSG"
+Sheets("TABLES DE CORRESPONDENCE").Visible = True
+Sheets("TABLES DE CORRESPONDENCE").Activate
+Range("D1").Select
+.Protect "Menz12011956MSG"
+ End With
+End Sub
+Sub CorrespondenceN2_Cliquer()
+With ActiveWorkbook
+.Unprotect "Menz12011956MSG"
+Sheets("TABLES DE CORRESPONDENCE N-2").Visible = True
+Sheets("TABLES DE CORRESPONDENCE N-2").Activate
+Range("C1").Select
+.Protect "Menz12011956MSG"
+ End With
+End Sub
+Sub Validation_Cliquer()
+With ActiveWorkbook
+.Unprotect "Menz12011956MSG"
+ActiveSheet.Visible = False
+Sheets("ACCUEIL").Activate
+Range("A1").Select
+.Protect "Menz12011956MSG"
+ End With
+End Sub
+
+Sub TABLESDECORRESPONDENCE_Accueil_Cliquer()
+With ActiveWorkbook
+.Unprotect "Menz12011956MSG"
+ActiveSheet.Visible = False
+Sheets("ACCUEIL").Activate
+Range("A1").Select
+.Protect "Menz12011956MSG"
+ End With
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module3.bas =====
+Sub Bouton36_Cliquer()
+Attribute Bouton36_Cliquer.VB_ProcData.VB_Invoke_Func = " \n14"
+Application.ScreenUpdating = False
+Application.Calculation = xlCalculationManual
+'
+' Bouton36_Cliquer Macro
+'
+
+'
+    Range("Z39").Select
+    ActiveCell.FormulaR1C1 = "=IF(RC[1]=R[3]C[1],R[3]C,R[4]C)"
+    Range("Z40").Select
+    Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module30.bas =====
+Sub Télécharger_Cliquer()
+With ActiveWorkbook
+.Unprotect "Menz12011956MSG"
+Sheets("Format Import").Visible = True
+Sheets("Format Import").Activate
+Range("C1").Select
+.Protect "Menz12011956MSG"
+ End With
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module31.bas =====
+Sub AjouterLogo_Cliquer()
+Dim wsAcc As Worksheet, wsCouv As Worksheet
+    Dim Emplacement As Range
+    Dim nouvImg As Shape
+    Dim mdp As String
+    Dim Fd As FileDialog
+    Dim CheminImage As String
+    Dim RatioImage As Double, RatioCellule As Double
+    
+    ' Configuration
+    mdp = "Menz12011956MSG"
+    Set wsAcc = ThisWorkbook.Sheets("ACCUEIL")
+    Set wsCouv = ThisWorkbook.Sheets("COUVERTURE")
+    
+    On Error GoTo ErrorHandler
+    
+    ' Optimisation de l'affichage
+    Application.ScreenUpdating = False
+    Application.Calculation = xlCalculationManual
+    
+    ' Déprotection des feuilles
+    wsAcc.Unprotect mdp
+    wsCouv.Unprotect mdp
+    
+    ' --- PARTIE 1 : Choix du fichier (Explorateur Windows) ---
+    Set Fd = Application.FileDialog(msoFileDialogFilePicker)
+    With Fd
+        .Title = "Sélectionnez votre logo"
+        .Filters.Clear
+        .Filters.Add "Images", "*.jpg; *.jpeg; *.png; *.bmp; *.gif"
+        .AllowMultiSelect = False
+        
+        If .Show = -1 Then
+            CheminImage = .SelectedItems(1)
+        Else
+            MsgBox "Aucune image sélectionnée.", vbExclamation
+            GoTo Sortie
+        End If
+    End With
+
+    ' --- PARTIE 2 : Insertion sur ACCUEIL (S19 Fusionnée) ---
+    wsAcc.Activate
+    Set Emplacement = wsAcc.Range("S19")
+    
+    ' Supprimer l'ancien logo sur ACCUEIL s'il existe
+    On Error Resume Next
+    wsAcc.Shapes("Logo").Delete
+    On Error GoTo ErrorHandler
+    
+    ' Insertion de l'image
+    Set nouvImg = wsAcc.Shapes.AddPicture( _
+        FileName:=CheminImage, _
+        LinkToFile:=msoFalse, _
+        SaveWithDocument:=msoTrue, _
+        Left:=Emplacement.MergeArea.Left, _
+        Top:=Emplacement.MergeArea.Top, _
+        Width:=-1, Height:=-1) ' Taille réelle temporaire pour récupérer le ratio
+        
+    ' Paramétrage ACCUEIL avec conservation des proportions
+    With nouvImg
+        .Name = "Logo"
+        .LockAspectRatio = msoTrue ' IMPORTANT : On garde les proportions
+        
+        ' --- ALGORITHME POUR FAIRE ENTRER L'IMAGE DANS S19 ---
+        ' On essaie d'abord d'ajuster la largeur à celle de la cellule
+        .Width = Emplacement.MergeArea.Width
+        
+        ' Si en ajustant la largeur, la hauteur dépasse la cellule, alors on ajuste par la hauteur
+        If .Height > Emplacement.MergeArea.Height Then
+            .Height = Emplacement.MergeArea.Height
+        End If
+        
+        ' --- CENTRAGE DE L'IMAGE DANS S19 ---
+        ' Calcul pour centrer horizontalement
+        .Left = Emplacement.MergeArea.Left + ((Emplacement.MergeArea.Width - .Width) / 2)
+        ' Calcul pour centrer verticalement
+        .Top = Emplacement.MergeArea.Top + ((Emplacement.MergeArea.Height - .Height) / 2)
+        
+        .Placement = xlMoveAndSize
+        .OnAction = "Remplacer_Logo"
+    End With
+    
+    ' Gestion du texte et du bouton de suppression
+    wsAcc.Range("S44").value = "Cliquez ici pour supprimer le logo"
+    On Error Resume Next
+    wsAcc.Shapes("SuppressionLogo").Visible = True
+    On Error GoTo ErrorHandler
+    
+    ' --- PARTIE 3 : Insertion sur COUVERTURE (E4) ---
+    wsCouv.Activate
+    Set Emplacement = wsCouv.Range("E4")
+    
+    ' Supprimer l'ancien logo sur COUVERTURE s'il existe
+    On Error Resume Next
+    wsCouv.Shapes("Logo").Delete
+    On Error GoTo ErrorHandler
+    
+    ' Insertion image
+    Set nouvImg = wsCouv.Shapes.AddPicture( _
+        FileName:=CheminImage, _
+        LinkToFile:=msoFalse, _
+        SaveWithDocument:=msoTrue, _
+        Left:=Emplacement.Left, _
+        Top:=Emplacement.Top, _
+        Width:=100, Height:=100) ' Taille fixe temporaire
+        
+    ' Paramétrage COUVERTURE
+    With nouvImg
+        .Name = "Logo"
+        .OnAction = ""
+        
+        ' 1. On remet l'image à sa taille réelle pour partir d'une base saine
+        .ScaleWidth 1, msoTrue
+        .ScaleHeight 1, msoTrue
+        
+        ' 2. On verrouille le ratio
+        .LockAspectRatio = msoTrue ' IMPORTANT : On garde les proportions
+        
+        ' 3. On impose la largeur de 3,4 cm
+        ' La hauteur va s'adapter toute seule grâce au LockAspectRatio
+        .Width = Application.CentimetersToPoints(3.4)
+        
+        ' 4. Ajustement vertical (votre demande initiale)
+        .IncrementTop -13.75
+        
+        ' 5. Ajustement horizontal (AJOUTÉ : 1 mm vers la droite)
+        .IncrementLeft Application.CentimetersToPoints(0.1)
+    End With
+    
+    ' Retour sur ACCUEIL et nettoyage
+    wsAcc.Activate
+    wsAcc.Range("L6").Select
+    wsAcc.Range("S19").MergeArea.ClearContents
+
+Sortie:
+    ' Rétablissement de la protection
+    wsCouv.Protect mdp
+    wsAcc.Protect mdp
+    Application.Calculation = xlCalculationAutomatic
+    Application.ScreenUpdating = True
+    Exit Sub
+
+ErrorHandler:
+    MsgBox "Une erreur est survenue : " & Err.Description, vbCritical
+    Resume Sortie
+End Sub
+
+
+
+-------------------------------------------------------------------------------
+
+
+===== Module32.bas =====
+Sub ACCUEIL_Réinitialiser_Cliquer()
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+Application.ScreenUpdating = False
+Application.Calculation = xlCalculationManual
+Dim answer As Integer
+answer = MsgBox("Etes-vous certain de vouloir effacer toutes les informations et restaurer les valeurs par défaut?", vbOKCancel, "DEMANDE DE CONFIRMATION")
+If answer = vbOK Then
+Range("Z52,AB40,AB52").Select
+Selection.ClearContents
+
+
+Range("Z15").value = "Impôt BIC"
+Range("Z17").value = "25%"
+Range("Z19").value = "0,5%"
+Range("Z23").value = "400000"
+Range("AB23").value = "35000000"
+Range("Z38").value = "400000"
+Range("AB38").value = "35000000"
+Range("Z40").value = "3000000"
+Range("Z42").value = "3000000"
+Range("AB42").value = "35000000"
+Range("Z44").value = "500000"
+Range("AB44").value = "35000000"
+Range("Z48").value = "8000000"
+Range("Z49").value = "9600000"
+
+ Else
+End If
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+Range("V6").Select
+ActiveSheet.Protect Password:="Menz12011956MSG"
+End Sub
+Sub ACCUEIL_Réinitialiser_2_Cliquer()
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+Application.ScreenUpdating = False
+Application.Calculation = xlCalculationManual
+Dim answer As Integer
+answer = MsgBox("Etes-vous certain de vouloir effacer toutes les informations et restaurer les valeurs par défaut?", vbOKCancel, "DEMANDE DE CONFIRMATION")
+If answer = vbOK Then
+Range("AL11,AL13,AL17,AL18,AL20,AL22,AL37,AL41,AL43,AL45,AL47,AL49,AL50,AL55,AL56,AL58,AL59,AL60,AL63,AL64,AL66,AL67,AL68,AL70").Select
+Selection.ClearContents
+
+
+Range("AL9").value = "18%"
+
+ Else
+End If
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+Range("V6").Select
+ActiveSheet.Protect Password:="Menz12011956MSG"
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module34.bas =====
+Sub AffacerContenu_Cliquer()
+
+Application.ScreenUpdating = False
+Application.Calculation = xlCalculationManual
+With ActiveSheet
+.Unprotect "Menz12011956MSG"
+Application.Calculation = xlCalculationManual
+Range("D6:O30,C1,Emplacement").Select
+Selection.ClearContents
+End With
+Application.Calculation = xlCalculationAutomatic
+Range("C1").Select
+Application.ScreenUpdating = True
+End Sub
+Sub Fermer_Cliquer()
+With ActiveWorkbook
+.Unprotect "Menz12011956MSG"
+Sheets("Format Import").Visible = False
+Sheets("ACCUEIL").Activate
+Range("B1").Select
+.Protect "Menz12011956MSG"
+ End With
+End Sub
+Sub ChargerDonnées_Cliquer()
+  On Error Resume Next
+Application.EnableEvents = False
+Range("B4").PasteSpecial Paste:=xlPasteValues, Operation:=xlNone, SkipBlanks _
+        :=False, Transpose:=False
+Application.EnableEvents = True
+Application.EnableEvents = False
+    ActiveSheet.Range("B4").Select
+    On Error Resume Next
+    ActiveSheet.PasteSpecial Format:="Texte Unicode", Link:=False, DisplayAsIcon:=False
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module36.bas =====
+Sub ParamètresXml_Cliquer()
+With ActiveWorkbook
+.Unprotect "Menz12011956MSG"
+Sheets("tableaux").Visible = True
+Sheets("tableaux").Activate
+Range("A1").Select
+.Protect "Menz12011956MSG"
+ End With
+End Sub
+Sub Référentiel_Cliquer()
+With ActiveWorkbook
+.Unprotect "Menz12011956MSG"
+Sheets("Codes R2").Visible = True
+Sheets("Codes R2").Activate
+Range("A1").Select
+.Protect "Menz12011956MSG"
+ End With
+End Sub
+Sub ZoneTexte358548_Cliquer()
+With ActiveWorkbook
+.Unprotect "Menz12011956MSG"
+Sheets("BILAN (N-2)").Visible = True
+Sheets("BILAN (N-2)").Activate
+Range("A1").Select
+.Protect "Menz12011956MSG"
+ End With
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module37.bas =====
+Sub Verrouillage_Cliquer()
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+End Sub
+Sub Deverrouillage_Cliquer()
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module39.bas =====
+Option Explicit
+
+Sub FICHER3_SupprLigne_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+Sheets("tableaux").Range("F33").Formula = "='FICHE R3'!AS2"
+Sheets("tableaux").Range("F34").Formula = "='FICHE R3'!AU2"
+
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+Dim cell As Range
+    Dim ligne As Long
+    Dim valeurBJ As String
+
+    For Each cell In Selection.Cells
+        ligne = cell.Row
+        valeurBJ = LCase(Trim(Cells(ligne, "BJ").Text))
+
+        ' Si la cellule BJ ne contient pas "total", alors supprimer la ligne
+        If Not valeurBJ Like "*total*" Then
+            Rows(ligne).Delete
+        End If
+    Next cell
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+
+
+Sheets("tableaux").Range("F33").Formula = "='FICHE R3'!AS2"
+Sheets("tableaux").Range("F34").Formula = "='FICHE R3'!AU2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+Sub NOTE13_SupprLigne_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+ Sheets("tableaux").Range("F72").Formula = "='NOTE 13'!AS2"
+
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+Dim cell As Range
+    Dim ligne As Long
+    Dim valeurBJ As String
+
+    For Each cell In Selection.Cells
+        ligne = cell.Row
+        valeurBJ = LCase(Trim(Cells(ligne, "BJ").Text))
+
+        ' Si la cellule BJ ne contient pas "total", alors supprimer la ligne
+        If Not valeurBJ Like "*total*" Then
+            Rows(ligne).Delete
+        End If
+    Next cell
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+
+
+Sheets("tableaux").Range("F72").Formula = "='NOTE 13'!AS2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+Sub FICHER2_SupprLigne_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+Sheets("tableaux").Range("F30").Formula = "='FICHE R2'!AS2"
+
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+Dim cell As Range
+    Dim ligne As Long
+    Dim valeurBJ As String
+
+    For Each cell In Selection.Cells
+        ligne = cell.Row
+        valeurBJ = LCase(Trim(Cells(ligne, "BJ").Text))
+
+        ' Si la cellule BJ ne contient pas "total", alors supprimer la ligne
+        If Not valeurBJ Like "*total*" Then
+            Rows(ligne).Delete
+        End If
+    Next cell
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+
+
+Sheets("tableaux").Range("F30").Formula = "='FICHE R2'!AS2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+Sub SUPPL4_SupprLigne_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+Sheets("tableaux").Range("F130").Formula = "='SUPPL4'!AV2"
+
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+Dim cell As Range
+    Dim ligne As Long
+    Dim valeurBJ As String
+
+    For Each cell In Selection.Cells
+        ligne = cell.Row
+        valeurBJ = LCase(Trim(Cells(ligne, "BJ").Text))
+
+        ' Si la cellule BJ ne contient pas "total", alors supprimer la ligne
+        If Not valeurBJ Like "*total*" Then
+            Rows(ligne).Delete
+        End If
+    Next cell
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+
+
+Sheets("tableaux").Range("F130").Formula = "='SUPPL4'!AV2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module4.bas =====
+
+Sub Bouton37_Cliquer()
+Attribute Bouton37_Cliquer.VB_ProcData.VB_Invoke_Func = " \n14"
+Application.ScreenUpdating = False
+Application.Calculation = xlCalculationManual
+'
+' Bouton37_Cliquer Macro
+'
+
+'
+    Sheets("NOTE 38").Select
+    ActiveCell.FormulaR1C1 = "=R[-6]C[11]"
+    Range("C9").Select
+    Sheets("INFORMATIONS GENERALES").Select
+    Range("P9:S9").Select
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module40.bas =====
+Sub NOTE3E_SupprLigne_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+ Sheets("tableaux").Range("F49").Formula = "='NOTE 3E'!AS2"
+
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+Dim cell As Range
+    Dim ligne As Long
+    Dim valeurBJ As String
+
+    For Each cell In Selection.Cells
+        ligne = cell.Row
+        valeurBJ = LCase(Trim(Cells(ligne, "BJ").Text))
+
+        ' Si la cellule BJ ne contient pas "total", alors supprimer la ligne
+        If Not valeurBJ Like "*total*" Then
+            Rows(ligne).Delete
+        End If
+    Next cell
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+
+
+Sheets("tableaux").Range("F49").Formula = "='NOTE 3E'!AS2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module41.bas =====
+Sub NOTE4_SupprLigne_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+ Sheets("tableaux").Range("F52").Formula = "='NOTE 4'!AS2"
+
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+Dim cell As Range
+    Dim ligne As Long
+    Dim valeurBJ As String
+
+    For Each cell In Selection.Cells
+        ligne = cell.Row
+        valeurBJ = LCase(Trim(Cells(ligne, "BJ").Text))
+
+        ' Si la cellule BJ ne contient pas "total", alors supprimer la ligne
+        If Not valeurBJ Like "*total*" Then
+            Rows(ligne).Delete
+        End If
+    Next cell
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+
+
+Sheets("tableaux").Range("F52").Formula = "='NOTE 4'!AS2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+Sub NOTE12A_SupprLigne_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+ Sheets("tableaux").Range("F67").Formula = "='NOTE 12'!AS2"
+ Sheets("tableaux").Range("F68").Formula = "='NOTE 12'!AU2"
+ Sheets("tableaux").Range("F69").Formula = "='NOTE 12'!AW2"
+ Sheets("tableaux").Range("F70").Formula = "='NOTE 12'!AY2"
+
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+Dim cell As Range
+    Dim ligne As Long
+    Dim valeurBJ As String
+
+    For Each cell In Selection.Cells
+        ligne = cell.Row
+        valeurBJ = LCase(Trim(Cells(ligne, "BJ").Text))
+
+        ' Si la cellule BJ ne contient pas "total", alors supprimer la ligne
+        If Not valeurBJ Like "*total*" Then
+            Rows(ligne).Delete
+        End If
+    Next cell
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+
+
+ Sheets("tableaux").Range("F67").Formula = "='NOTE 12'!AS2"
+ Sheets("tableaux").Range("F68").Formula = "='NOTE 12'!AU2"
+ Sheets("tableaux").Range("F69").Formula = "='NOTE 12'!AW2"
+ Sheets("tableaux").Range("F70").Formula = "='NOTE 12'!AY2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+Sub NOTE12B_SupprLigne_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+ Sheets("tableaux").Range("F68").Formula = "='NOTE 12'!AU2"
+If Cells(ActiveCell.Row, "BJ").value Like "*TOTAL*" Then Exit Sub
+If Cells(ActiveCell.Row, "BJ").value Like "*Total*" Then Exit Sub
+If Cells(ActiveCell.Row, "BJ").value Like "*total*" Then Exit Sub
+Call Suppression_Ligne
+Sheets("tableaux").Range("F68").Formula = "='NOTE 12'!AU2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+Sub NOTE12C_SupprLigne_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+ Sheets("tableaux").Range("F69").Formula = "='NOTE 12'!AW2"
+If Cells(ActiveCell.Row, "BJ").value Like "*TOTAL*" Then Exit Sub
+If Cells(ActiveCell.Row, "BJ").value Like "*Total*" Then Exit Sub
+If Cells(ActiveCell.Row, "BJ").value Like "*total*" Then Exit Sub
+Call Suppression_Ligne
+Sheets("tableaux").Range("F69").Formula = "='NOTE 12'!AW2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+Sub NOTE12D_SupprLigne_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+ Sheets("tableaux").Range("F70").Formula = "='NOTE 12'!AY2"
+If Cells(ActiveCell.Row, "BJ").value Like "*TOTAL*" Then Exit Sub
+If Cells(ActiveCell.Row, "BJ").value Like "*Total*" Then Exit Sub
+If Cells(ActiveCell.Row, "BJ").value Like "*total*" Then Exit Sub
+Call Suppression_Ligne
+Sheets("tableaux").Range("F70").Formula = "='NOTE 12'!AY2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+
+-------------------------------------------------------------------------------
+
+
+===== Module42.bas =====
+Sub NOTE116C_SupprLigne_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+ Sheets("tableaux").Range("F84").Formula = "='NOTE 16C'!AS2"
+ Sheets("tableaux").Range("F85").Formula = "='NOTE 16C'!AU2"
+
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+Dim cell As Range
+    Dim ligne As Long
+    Dim valeurBJ As String
+
+    For Each cell In Selection.Cells
+        ligne = cell.Row
+        valeurBJ = LCase(Trim(Cells(ligne, "BJ").Text))
+
+        ' Si la cellule BJ ne contient pas "total", alors supprimer la ligne
+        If Not valeurBJ Like "*total*" Then
+            Rows(ligne).Delete
+        End If
+    Next cell
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+
+
+Sheets("tableaux").Range("F84").Formula = "='NOTE 16C'!AS2"
+ Sheets("tableaux").Range("F85").Formula = "='NOTE 16C'!AU2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module43.bas =====
+Sub NOTE30_SupprLigne_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+Sheets("tableaux").Range("F105").Formula = "='NOTE 30'!AS2"
+Sheets("tableaux").Range("F106").Formula = "='NOTE 30'!AU2"
+
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+Dim cell As Range
+    Dim ligne As Long
+    Dim valeurBJ As String
+
+    For Each cell In Selection.Cells
+        ligne = cell.Row
+        valeurBJ = LCase(Trim(Cells(ligne, "BJ").Text))
+
+        ' Si la cellule BJ ne contient pas "total", alors supprimer la ligne
+        If Not valeurBJ Like "*total*" Then
+            Rows(ligne).Delete
+        End If
+    Next cell
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+
+
+Sheets("tableaux").Range("F105").Formula = "='NOTE 30'!AS2"
+Sheets("tableaux").Range("F106").Formula = "='NOTE 30'!AU2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module44.bas =====
+Sub NOTE32_SupprLigne_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+Sheets("tableaux").Range("F108").Formula = "='NOTE 32'!AS2"
+
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+Dim cell As Range
+    Dim ligne As Long
+    Dim valeurBJ As String
+
+    For Each cell In Selection.Cells
+        ligne = cell.Row
+        valeurBJ = LCase(Trim(Cells(ligne, "BJ").Text))
+
+        ' Si la cellule BJ ne contient pas "total", alors supprimer la ligne
+        If Not valeurBJ Like "*total*" Then
+            Rows(ligne).Delete
+        End If
+    Next cell
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+
+
+Sheets("tableaux").Range("F108").Formula = "='NOTE 32'!AS2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module45.bas =====
+Sub NOTE33_SupprLigne_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+Sheets("tableaux").Range("F110").Formula = "='NOTE 33'!AS2"
+
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+Dim cell As Range
+    Dim ligne As Long
+    Dim valeurBJ As String
+
+    For Each cell In Selection.Cells
+        ligne = cell.Row
+        valeurBJ = LCase(Trim(Cells(ligne, "BJ").Text))
+
+        ' Si la cellule BJ ne contient pas "total", alors supprimer la ligne
+        If Not valeurBJ Like "*total*" Then
+            Rows(ligne).Delete
+        End If
+    Next cell
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+
+
+Sheets("tableaux").Range("F110").Formula = "='NOTE 33'!AS2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+Sub SUPPL2_SupprLigne_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+Dim cell As Range
+    Dim ligne As Long
+    Dim valeurBJ As String
+
+    For Each cell In Selection.Cells
+        ligne = cell.Row
+        valeurBJ = LCase(Trim(Cells(ligne, "BJ").Text))
+
+        ' Si la cellule BJ ne contient pas "total", alors supprimer la ligne
+        If Not valeurBJ Like "*total*" Then
+            Rows(ligne).Delete
+        End If
+    Next cell
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+
+Sheets("tableaux").Range("F127").Formula = "='SUPPL2'!AS2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+Sub SUPPL7_SupprLigne_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+Sheets("tableaux").Range("F134").Formula = "='SUPPL7'!AS2"
+Sheets("tableaux").Range("F135").Formula = "='SUPPL7'!AU2"
+
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+Dim cell As Range
+    Dim ligne As Long
+    Dim valeurBJ As String
+
+    For Each cell In Selection.Cells
+        ligne = cell.Row
+        valeurBJ = LCase(Trim(Cells(ligne, "BJ").Text))
+
+        ' Si la cellule BJ ne contient pas "total", alors supprimer la ligne
+        If Not valeurBJ Like "*total*" Then
+            Rows(ligne).Delete
+        End If
+    Next cell
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+
+Sheets("tableaux").Range("F134").Formula = "='SUPPL7'!AS2"
+Sheets("tableaux").Range("F135").Formula = "='SUPPL7'!AU2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module46.bas =====
+Sub NOTE21_SupprLigne_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+Sheets("tableaux").Range("F91").Formula = "='NOTE 21'!AS2"
+
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+Dim cell As Range
+    Dim ligne As Long
+    Dim valeurBJ As String
+
+    For Each cell In Selection.Cells
+        ligne = cell.Row
+        valeurBJ = LCase(Trim(Cells(ligne, "BJ").Text))
+
+        ' Si la cellule BJ ne contient pas "total", alors supprimer la ligne
+        If Not valeurBJ Like "*total*" Then
+            Rows(ligne).Delete
+        End If
+    Next cell
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+
+
+Sheets("tableaux").Range("F91").Formula = "='NOTE 21'!AS2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module48.bas =====
+Sub ImorterGrandLivre_Cliquer()
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+    Dim cheminFichier As Variant
+    Dim requete As WorkbookQuery
+    Dim nouvelleSource As String
+    Dim reponse As VbMsgBoxResult
+    
+    ' 1. Sélection du fichier
+    cheminFichier = Application.GetOpenFilename( _
+        FileFilter:="Fichiers Texte/CSV (*.txt;*.csv), *.txt;*.csv", _
+        Title:="Choisir le fichier Grand Livre")
+    
+    If cheminFichier = False Then Exit Sub
+    
+    reponse = MsgBox("Importer depuis :" & vbCrLf & cheminFichier, vbOKCancel + vbQuestion)
+    If reponse = vbCancel Then Exit Sub
+    
+    On Error Resume Next
+    Set requete = ThisWorkbook.Queries("GrandLivreN")
+    On Error GoTo 0
+    
+    If requete Is Nothing Then
+        MsgBox "Requête 'GrandLivreN' introuvable.", vbCritical
+        Exit Sub
+    End If
+    
+    ' --- CONSTRUCTION DU CODE POWER QUERY ---
+    nouvelleSource = ""
+    nouvelleSource = nouvelleSource & "let" & vbCrLf
+    nouvelleSource = nouvelleSource & "    Source = Csv.Document(File.Contents(""" & cheminFichier & """),[Delimiter=""#(tab)"", Columns=9, Encoding=1252, QuoteStyle=QuoteStyle.None])," & vbCrLf
+    
+    ' 1. On garde la Column2 en TEXTE pour l'instant (pour ne pas perdre le 0 du début : 010126)
+    nouvelleSource = nouvelleSource & "    #""Type modifié"" = Table.TransformColumnTypes(Source,{" & vbCrLf
+    nouvelleSource = nouvelleSource & "        {""Column1"", Int64.Type}, " & vbCrLf
+    nouvelleSource = nouvelleSource & "        {""Column2"", type text}, " & vbCrLf
+    nouvelleSource = nouvelleSource & "        {""Column3"", type text}, " & vbCrLf
+    nouvelleSource = nouvelleSource & "        {""Column4"", Int64.Type}, " & vbCrLf
+    nouvelleSource = nouvelleSource & "        {""Column5"", type text}, " & vbCrLf
+    nouvelleSource = nouvelleSource & "        {""Column6"", type text}, " & vbCrLf
+    nouvelleSource = nouvelleSource & "        {""Column7"", type number}, " & vbCrLf
+    nouvelleSource = nouvelleSource & "        {""Column8"", type number}, " & vbCrLf
+    nouvelleSource = nouvelleSource & "        {""Column9"", Int64.Type}}, ""fr-FR"")," & vbCrLf
+    
+    ' --- AJOUT DU TRAITEMENT DE LA DATE ICI ---
+    ' On transforme "010126" en vraie Date. Format=""ddMMyy"" indique JourMoisAnnée sur 2 chiffres.
+    nouvelleSource = nouvelleSource & "    #""TransformationDate"" = Table.TransformColumns(#""Type modifié"",{{""Column2"", each Date.FromText(_, [Format=""ddMMyy""]), type date}})," & vbCrLf
+    
+    ' Note : J'ai changé la source de l'étape suivante pour utiliser #""TransformationDate"" au lieu de #""Type modifié""
+    nouvelleSource = nouvelleSource & "    #""Colonnes supprimées"" = Table.RemoveColumns(#""TransformationDate"", {""Column3"", ""Column4"", ""Column6"", ""Column9""})," & vbCrLf
+    
+    ' Renommage
+    nouvelleSource = nouvelleSource & "    #""Colonnes renommées"" = Table.RenameColumns(#""Colonnes supprimées"", { " & vbCrLf
+    nouvelleSource = nouvelleSource & "        {""Column1"", ""N° CPTE""}," & vbCrLf
+    nouvelleSource = nouvelleSource & "        {""Column2"", ""DATE""}," & vbCrLf
+    nouvelleSource = nouvelleSource & "        {""Column5"", ""LIBELLES""}," & vbCrLf
+    nouvelleSource = nouvelleSource & "        {""Column7"", ""Md_GL""}," & vbCrLf
+    nouvelleSource = nouvelleSource & "        {""Column8"", ""Mc_GL""}" & vbCrLf
+    nouvelleSource = nouvelleSource & "    })" & vbCrLf
+    
+    nouvelleSource = nouvelleSource & "in" & vbCrLf
+    nouvelleSource = nouvelleSource & "    #""Colonnes renommées"""
+    
+    ' Mise à jour et rafraîchissement
+    requete.Formula = nouvelleSource
+   
+    Application.DisplayAlerts = False
+    ThisWorkbook.Queries("GrandLivreN").Refresh
+    On Error Resume Next
+    ThisWorkbook.Queries("TraitementGrandLivre").Refresh
+    On Error GoTo 0
+    Application.DisplayAlerts = True
+    
+    MsgBox "Importation terminée. La colonne DATE est maintenant au format Date.", vbInformation
+      
+End Sub
+
+
+
+-------------------------------------------------------------------------------
+
+
+===== Module49.bas =====
+Sub Sous_Total1_Cliquer()
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+' Masquer les colonnes C, D, E, F, G, H
+    Columns("C:N").Hidden = True
+    
+    ' Afficher les colonnes I et J
+    Columns("L:N").Hidden = False
+    
+     Dim derLigne As Long
+
+    ' 1. Trouve la dernière ligne utilisée dans la colonne P
+    derLigne = ActiveSheet.Range("P" & Rows.count).End(xlUp).Row
+
+    ' 2. Vérifie qu'il y a des données (au moins jusqu'à la ligne 6)
+    If derLigne >= 6 Then
+        ' 3. Applique le filtre de P6 jusqu'à la dernière ligne (Colonne Q = Field 2)
+        ActiveSheet.Range("P6:AJ" & derLigne).AutoFilter Field:=2, _
+            Criteria1:="1", Operator:=xlOr, Criteria2:="="
+    End If
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+End Sub
+Sub Sous_Total2_Cliquer()
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+' 1. Masquer les colonnes C à F et I à J en une seule ligne
+    Range("C:N").EntireColumn.Hidden = True
+    
+    ' 2. Afficher les colonnes G et H
+    Columns("I:K").Hidden = False
+    
+      Dim derLigne As Long
+
+    ' 1. Trouve la dernière ligne utilisée dans la colonne P
+    derLigne = ActiveSheet.Range("P" & Rows.count).End(xlUp).Row
+
+    ' 2. Vérifie qu'il y a des données (au moins jusqu'à la ligne 6)
+    If derLigne >= 6 Then
+        ' 3. Applique le filtre de P6 jusqu'à la dernière ligne (Colonne Q = Field 2)
+        ActiveSheet.Range("P6:AJ" & derLigne).AutoFilter Field:=2, _
+            Criteria1:="1", Operator:=xlOr, Criteria2:="="
+    End If
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+End Sub
+Sub Sous_Total3_Cliquer()
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+    ' 1. Masquer les groupes C:D et G:J
+    Range("C:N").EntireColumn.Hidden = True
+    
+    ' 2. Afficher les colonnes E et F
+    Columns("F:H").Hidden = False
+    
+   Dim derLigne As Long
+
+    ' 1. Trouve la dernière ligne utilisée dans la colonne P
+    derLigne = ActiveSheet.Range("P" & Rows.count).End(xlUp).Row
+
+    ' 2. Vérifie qu'il y a des données (au moins jusqu'à la ligne 6)
+    If derLigne >= 6 Then
+        ' 3. Applique le filtre de P6 jusqu'à la dernière ligne (Colonne Q = Field 2)
+        ActiveSheet.Range("P6:AJ" & derLigne).AutoFilter Field:=2, _
+            Criteria1:="1", Operator:=xlOr, Criteria2:="="
+    End If
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+End Sub
+Sub Total_Général_Cliquer()
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+' 1. Masquer les colonnes de E à J
+    Columns("C:N").Hidden = True
+    
+    ' 2. Afficher les colonnes C et D
+    Columns("C:E").Hidden = False
+    
+     Dim derLigne As Long
+
+    ' 1. Trouve la dernière ligne utilisée dans la colonne P
+    derLigne = ActiveSheet.Range("P" & Rows.count).End(xlUp).Row
+
+    ' 2. Vérifie qu'il y a des données (au moins jusqu'à la ligne 6)
+    If derLigne >= 6 Then
+        ' 3. Applique le filtre de P6 jusqu'à la dernière ligne (Colonne Q = Field 2)
+        ActiveSheet.Range("P6:AJ" & derLigne).AutoFilter Field:=2, _
+            Criteria1:="1", Operator:=xlOr, Criteria2:="="
+    End If
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+End Sub
+Sub MasquerAjouts_Cliquer()
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+Columns("C:N").Hidden = True
+
+ Dim derLigne As Long
+
+    ' 1. Trouve la dernière ligne utilisée dans la colonne P
+    derLigne = ActiveSheet.Range("P" & Rows.count).End(xlUp).Row
+
+    ' 2. Vérifie qu'il y a des données (au moins jusqu'à la ligne 6)
+    If derLigne >= 6 Then
+        ' 3. Applique le filtre de P6 jusqu'à la dernière ligne (Colonne Q = Field 2)
+        ActiveSheet.Range("P6:AJ" & derLigne).AutoFilter Field:=2, _
+            Criteria1:="1", Operator:=xlOr, Criteria2:="="
+    End If
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module5.bas =====
+Sub VidreDétails_Cliquer()
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+Range("J40:J43").value = ""
+Range("J47:J79").value = ""
+Range("J83:J124").value = ""
+Range("J128:J158").value = ""
+Range("J162:J165").value = ""
+Range("L40:L43").value = ""
+Range("L47:L79").value = ""
+Range("L83:L124").value = ""
+Range("L128:L158").value = ""
+Range("L162:L165").value = ""
+ActiveSheet.Protect Password:="Menz12011956MSG"
+End Sub
+Sub VidrePostes_Cliquer()
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+Range("E17:F17").value = "Calcule automatique"
+Range("I10:J15").value = "Calcule automatique"
+Range("I18:J32").value = "Calcule automatique"
+ActiveSheet.Protect Password:="Menz12011956MSG"
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module51.bas =====
+Sub Configurations_Cliquer()
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+
+Columns("C:N").Hidden = False
+
+' En ne mettant pas de Criteria, cela efface le filtre sur cette colonne
+    ActiveSheet.Range("$P$6:$AJ$601").AutoFilter Field:=2
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+
+End Sub
+Sub Configuration2_Cliquer()
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+
+Columns("AK:AN").Hidden = False
+
+' En ne mettant aucun critère (Criteria1, etc.), Excel efface le filtre de cette colonne
+    ActiveSheet.Range("$P$6:$AM$601").AutoFilter Field:=2
+
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+
+End Sub
+Sub FermerConfigurations2_Cliquer()
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+
+Columns("AK:AN").Hidden = True
+
+ActiveSheet.Range("$P$6:$AM$601").AutoFilter Field:=2, Criteria1:="=1", _
+        Operator:=xlOr, Criteria2:="="
+        
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+
+End Sub
+
+Sub CompteDexploitation_Cliquer()
+Application.Calculation = xlCalculationManual
+ActiveSheet.Unprotect "Menz12011956MSG"
+
+Range("C:HY").EntireColumn.Hidden = True
+Range("FV:GB,HO:IB").EntireColumn.Hidden = False
+
+With ActiveSheet 'Nom feuille à adapter
+.EnableAutoFilter = True
+On Error Resume Next
+If .AutoFilterMode Then
+.ShowAllData
+End If
+End With
+
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+Application.Calculation = xlCalculationAutomatic
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module53.bas =====
+Sub ActualiserCE_Cliquer()
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+Columns("C:N").Hidden = True
+
+ Dim derLigne As Long
+
+    ' 1. Trouve la dernière ligne utilisée dans la colonne P
+    derLigne = ActiveSheet.Range("P" & Rows.count).End(xlUp).Row
+
+    ' 2. Vérifie qu'il y a des données (au moins jusqu'à la ligne 6)
+    If derLigne >= 6 Then
+        ' 3. Applique le filtre de P6 jusqu'à la dernière ligne (Colonne Q = Field 2)
+        ActiveSheet.Range("P6:AJ" & derLigne).AutoFilter Field:=2, _
+            Criteria1:="1", Operator:=xlOr, Criteria2:="="
+    End If
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+End Sub
+Sub ActualiserPT_Cliquer()
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+Columns("C:N").Hidden = True
+
+ Dim derLigne As Long
+
+    ' 1. Trouve la dernière ligne utilisée dans la colonne P
+    derLigne = ActiveSheet.Range("P" & Rows.count).End(xlUp).Row
+
+    ' 2. Vérifie qu'il y a des données (au moins jusqu'à la ligne 6)
+    If derLigne >= 6 Then
+        ' 3. Applique le filtre de P6 jusqu'à la dernière ligne (Colonne Q = Field 2)
+        ActiveSheet.Range("P6:AJ" & derLigne).AutoFilter Field:=2, _
+            Criteria1:="1", Operator:=xlOr, Criteria2:="="
+    End If
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module6.bas =====
+Sub LignuesAuto_Cliquer()
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+
+Rows("10:10").RowHeight = 12
+Range("H10").value = 0
+Range("I10").value = 0
+
+Range("S10").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=+RC[41]"
+
+Range("H10").Locked = False
+Range("I10").Locked = False
+
+Rows("10:10").RowHeight = 0
+
+ActiveSheet.Shapes.Range(Array("LignesManuelles")).Select
+Selection.ShapeRange.ZOrder msoBringToFront
+Columns("Q").EntireColumn.Hidden = True
+Range("S11").Select
+
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+End Sub
+Sub LignesManuelles_Cliquer()
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+
+Range("H10").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=+RC[49]"
+Range("I10").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=+RC[49]"
+    
+Range("S10").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=+RC[40]"
+
+
+Range("H10").Locked = True
+Range("I10").Locked = True
+
+Rows("10:10").RowHeight = 0
+
+ActiveSheet.Shapes.Range(Array("LignesManuelles")).Select
+Selection.ShapeRange.ZOrder msoSendToBack
+Columns("Q").EntireColumn.Hidden = False
+Range("S11").Select
+
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+End Sub
+
+-------------------------------------------------------------------------------
+
+
+===== Module7.bas =====
+Sub RéduireCodeActivité_Cliquer()
+Application.Calculation = xlCalculationManual
+ActiveSheet.Unprotect "Menz12011956MSG"
+
+
+Rows("24:36").Hidden = True
+Rows("7:23").Hidden = False
+Rows("37:110").Hidden = False
+
+Rows("76").Hidden = True
+Rows("78:87").Hidden = True
+Rows("75").Hidden = False
+Range("C23").Select
+
+ActiveSheet.Protect "Menz12011956MSG"
+Application.Calculation = xlCalculationAutomatic
+End Sub
+Sub DétailCodeActivité_Cliquer()
+Application.Calculation = xlCalculationManual
+ActiveSheet.Unprotect "Menz12011956MSG"
+
+
+Rows("24:36").Hidden = False
+Rows("7:23").Hidden = True
+Rows("37:109").Hidden = True
+Range("C25").Select
+
+ActiveSheet.Protect "Menz12011956MSG"
+Application.Calculation = xlCalculationAutomatic
+End Sub
+Sub RédureBanque_Cliquer()
+Application.Calculation = xlCalculationManual
+ActiveSheet.Unprotect "Menz12011956MSG"
+
+
+Rows("76").Hidden = True
+Rows("78:87").Hidden = True
+Rows("75").Hidden = False
+Range("C75").Select
+
+ActiveSheet.Protect "Menz12011956MSG"
+Application.Calculation = xlCalculationAutomatic
+End Sub
+Sub DétailBanque_Cliquer()
+Application.Calculation = xlCalculationManual
+ActiveSheet.Unprotect "Menz12011956MSG"
+
+
+Rows("76").Hidden = False
+Rows("78:87").Hidden = False
+Rows("75").Hidden = True
+Range("C76").Select
+
+ActiveSheet.Protect "Menz12011956MSG"
+Application.Calculation = xlCalculationAutomatic
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module8.bas =====
+Sub Ellipse2_Cliquer()
+Attribute Ellipse2_Cliquer.VB_ProcData.VB_Invoke_Func = " \n14"
+'
+' Ellipse2_Cliquer Macro
+'
+
+'
+    Range("Z33").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=RC[6]"
+    Range("Z34").Select
+    Application.CutCopyMode = False
+    ActiveCell.FormulaR1C1 = "=RC[6]"
+    Range("AF35").Select
+    ActiveSheet.Shapes.Range(Array("Oval 2")).Select
+    Selection.Delete
+    Range("AF32").Select
+    ActiveWorkbook.Save
+    Range("Z33").Select
+    ActiveCell.FormulaR1C1 = "90000000"
+    Range("Z34").Select
+    ActiveCell.FormulaR1C1 = "40000000"
+    Range("AF35").Select
+    ActiveSheet.Shapes.AddShape(msoShapeSnip2DiagRectangle, 1196.25, 507.187480315 _
+        , 30, 18.75).Select
+    Selection.Delete
+    Range("AF33").Select
+    ActiveWindow.ScrollColumn = 13
+    ActiveWindow.ScrollColumn = 14
+    ActiveWindow.ScrollColumn = 15
+    ActiveWindow.ScrollColumn = 16
+    ActiveWindow.ScrollColumn = 17
+    ActiveWindow.ScrollColumn = 18
+    ActiveWindow.ScrollColumn = 19
+    ActiveWindow.ScrollColumn = 20
+    ActiveWindow.ScrollColumn = 21
+    ActiveWindow.ScrollColumn = 22
+    ActiveWindow.ScrollColumn = 23
+    ActiveWindow.ScrollColumn = 24
+    ActiveWindow.ScrollColumn = 25
+    ActiveWindow.ScrollColumn = 27
+    ActiveWindow.ScrollColumn = 28
+    ActiveWindow.ScrollColumn = 27
+    ActiveWindow.ScrollColumn = 26
+    ActiveWindow.ScrollColumn = 24
+    ActiveWindow.ScrollColumn = 25
+    Range("Z38").Select
+    ActiveWindow.ScrollColumn = 24
+    Range("Z40").Select
+    ActiveWindow.SmallScroll Down:=3
+    Range("Z44").Select
+    ActiveWindow.SmallScroll Down:=-9
+    Range("AF33").Select
+    ActiveWindow.SmallScroll Down:=3
+    Range("AF46").Select
+    ActiveWindow.SmallScroll Down:=-3
+    Range("Z34").Select
+    ActiveWindow.SmallScroll ToRight:=-9
+    ActiveWindow.SmallScroll Down:=-27
+    ActiveWindow.ScrollColumn = 14
+    ActiveWindow.ScrollColumn = 13
+    ActiveWindow.ScrollColumn = 12
+    ActiveWindow.ScrollColumn = 11
+    ActiveWindow.ScrollColumn = 10
+    ActiveWindow.ScrollColumn = 9
+    ActiveWindow.ScrollColumn = 8
+    ActiveWindow.ScrollColumn = 7
+    ActiveWindow.ScrollColumn = 6
+    ActiveWindow.ScrollColumn = 5
+    ActiveWindow.ScrollColumn = 4
+    ActiveWindow.ScrollColumn = 3
+    ActiveWindow.ScrollColumn = 2
+    ActiveWindow.ScrollColumn = 1
+    Range("B12").Select
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module9.bas =====
+Sub Image10_Cliquer()
+With ActiveWorkbook
+.Unprotect "Menz12011956MSG"
+Sheets("Plan Comptable").Visible = True
+Sheets("Plan Comptable").Select
+Range("D1").Select
+.Protect "Menz12011956MSG"
+ End With
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Module_teleliasse_3.bas =====
+'
+'Auteur : Justine Ventalon - IKA Conseil
+'Contact : justine.ventalon@ikaconseil.com
+'Version 1.3 du 15/01/2019
+'   Détail versions :
+'                   1.0 : première version
+'                   1.1 : ajout du référentiel des pays + correction de libellés
+'                   1.2 : changement du nom du fichier XML exporté
+'                   1.3 : changement du mot de passe et des noms des modules
+'
+'Module d'aide à la préparation du mapping pour l'export de l'EDI XML
+'Macros permettant d'obtenir les cellules correspondant à la position des champs et colonnes définie dans le mapping
+'
+
+Public Sub GenererMappingFixe()
+    
+    Dim codeTableau, codeChamp, positionLigne, positionColonne, onglet As String
+    
+    'Parcours des champs
+    For Each celluleCodeTableau In Sheets("champs fixes").ListObjects("ListeChampsTableauxFixes").ListColumns(1).DataBodyRange
+    
+        codeTableau = Trim(celluleCodeTableau.Text)
+        codeChamp = Trim(celluleCodeTableau.Offset(0, 4).Text)
+        positionLigne = Trim(celluleCodeTableau.Offset(0, 5).Text)
+        positionColonne = Trim(celluleCodeTableau.Offset(0, 6).Text)
+        
+        'Recherche des informations du tableau
+        Set tableau = Sheets("tableaux").ListObjects("ListeTableaux").DataBodyRange.Columns(1).Find(codeTableau, LookAt:=xlWhole)
+        onglet = Trim(tableau.Offset(0, 3).Text)
+        Set premiereCellule = Sheets(onglet).Range(Trim(tableau.Offset(0, 4).Text))
+        
+        'Remplissage du mapping
+        Set cellule = Sheets(onglet).Cells(premiereCellule.Row + positionLigne - 1, premiereCellule.Column + positionColonne - 1)
+        celluleCodeTableau.Offset(0, 7) = cellule.Address(RowAbsolute:=False, ColumnAbsolute:=False) 'Cellule
+        celluleCodeTableau.Offset(0, 8) = Trim(cellule.Text) 'Valeur
+
+    Next celluleCodeTableau
+
+End Sub
+
+Public Sub GenererMappingVariable()
+
+    Dim codeTableau, codeColonne, positionColonne, onglet As String
+    
+    'Parcours des champs
+    For Each celluleCodeTableau In Sheets("champs variables").ListObjects("ListeColonnesTableauxVariables").ListColumns(1).DataBodyRange
+    
+        codeTableau = Trim(celluleCodeTableau.Text)
+        codeColonne = Trim(celluleCodeTableau.Offset(0, 2).Text)
+        positionColonne = Trim(celluleCodeTableau.Offset(0, 3).Text)
+        
+        'Recherche des informations du tableau
+        Set tableau = Sheets("tableaux").ListObjects("ListeTableaux").DataBodyRange.Columns(1).Find(codeTableau, LookAt:=xlWhole)
+        onglet = Trim(tableau.Offset(0, 3).Text)
+        Set premiereCellule = Sheets(onglet).Range(Trim(tableau.Offset(0, 4).Text))
+        
+        'Remplissage du mapping
+        Set cellule = Sheets(onglet).Cells(premiereCellule.Row, premiereCellule.Column + positionColonne - 1)
+        celluleCodeTableau.Offset(0, 4) = cellule.Address(RowAbsolute:=False, ColumnAbsolute:=False) 'Cellule
+
+    Next celluleCodeTableau
+    
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== NBpages.bas =====
+Sub NBpages()
+Dim NbFeuil As Long, ws As Worksheet
+NbFeuil = 0
+For Each ws In Worksheets
+    If (ws.Name <> "MENU PRINCIPAL" And ws.Name <> "INFORMATIONS GENERALES" And ws.Name <> "BALANCE N" And ws.Name <> "BALANCE N-1" And ws.Name <> "CONTROLE D'EQUILIBRE" And ws.Name <> "Contrôle des reports" And ws.Name <> "CORRECTIF TFT" And ws.Visible = xlSheetVisible) Then ws.Select False
+Next ws
+For Each ws In ActiveWindow.SelectedSheets
+    NbFeuil = NbFeuil + ws.HPageBreaks.count + 1
+Next ws
+Sheets("GARDE").Range("f44").value = NbFeuil - 1
+MsgBox NbFeuil
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== OuvrirForm.bas =====
+Sub Parcheminvertical1_Cliquer()
+UserForm1.Show
+End Sub
+Sub Parcheminvertical2_Cliquer()
+UserForm2.Show
+End Sub
+Sub Parcheminvertical3_Cliquer()
+UserForm3.Show
+End Sub
+Sub Parcheminvertical4_Cliquer()
+UserForm4.Show
+End Sub
+Sub Parcheminvertical5_Cliquer()
+UserForm5.Show
+End Sub
+Sub Parcheminvertical6_Cliquer()
+UserForm6.Show
+End Sub
+Sub Parcheminvertical7_Cliquer()
+UserForm7.Show
+End Sub
+Sub Parcheminvertical8_Cliquer()
+UserForm8.Show
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Recadrage.bas =====
+Sub Recadrer()
+With Worksheets("NOTE36 Suite (Nomenclature)") 'Nom feuille à adapter
+.Unprotect "Menz12011956MSG"
+.EnableAutoFilter = True
+.Protect "Menz12011956MSG", True, True, True, True, True
+Sheets("NOTE36 Suite (Nomenclature)").Range("$o$11:$o$239").AutoFilter Field:=1, Criteria1:="1"
+End With
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== RemplacerLogo.bas =====
+Sub Remplacer_Logo()
+Dim wsAcc As Worksheet, wsCouv As Worksheet
+    Dim Emplacement As Range
+    Dim nouvImg As Shape
+    Dim mdp As String
+    Dim Fd As FileDialog
+    Dim CheminImage As String
+    Dim RatioImage As Double, RatioCellule As Double
+    
+    ' Configuration
+    mdp = "Menz12011956MSG"
+    Set wsAcc = ThisWorkbook.Sheets("ACCUEIL")
+    Set wsCouv = ThisWorkbook.Sheets("COUVERTURE")
+    
+    On Error GoTo ErrorHandler
+    
+    ' Optimisation de l'affichage
+    Application.ScreenUpdating = False
+    Application.Calculation = xlCalculationManual
+    
+    ' Déprotection des feuilles
+    wsAcc.Unprotect mdp
+    wsCouv.Unprotect mdp
+    
+    ' --- PARTIE 1 : Choix du fichier (Explorateur Windows) ---
+    Set Fd = Application.FileDialog(msoFileDialogFilePicker)
+    With Fd
+        .Title = "Sélectionnez votre logo"
+        .Filters.Clear
+        .Filters.Add "Images", "*.jpg; *.jpeg; *.png; *.bmp; *.gif"
+        .AllowMultiSelect = False
+        
+        If .Show = -1 Then
+            CheminImage = .SelectedItems(1)
+        Else
+            MsgBox "Aucune image sélectionnée.", vbExclamation
+            GoTo Sortie
+        End If
+    End With
+
+    ' --- PARTIE 2 : Insertion sur ACCUEIL (S19 Fusionnée) ---
+    wsAcc.Activate
+    Set Emplacement = wsAcc.Range("S19")
+    
+    ' Supprimer l'ancien logo sur ACCUEIL s'il existe
+    On Error Resume Next
+    wsAcc.Shapes("Logo").Delete
+    On Error GoTo ErrorHandler
+    
+    ' Insertion de l'image
+    Set nouvImg = wsAcc.Shapes.AddPicture( _
+        FileName:=CheminImage, _
+        LinkToFile:=msoFalse, _
+        SaveWithDocument:=msoTrue, _
+        Left:=Emplacement.MergeArea.Left, _
+        Top:=Emplacement.MergeArea.Top, _
+        Width:=-1, Height:=-1) ' Taille réelle temporaire pour récupérer le ratio
+        
+    ' Paramétrage ACCUEIL avec conservation des proportions
+    With nouvImg
+        .Name = "Logo"
+        .LockAspectRatio = msoTrue ' IMPORTANT : On garde les proportions
+        
+        ' --- ALGORITHME POUR FAIRE ENTRER L'IMAGE DANS S19 ---
+        ' On essaie d'abord d'ajuster la largeur à celle de la cellule
+        .Width = Emplacement.MergeArea.Width
+        
+        ' Si en ajustant la largeur, la hauteur dépasse la cellule, alors on ajuste par la hauteur
+        If .Height > Emplacement.MergeArea.Height Then
+            .Height = Emplacement.MergeArea.Height
+        End If
+        
+        ' --- CENTRAGE DE L'IMAGE DANS S19 ---
+        ' Calcul pour centrer horizontalement
+        .Left = Emplacement.MergeArea.Left + ((Emplacement.MergeArea.Width - .Width) / 2)
+        ' Calcul pour centrer verticalement
+        .Top = Emplacement.MergeArea.Top + ((Emplacement.MergeArea.Height - .Height) / 2)
+        
+        .Placement = xlMoveAndSize
+        .OnAction = "Remplacer_Logo"
+    End With
+    
+    ' Gestion du texte et du bouton de suppression
+    wsAcc.Range("S44").value = "Cliquez ici pour supprimer le logo"
+    On Error Resume Next
+    wsAcc.Shapes("SuppressionLogo").Visible = True
+    On Error GoTo ErrorHandler
+    
+    ' --- PARTIE 3 : Insertion sur COUVERTURE (E4) ---
+    wsCouv.Activate
+    Set Emplacement = wsCouv.Range("E4")
+    
+    ' Supprimer l'ancien logo sur COUVERTURE s'il existe
+    On Error Resume Next
+    wsCouv.Shapes("Logo").Delete
+    On Error GoTo ErrorHandler
+    
+    ' Insertion image
+    Set nouvImg = wsCouv.Shapes.AddPicture( _
+        FileName:=CheminImage, _
+        LinkToFile:=msoFalse, _
+        SaveWithDocument:=msoTrue, _
+        Left:=Emplacement.Left, _
+        Top:=Emplacement.Top, _
+        Width:=100, Height:=100) ' Taille fixe temporaire
+        
+    ' Paramétrage COUVERTURE
+    With nouvImg
+        .Name = "Logo"
+        .OnAction = ""
+        
+        ' 1. On remet l'image à sa taille réelle pour partir d'une base saine
+        .ScaleWidth 1, msoTrue
+        .ScaleHeight 1, msoTrue
+        
+        ' 2. On verrouille le ratio
+        .LockAspectRatio = msoTrue ' IMPORTANT : On garde les proportions
+        
+        ' 3. On impose la largeur de 3,4 cm
+        ' La hauteur va s'adapter toute seule grâce au LockAspectRatio
+        .Width = Application.CentimetersToPoints(3.4)
+        
+        ' 4. Ajustement vertical (votre demande initiale)
+        .IncrementTop -13.75
+        
+        ' 5. Ajustement horizontal (AJOUTÉ : 1 mm vers la droite)
+        .IncrementLeft Application.CentimetersToPoints(0.1)
+    End With
+    
+    ' Retour sur ACCUEIL et nettoyage
+    wsAcc.Activate
+    wsAcc.Range("L6").Select
+    wsAcc.Range("S19").MergeArea.ClearContents
+
+Sortie:
+    ' Rétablissement de la protection
+    wsCouv.Protect mdp
+    wsAcc.Protect mdp
+    Application.Calculation = xlCalculationAutomatic
+    Application.ScreenUpdating = True
+    Exit Sub
+
+ErrorHandler:
+    MsgBox "Une erreur est survenue : " & Err.Description, vbCritical
+    Resume Sortie
+End Sub
+
+
+
+-------------------------------------------------------------------------------
+
+
+===== SuppressionLigne.bas =====
+Sub Suppression_Ligne()
+ActiveSheet.Unprotect Password:="Menz12011956MSG"
+Selection.EntireRow.Delete
+ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== SupprimerImage.bas =====
+Sub SupprimerImage_Cliquer()
+For i = 1 To Sheets.count
+Sheets(i).Unprotect Password:="Menz12011956MSG"
+For Each Shape In Sheets(i).Shapes
+If Shape.Name = "Vérrouiller" Or Shape.Name = "Déverrouiller" Then
+Shape.Delete
+End If
+Next Shape
+Next
+End Sub
+-------------------------------------------------------------------------------
+
+
+===== Teleliasse.bas =====
+Sub Teleliasse()
+    Dim Sh As Worksheet
+    Dim Obj As Shape
+    Dim i As Integer
+
+    ' 1. Préparation et Déprotection
+    ThisWorkbook.Save
+    
+    With ActiveWorkbook
+        .Unprotect "Menz12011956MSG"
+        
+        ' 2. Boucle sur toutes les feuilles du classeur
+        For Each Sh In .Worksheets
+            
+            ' Rendre la feuille visible par défaut (ou selon vos critères spécifiques)
+            Sh.Visible = xlSheetVisible
+            
+            ' --- GESTION SPÉCIFIQUE DE LA VISIBILITÉ DES FEUILLES ---
+            ' On utilise Select Case pour plus de clarté que de multiples lignes Sheets().Visible
+            Select Case Sh.Name
+                Case "CODES ACTIVITES", "R4", "Codes R2", "Plan Comptable", "TBFT", _
+                     "export", "champs variables", "champs fixes", "tableaux", "Referentiels"
+                    Sh.Visible = Range("N9").value
+                
+                Case "PLAN DES COMPTES", "BALANCE N", "BALANCE N-1", "TFT DRAFT", _
+                     "COMPTE D'EXPLOITATION REEL", "COMPTE D'EXPLOITATION PREVISION", _
+                     "PLAN DE TRESORERIE REEL", "PLAN DE TRESORERIE PREVISIONNEL", _
+                     "RATIOS DE GESTION", "GRAND-LIVRE N"
+                    Sh.Visible = Range("XX9").value
+                
+                Case "CONTRÔLE D'EQUILIBRE", "BILAN (N-2)", "BILAN DRAFT", _
+                     "RESULTAT DRAFT", "Contrôle des reports"
+                    Sh.Visible = Range("AN9").value
+                
+                Case "TABLES DE CORRESPONDENCE", "TABLES DE CORRESPONDENCE N-2"
+                    Sh.Visible = Range("EX1").value
+                
+                Case "Format Export", "Format Import"
+                    Sh.Visible = Range("A57").value
+                
+                Case "ACCUEIL"
+                    Sh.Visible = Range("AR23").value
+            End Select
+            
+            ' --- GESTION DES OBJETS ET IMAGES ---
+            ' On ne traite les objets que si la feuille est visible
+            If Sh.Visible = xlSheetVisible Then
+                For Each Obj In Sh.Shapes
+                    ' Condition 1 : L'objet doit être visible au départ
+                    ' Condition 2 : Son nom ne doit être ni "Logo" ni "Image"
+                    If Obj.Visible = msoTrue Then
+                        If Obj.Name <> "Logo" And Obj.Name <> "Image" And Obj.Name <> "Rectangle 1" And Obj.Name <> "Flèche" And Obj.Name <> "ZoneTexte" Then
+                            Obj.Visible = msoFalse
+                        End If
+                    End If
+                Next Obj
+            End If
+            
+        Next Sh
+        
+        ' 3. Reprotection du classeur
+        .Protect "Menz12011956MSG"
+    End With
+Sheets("Export XML").Activate
+End Sub
+
+Sub liasseMSG()
+    Dim i As Integer
+    Dim Shp As Shape
+    Dim mdp As String
+    
+    mdp = "Menz12011956MSG"
+    Application.ScreenUpdating = False
+
+    With ActiveWorkbook
+        .Unprotect mdp
+        
+        ' 1. Gestion de la visibilité des feuilles
+        For i = 1 To .Sheets.count
+            .Sheets(i).Visible = xlSheetVisible
+        Next i
+        
+        ' Appliquer les visibilités spécifiques basées sur les cellules
+        ' Note : Assurez-vous que ces cellules contiennent bien True/False ou 0/-1
+        .Sheets("CODES ACTIVITES").Visible = Range("n9").value
+        .Sheets("R4").Visible = Range("n9").value
+        .Sheets("Codes R2").Visible = Range("n9").value
+        .Sheets("Plan Comptable").Visible = Range("n9").value
+        .Sheets("TBFT").Visible = Range("n9").value
+        .Sheets("export").Visible = Range("n9").value
+        .Sheets("champs variables").Visible = Range("n9").value
+        .Sheets("champs fixes").Visible = Range("n9").value
+        .Sheets("tableaux").Visible = Range("n9").value
+        .Sheets("Referentiels").Visible = Range("n9").value
+        .Sheets("Export XML").Visible = Range("n9").value
+        .Sheets("TABLES DE CORRESPONDENCE").Visible = Range("ex1").value
+        .Sheets("TABLES DE CORRESPONDENCE N-2").Visible = Range("ex1").value
+        .Sheets("BILAN (N-2)").Visible = Range("XX9").value
+        .Sheets("BILAN DRAFT").Visible = Range("XX9").value
+        .Sheets("RESULTAT DRAFT").Visible = Range("XX9").value
+        .Sheets("TFT DRAFT").Visible = Range("XX9").value
+        .Sheets("Format Export").Visible = Range("A57").value
+        .Sheets("Format Import").Visible = Range("A57").value
+
+        ' 2. Gestion des objets (Shapes)
+        For i = 1 To .Sheets.count
+            With .Sheets(i)
+                .Unprotect mdp
+                
+                For Each Shp In .Shapes
+                    ' CONDITION : On vérifie le nom de l'objet avant de changer sa visibilité
+                    If Shp.Name <> "SuppressionLogo" And Shp.Name <> "Logo" Then
+                        Shp.Visible = msoTrue
+                    End If
+                Next Shp
+                
+                ' 3. Reprotection des feuilles avec paramètres spécifiques
+                .Protect Password:=mdp, DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+                .EnableSelection = xlNoRestrictions ' Permet la sélection des cellules
+            End With
+        Next i
+        
+        .Protect mdp
+    End With
+
+    ' Retour à l'accueil
+    Sheets("ACCUEIL").Activate
+    Range("A1").Select
+    
+    Application.ScreenUpdating = True
+    
+End Sub
+
+-------------------------------------------------------------------------------
+
+
+===== Verrouillage.bas =====
+Sub Prot()
+For i = 1 To Sheets.count
+With Sheets(i)
+.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+.EnableSelection = xlUnlockedCells
+.EnableSelection = xllockedCells
+Sheets("SUPPL4").Unprotect "Menz12011956MSG"
+End With
+Next
+End Sub
+
+
+-------------------------------------------------------------------------------
+
+
+===== creerLicence_Bas.bas =====
+
+Function creerLicence(CodeProduit)
+
+Dim md5Test As New MD5
+creerLicence = ""
+If Trim("" & CodeProduit) = "" Then Exit Function
+creerLicence = md5Test.DigestStrToHexStr("1DA242EAF2A6EAF11937EE18311CD2FD" & Trim("" & CodeProduit))
+End Function
+
+-------------------------------------------------------------------------------
+
+
+===== imprimerLiasse.bas =====
+
+Sub imprimerLiasse()
+Sheets("ACCUEIL").Select
+With Worksheets("NOTE36 Suite (Nomenclature)") 'Nom feuille à adapter
+.Unprotect "Menz12011956MSG"
+.EnableAutoFilter = True
+.Protect "Menz12011956MSG", True, True, True, True, True
+Sheets("NOTE36 Suite (Nomenclature)").Range("$o$11:$o$60").AutoFilter Field:=1, Criteria1:="1"
+Sheets("COUVERTURE").Select
+Dim NbFeuil As Long, ws As Worksheet
+NbFeuil = 0
+For Each ws In Worksheets
+   If (ws.Name <> "ACCUEIL" And ws.Name <> "GRAND-LIVRE N" And ws.Name <> "BALANCE N" And ws.Name <> "BALANCE N-1" And ws.Name <> "CONTRÔLE D'EQUILIBRE" And ws.Name <> "TABLES DE CORRESPONDENCE" And ws.Name <> "TABLES DE CORRESPONDENCE N-2" And ws.Name <> "Contrôle des reports" And ws.Name <> "PLAN DES COMPTES" And ws.Name <> "Export XML" And ws.Visible = xlSheetVisible) Then ws.Select False
+Next ws
+For Each ws In ActiveWindow.SelectedSheets
+    NbFeuil = NbFeuil + ws.HPageBreaks.count + 1
+Next ws
+Sheets("GARDE").Range("F44").value = NbFeuil - 1
+ThisWorkbook.PrintPreview
+End With
+Sheets("ACCUEIL").Activate
+End Sub
+
+
+
+-------------------------------------------------------------------------------
+
+
+===== module_teleliasse_1.bas =====
+'
+'Auteur : Justine Ventalon - IKA Conseil
+'Contact : justine.ventalon@ikaconseil.com
+'Version 1.3 du 15/01/2019
+'   Détail versions :
+'                   1.0 : première version
+'                   1.1 : ajout du référentiel des pays + correction de libellés
+'                   1.2 : changement du nom du fichier XML exporté
+'                   1.3 : changement du mot de passe et des noms des modules
+'
+'Module de génération de fichiers EDI XML pour les états financiers
+'La macro GenererXML permet de créer un fichier XML respectant la norme EDI e-impots à partir des données saisies dans les tableaux du classeur EXCEL
+'
+
+Public Sub GenererXML()
+    Dim ChoixDossier As FileDialog ' Ajout de la variable pour la fenêtre de choix
+    Dim Repertoire As String
+    Dim NomFichier As String
+    Dim mapToExport As XmlMap
+    Dim ncc As Range, exercice As Range
+
+    Application.Calculation = xlCalculationManual
+    Application.ScreenUpdating = False
+    
+    Call Déverrouillage.Déprot
+    Sheets("Export XML").Activate
+    
+    'Vérifie qu'un NCC et un exercice ont été renseignés
+    Set ncc = Sheets("Export XML").Range("G11")
+    Set exercice = Sheets("Export XML").Range("G12")
+    
+    If Trim(ncc.Text & vbNullString) = vbNullString Then
+        MsgBox "Merci de remplir le champ NCC.", 0 + 64, "Impossible de générer le XML"
+        GoTo Nettoyage ' Utilise un point de sortie pour rétablir les paramètres Excel
+    End If
+    
+    If Trim(exercice.Text & vbNullString) = vbNullString Then
+        MsgBox "Merci de remplir le champ exercice.", 0 + 64, "Impossible de générer le XML"
+        GoTo Nettoyage
+    End If
+    
+    'Génère la liste des champs dans l'onglet "export"
+    Call GenererListeChamps
+    
+    ' --- MODIFICATION : CHOIX DU RÉPERTOIRE PAR L'UTILISATEUR ---
+    Set ChoixDossier = Application.FileDialog(msoFileDialogFolderPicker)
+    ChoixDossier.Title = "Sélectionnez le dossier où enregistrer le fichier XML"
+    
+    If ChoixDossier.Show = -1 Then
+        Repertoire = ChoixDossier.SelectedItems(1)
+    Else
+        MsgBox "Génération annulée : aucun dossier sélectionné.", vbExclamation
+        GoTo Nettoyage
+    End If
+    ' ----------------------------------------------------------
+    
+    'Définition du nom du fichier
+    NomFichier = "NO-" & Replace(exercice, " ", "") & "-" & Replace(ncc, " ", "") & "-" & Format(Now, "ddmmyyyy-hhnnss") & ".xml"
+    
+    'Export à l'aide du fichier XSD lié à ce fichier Excel
+    Set mapToExport = ActiveWorkbook.XmlMaps("EDI_Mappage")
+    
+    ' Sauvegarde avec gestion d'erreur au cas où le dossier serait protégé en écriture
+    On Error Resume Next
+    ActiveWorkbook.SaveAsXMLData Repertoire & Application.PathSeparator & NomFichier, mapToExport
+    
+    If Err.Number <> 0 Then
+        MsgBox "Erreur lors de l'enregistrement : " & Err.Description, vbCritical, "Erreur"
+        Err.Clear
+    Else
+        MsgBox "Votre fichier EDI a bien été généré." & vbNewLine & vbNewLine & _
+               "Il a été enregistré dans le répertoire suivant :" & vbNewLine & Repertoire & _
+               vbNewLine & vbNewLine & "Nom du fichier : " & NomFichier, 0 + 64, "Confirmation"
+    End If
+    On Error GoTo 0
+
+Nettoyage:
+    Call Verrouillage.Prot
+    Sheets("Export XML").Select
+    Application.Calculation = xlCalculationAutomatic
+    Application.ScreenUpdating = True
+End Sub
+
+Public Sub GenererListeChamps()
+
+    Call GenererListeChampsFixes
+    Call GenererListeChampsVariables
+    
+End Sub
+
+Public Sub GenererListeChampsVariables()
+    Dim i, iLigne, nbLignes As Integer
+    Dim codeTableau, codeColonne, positionColonne, onglet As String
+    
+    'Supprime toutes les lignes de la liste
+    Call ResetTableau("ExportChampsTableauxVariables")
+    
+    i = 1
+    
+    'Parcours des colonnes
+    For Each celluleCodeTableau In Sheets("champs variables").ListObjects("ListeColonnesTableauxVariables").ListColumns(1).DataBodyRange
+    
+        codeTableau = Trim(celluleCodeTableau.Text)
+        codeColonne = Trim(celluleCodeTableau.Offset(0, 2).Text)
+        positionColonne = Trim(celluleCodeTableau.Offset(0, 3).Text)
+        
+        'Recherche des informations du tableau
+        Set tableau = Sheets("tableaux").ListObjects("ListeTableaux").DataBodyRange.Columns(1).Find(codeTableau, LookAt:=xlWhole)
+        onglet = Trim(tableau.Offset(0, 3).Text)
+        Set premiereCellule = Sheets(onglet).Range(Trim(tableau.Offset(0, 4).Text))
+        Set derniereCellule = Sheets(onglet).Range(Trim(tableau.Offset(0, 5).Text))
+        nbLignes = derniereCellule.Row - premiereCellule.Row + 1
+        
+        Set celluleCodeColonne = Sheets("export").Range("A15")
+        
+        'Parcours des lignes
+        For iLigne = 1 To nbLignes
+            
+            Set cellule = Sheets(onglet).Cells(premiereCellule.Row + iLigne - 1, premiereCellule.Column + positionColonne - 1)
+            
+            If Not Trim(cellule.Text & vbNullString) = vbNullString Then 'Si le champ a été rempli
+            
+                'Ajout du champ à la liste
+                celluleCodeColonne.Offset(i - 1, 0).value = codeColonne 'Colonne
+                celluleCodeColonne.Offset(i - 1, 1).value = iLigne 'Ligne
+                celluleCodeColonne.Offset(i - 1, 2).value = GetValeur(cellule.value) 'Valeur
+                
+                i = i + 1
+                
+            End If
+        Next
+        
+
+    Next celluleCodeTableau
+    
+    'Mise à jour de la taille de la liste
+    Set listeChamps = Sheets("export").ListObjects("ExportChampsTableauxVariables")
+    listeChamps.Resize Range("A14:C" & CStr(14 + i - 1))
+    
+End Sub
+
+Public Sub GenererListeChampsFixes()
+    Dim i, iLigne, nbLignes As Integer
+    Dim codeTableau, codeChamp, positionLigne, positionColonne, onglet As String
+    
+    'Supprime toutes les lignes de la liste
+    Call ResetTableau("ExportChampsTableauxFixes")
+    
+    i = 1
+    
+    'Parcours des colonnes
+    For Each celluleCodeTableau In Sheets("champs fixes").ListObjects("ListeChampsTableauxFixes").ListColumns(1).DataBodyRange
+    
+        codeTableau = Trim(celluleCodeTableau.Text)
+        codeChamp = Trim(celluleCodeTableau.Offset(0, 4).Text)
+        positionLigne = Trim(celluleCodeTableau.Offset(0, 5).Text)
+        positionColonne = Trim(celluleCodeTableau.Offset(0, 6).Text)
+        
+        'Recherche des informations du tableau
+        Set tableau = Sheets("tableaux").ListObjects("ListeTableaux").DataBodyRange.Columns(1).Find(codeTableau, LookAt:=xlWhole)
+        onglet = Trim(tableau.Offset(0, 3).Text)
+        Set premiereCellule = Sheets(onglet).Range(Trim(tableau.Offset(0, 4).Text))
+        
+        Set celluleCodeChamp = Sheets("export").Range("E15")
+        
+        Set cellule = Sheets(onglet).Cells(premiereCellule.Row + positionLigne - 1, premiereCellule.Column + positionColonne - 1)
+        
+        If Not Trim(cellule.Text & vbNullString) = vbNullString Then 'Si le champ a été rempli
+        
+            'Ajout du champ à la liste
+            celluleCodeChamp.Offset(i - 1, 0).value = codeChamp 'Champ
+            celluleCodeChamp.Offset(i - 1, 1).value = GetValeur(cellule.value) 'Valeur
+            
+            i = i + 1
+            
+        End If
+
+    Next celluleCodeTableau
+    
+    'Mise à jour de la taille de la liste
+    Set listeChamps = Sheets("export").ListObjects("ExportChampsTableauxFixes")
+    listeChamps.Resize Range("E14:F" & CStr(14 + i - 1))
+    
+End Sub
+
+Public Sub ResetTableau(nomTableau)
+
+    Dim tableau As ListObject
+
+    Set tableau = Sheets("export").ListObjects(nomTableau)
+    
+    'Suppression du contenu du tableau
+    If Not tableau.DataBodyRange Is Nothing Then
+        tableau.DataBodyRange.Rows.Delete
+    End If
+
+End Sub
+
+Function GetValeur(valeur As String)
+    If IsDate(valeur) And Not IsNumeric(valeur) Then
+        GetValeur = "'" & Format(valeur, "dd/mm/yyyy")
+    ElseIf IsNumeric(valeur) Then
+        If valeur Like "0#*" Then 'Un zéro avec au moins un autre chiffre derrière : c'est une chaîne de caractères
+            GetValeur = "'" & Trim(valeur)
+        Else 'C'est un nombre : on arrondit à 4 décimales pour les pourcentages
+            GetValeur = Round(valeur, 4)
+        End If
+    Else
+        GetValeur = "'" & Trim(valeur)
+    End If
+End Function
+
+-------------------------------------------------------------------------------
+
+
+===== module_teleliasse_2.bas =====
+'
+'Auteur : Justine Ventalon - IKA Conseil
+'Contact : justine.ventalon@ikaconseil.com
+'Version 1.3 du 15/01/2019
+'   Détail versions :
+'                   1.0 : première version
+'                   1.1 : ajout du référentiel des pays + correction de libellés
+'                   1.2 : changement du nom du fichier XML exporté
+'                   1.3 : changement du mot de passe et des noms des modules
+'
+'Module de verrouillage des feuilles et ajout de lignes à un tableau variable
+
+'Macro permettant de verrouiller toutes les feuilles de saisie pour empêcher l'ajout/suppression de lignes et colonnes
+Public Sub VerrouillerFeuilles()
+    
+    Dim feuille As Worksheet
+    Dim cellule As Range
+
+    For Each feuille In Worksheets
+        Call VerrouillerFeuille(feuille)
+    Next
+
+End Sub
+
+'Macro permettant de verrouiller une feuille pour empêcher l'ajout/suppression de lignes et colonnes
+Public Sub VerrouillerFeuille(feuille)
+    
+    If feuille.Name <> "Export XML" And feuille.Name <> "export" Then
+        
+        feuille.Unprotect Password:="Menz12011956MSG"
+        
+        feuille.Protect Password:="Menz12011956MSG", AllowFormattingColumns:=True, AllowFormattingRows:=True
+        feuille.EnableSelection = xlUnlockedCells
+    End If
+
+End Sub
+
+'Macro permettant d'ajouter une ligne à la fin du tableau, en préservant les formules
+Public Sub AjouterLigne(codeTableau)
+
+    Dim onglet, adresseCellule, Formule As String
+    Dim i, nbLignes, premiereColonne, derniereColonne, derniereLigne As Integer
+        
+    'Demande le nombre de lignes à ajouter à l'utilisateur
+    nbLignes = InputBox("Nombre de lignes à insérer (entre 1 et 500) : ", "Saisir le nombre de lignes")
+    
+    'Vérification de la valeur saisie
+    If nbLignes = "" Then
+        Exit Sub
+    End If
+    If nbLignes < 1 Or nbLignes > 500 Then
+        Select Case MsgBox("Merci de saisir un nombre entre 1 et 500.", 0 + 64, "Erreur de saisie")
+        End Select
+        Exit Sub
+    End If
+    
+    On Error Resume Next
+    
+    'Recherche des informations du tableau
+    Set tableau = Sheets("tableaux").ListObjects("ListeTableaux").DataBodyRange.Columns(1).Find(codeTableau, LookAt:=xlWhole)
+    onglet = Trim(tableau.Offset(0, 3).Text)
+    
+    'Désactive la protection
+    Worksheets(onglet).Unprotect Password:="Menz12011956MSG"
+    
+    Set premiereCellule = Sheets(onglet).Range(Trim(tableau.Offset(0, 4).Text))
+    Set derniereCellule = Sheets(onglet).Range(Trim(tableau.Offset(0, 5).Text))
+    premiereColonne = premiereCellule.Column
+    derniereColonne = derniereCellule.Column
+    derniereLigne = derniereCellule.Row
+
+    'Cas particulier des tableaux avec une ligne fixe à la fin
+    If codeTableau = "NOTE13B" Or codeTableau = "FR2B" Or codeTableau = "NOTE32" Or codeTableau = "NOTE33" Or codeTableau = "SUPPL1" Then
+        ligne = derniereLigne
+    Else
+        ligne = derniereLigne + 1
+    End If
+        
+    For i = 1 To nbLignes
+    
+        'Ajout d'une nouvelle ligne
+        Rows(ligne).Insert Shift:=xlDown
+        
+        'Copie du contenu de la ligne d'au-dessus
+        Rows(ligne - 1).EntireRow.Copy Rows(ligne)
+        Application.CutCopyMode = False
+        
+        'Nettoyage pour enlever le contenu copié (excepté les formules)
+        Sheets(onglet).Range(Cells(ligne, premiereColonne).Address & ":" & Cells(ligne, derniereColonne).Address).SpecialCells(xlCellTypeConstants).ClearContents
+    
+        ligne = ligne + 1
+    Next
+    
+    'Mise à jour de la valeur de derniere cellule
+    adresseCellule = Cells(derniereLigne + nbLignes, derniereColonne).Address(RowAbsolute:=False, ColumnAbsolute:=False)
+    Formule = "=ADDRESS(ROW('" & onglet & "'!" & adresseCellule & "),COLUMN('" & onglet & "'!" & adresseCellule & "),4)"
+    tableau.Offset(0, 5).Formula = Formule
+    
+    'Réactive la protection
+     ActiveSheet.Protect Password:="Menz12011956MSG", DrawingObjects:=True, Contents:=True, Scenarios:=True, AllowFiltering:=True
+
+End Sub
+
+Sub AjoutFR2B_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+    Sheets("tableaux").Range("F30").Formula = "='FICHE R2'!AS2"
+    Call AjouterLigne("FR2B")
+    Sheets("tableaux").Range("F30").Formula = "='FICHE R2'!AS2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+
+Sub AjoutFR3A_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+    Sheets("tableaux").Range("F33").Formula = "='FICHE R3'!AS2"
+    Sheets("tableaux").Range("F34").Formula = "='FICHE R3'!AU2"
+    Call AjouterLigne("FR3A")
+    Sheets("tableaux").Range("F33").Formula = "='FICHE R3'!AS2"
+    Sheets("tableaux").Range("F34").Formula = "='FICHE R3'!AU2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+
+Sub AjoutFR3B_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+    Sheets("tableaux").Range("F33").Formula = "='FICHE R3'!AS2"
+    Sheets("tableaux").Range("F34").Formula = "='FICHE R3'!AU2"
+    Call AjouterLigne("FR3B")
+    Sheets("tableaux").Range("F33").Formula = "='FICHE R3'!AS2"
+    Sheets("tableaux").Range("F34").Formula = "='FICHE R3'!AU2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+
+Sub AjoutNOTE3E3_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+Sheets("tableaux").Range("F49").Formula = "='NOTE 3E'!AS2"
+    Call AjouterLigne("NOTE3E3")
+    Sheets("tableaux").Range("F49").Formula = "='NOTE 3E'!AS2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+
+Sub AjoutNOTE4B_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+Sheets("tableaux").Range("F52").Formula = "='NOTE 4'!AS2"
+    Call AjouterLigne("NOTE4B")
+Sheets("tableaux").Range("F52").Formula = "='NOTE 4'!AS2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+
+Sub AjoutNOTE12A1_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+Sheets("tableaux").Range("F67").Formula = "='NOTE 12'!AS2"
+ Sheets("tableaux").Range("F68").Formula = "='NOTE 12'!AU2"
+ Sheets("tableaux").Range("F69").Formula = "='NOTE 12'!AW2"
+ Sheets("tableaux").Range("F70").Formula = "='NOTE 12'!AY2"
+    Call AjouterLigne("NOTE12A1")
+Sheets("tableaux").Range("F67").Formula = "='NOTE 12'!AS2"
+ Sheets("tableaux").Range("F68").Formula = "='NOTE 12'!AU2"
+ Sheets("tableaux").Range("F69").Formula = "='NOTE 12'!AW2"
+ Sheets("tableaux").Range("F70").Formula = "='NOTE 12'!AY2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+
+Sub AjoutNOTE12A2_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+Sheets("tableaux").Range("F67").Formula = "='NOTE 12'!AS2"
+ Sheets("tableaux").Range("F68").Formula = "='NOTE 12'!AU2"
+ Sheets("tableaux").Range("F69").Formula = "='NOTE 12'!AW2"
+ Sheets("tableaux").Range("F70").Formula = "='NOTE 12'!AY2"
+    Call AjouterLigne("NOTE12A2")
+Sheets("tableaux").Range("F67").Formula = "='NOTE 12'!AS2"
+ Sheets("tableaux").Range("F68").Formula = "='NOTE 12'!AU2"
+ Sheets("tableaux").Range("F69").Formula = "='NOTE 12'!AW2"
+ Sheets("tableaux").Range("F70").Formula = "='NOTE 12'!AY2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+
+Sub AjoutNOTE12B1_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+Sheets("tableaux").Range("F67").Formula = "='NOTE 12'!AS2"
+ Sheets("tableaux").Range("F68").Formula = "='NOTE 12'!AU2"
+ Sheets("tableaux").Range("F69").Formula = "='NOTE 12'!AW2"
+ Sheets("tableaux").Range("F70").Formula = "='NOTE 12'!AY2"
+    Call AjouterLigne("NOTE12B1")
+Sheets("tableaux").Range("F67").Formula = "='NOTE 12'!AS2"
+ Sheets("tableaux").Range("F68").Formula = "='NOTE 12'!AU2"
+ Sheets("tableaux").Range("F69").Formula = "='NOTE 12'!AW2"
+ Sheets("tableaux").Range("F70").Formula = "='NOTE 12'!AY2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+
+Sub AjoutNOTE12B2_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+Sheets("tableaux").Range("F67").Formula = "='NOTE 12'!AS2"
+ Sheets("tableaux").Range("F68").Formula = "='NOTE 12'!AU2"
+ Sheets("tableaux").Range("F69").Formula = "='NOTE 12'!AW2"
+ Sheets("tableaux").Range("F70").Formula = "='NOTE 12'!AY2"
+    Call AjouterLigne("NOTE12B2")
+Sheets("tableaux").Range("F67").Formula = "='NOTE 12'!AS2"
+ Sheets("tableaux").Range("F68").Formula = "='NOTE 12'!AU2"
+ Sheets("tableaux").Range("F69").Formula = "='NOTE 12'!AW2"
+ Sheets("tableaux").Range("F70").Formula = "='NOTE 12'!AY2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+
+Sub AjoutNOTE13B_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+    Sheets("tableaux").Range("F72").Formula = "='NOTE 13'!AS2"
+    Call AjouterLigne("NOTE13B")
+    Sheets("tableaux").Range("F72").Formula = "='NOTE 13'!AS2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+
+Sub AjoutNOTE16C2_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+Sheets("tableaux").Range("F84").Formula = "='NOTE 16C'!AS2"
+ Sheets("tableaux").Range("F85").Formula = "='NOTE 16C'!AU2"
+    Call AjouterLigne("NOTE16C2")
+Sheets("tableaux").Range("F84").Formula = "='NOTE 16C'!AS2"
+ Sheets("tableaux").Range("F85").Formula = "='NOTE 16C'!AU2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+
+Sub AjoutNOTE16C3_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+Sheets("tableaux").Range("F84").Formula = "='NOTE 16C'!AS2"
+ Sheets("tableaux").Range("F85").Formula = "='NOTE 16C'!AU2"
+    Call AjouterLigne("NOTE16C3")
+Sheets("tableaux").Range("F84").Formula = "='NOTE 16C'!AS2"
+ Sheets("tableaux").Range("F85").Formula = "='NOTE 16C'!AU2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+
+Sub AjoutNOTE21B_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+Sheets("tableaux").Range("F91").Formula = "='NOTE 21'!AS2"
+    Call AjouterLigne("NOTE21B")
+Sheets("tableaux").Range("F91").Formula = "='NOTE 21'!AS2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+
+Sub AjoutNOTE30B_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+Sheets("tableaux").Range("F105").Formula = "='NOTE 30'!AS2"
+Sheets("tableaux").Range("F106").Formula = "='NOTE 30'!AU2"
+    Call AjouterLigne("NOTE30B")
+Sheets("tableaux").Range("F105").Formula = "='NOTE 30'!AS2"
+Sheets("tableaux").Range("F106").Formula = "='NOTE 30'!AU2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+
+Sub AjoutNOTE30C_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+Sheets("tableaux").Range("F105").Formula = "='NOTE 30'!AS2"
+Sheets("tableaux").Range("F106").Formula = "='NOTE 30'!AU2"
+    Call AjouterLigne("NOTE30C")
+Sheets("tableaux").Range("F105").Formula = "='NOTE 30'!AS2"
+Sheets("tableaux").Range("F106").Formula = "='NOTE 30'!AU2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+
+Sub AjoutNOTE32_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+Sheets("tableaux").Range("F108").Formula = "='NOTE 32'!AS2"
+    Call AjouterLigne("NOTE32")
+Sheets("tableaux").Range("F108").Formula = "='NOTE 32'!AS2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+
+Sub AjoutNOTE33_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+Sheets("tableaux").Range("F110").Formula = "='NOTE 33'!AS2"
+    Call AjouterLigne("NOTE33")
+Sheets("tableaux").Range("F110").Formula = "='NOTE 33'!AS2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+
+Sub AjoutSUPPL2_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+Sheets("tableaux").Range("F127").Formula = "='SUPPL2'!AS2"
+    Call AjouterLigne("SUPPL2")
+Sheets("tableaux").Range("F127").Formula = "='SUPPL2'!AS2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+
+Sub AjoutSUPPL4_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+    Call AjouterLigne("SUPPL4")
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+
+Sub AjoutSUPPL7A_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+Sheets("tableaux").Range("F134").Formula = "='SUPPL7'!AS2"
+Sheets("tableaux").Range("F135").Formula = "='SUPPL7'!AU2"
+    Call AjouterLigne("SUPPL7A")
+Sheets("tableaux").Range("F134").Formula = "='SUPPL7'!AS2"
+Sheets("tableaux").Range("F135").Formula = "='SUPPL7'!AU2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+
+Sub AjoutSUPPL7B_Cliquer()
+Application.Calculation = xlCalculationManual
+Application.ScreenUpdating = False
+Sheets("tableaux").Range("F134").Formula = "='SUPPL7'!AS2"
+Sheets("tableaux").Range("F135").Formula = "='SUPPL7'!AU2"
+    Call AjouterLigne("SUPPL7B")
+Sheets("tableaux").Range("F134").Formula = "='SUPPL7'!AS2"
+Sheets("tableaux").Range("F135").Formula = "='SUPPL7'!AU2"
+Application.Calculation = xlCalculationAutomatic
+Application.ScreenUpdating = True
+End Sub
+
+
+
+-------------------------------------------------------------------------------

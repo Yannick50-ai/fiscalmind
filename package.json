@@ -1,0 +1,14 @@
+{
+  "description": "FiscalMind Africa — modules ES purs et testés : moteur comptable (étape 1), données fiscales 17 pays OHADA (étape 2), services externes (étape 3)",
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "UNLICENSED",
+  "name": "fiscalmind-engine",
+  "private": true,
+  "scripts": {
+    "test": "node --test \"tests/*.test.js\""
+  },
+  "type": "module",
+  "version": "0.1.0"
+}

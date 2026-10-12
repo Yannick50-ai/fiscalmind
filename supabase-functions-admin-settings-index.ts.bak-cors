@@ -1,0 +1,191 @@
+// Supabase Edge Function — Paramètres système (admin uniquement)
+// PATCH 09/10/2026 : volet 1 — lecture/écriture de fm_sys_settings + test de
+// la connexion IA. Modèle copié sur la fonction `copilot` (mêmes en-têtes
+// CORS, même vérification JWT, droits lus depuis app_metadata.is_admin).
+// PATCH 09/10/2026 (volet 2) : whitelist étendue aux clés d'intégrations
+// externes (chariow_api_key, cloudflare_api_token, cloudflare_account_id,
+// supabase_mgmt_token) — lues par la fonction `admin-integrations`.
+// Fichier : supabase/functions/admin-settings/index.ts
+// Secrets requis : SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY
+// (fournis par Supabase) ; la clé IA est lue depuis fm_sys_settings avec
+// fallback sur ANTHROPIC_API_KEY.
+//
+// SÉCURITÉ :
+// - GET/POST réservés aux admins (user.app_metadata.is_admin === true,
+//   jamais user_metadata). 403 sinon.
+// - Les clés sensibles (ai_api_key, chariow_api_key, cloudflare_api_token,
+//   supabase_mgmt_token) sont MASQUÉES avant d'être renvoyées au frontend
+//   (6 premiers + •••• + 4 derniers) ; elles ne sont JAMAIS journalisées.
+//   cloudflare_account_id n'est PAS sensible : affiché en clair.
+// - Écriture limitée à une whitelist de clés (400 sinon).
+
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+// CORS — copié de la fonction copilot (obligatoire pour les fetch navigateur).
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+};
+
+// Clés autorisées en écriture (400 sinon).
+const ALLOWED_KEYS = [
+  "ai_provider",
+  "ai_api_key",
+  "ai_model",
+  "quota_demo",
+  "quota_starter",
+  "quota_pro",
+  "quota_enterprise",
+  // Volet 2 (09/10/2026) : intégrations externes, lues par `admin-integrations`.
+  "chariow_api_key",
+  "cloudflare_api_token",
+  "cloudflare_account_id",
+  "supabase_mgmt_token",
+];
+// Clés dont la valeur est masquée dans les réponses GET.
+// cloudflare_account_id n'est PAS sensible (affiché en clair).
+const SENSITIVE_KEYS = [
+  "ai_api_key",
+  "chariow_api_key",
+  "cloudflare_api_token",
+  "supabase_mgmt_token",
+];
+const PROVIDERS = ["xkiro", "anthropic"];
+
+/** Masque un secret : 6 premiers + •••• + 4 derniers (miroir de src/admin/sys-settings.js). */
+function maskSecret(v: string): string {
+  const s = String(v ?? "");
+  if (s.length <= 10) return "••••";
+  return s.slice(0, 6) + "••••" + s.slice(-4);
+}
+
+function json(obj: unknown, status = 200): Response {
+  return new Response(JSON.stringify(obj), {
+    status,
+    headers: { "content-type": "application/json", ...corsHeaders },
+  });
+}
+
+/** Lit les paramètres (limités à la whitelist) via le client service_role. */
+async function readSettings(admin: any): Promise<Record<string, string>> {
+  const { data } = await admin.from("fm_sys_settings").select("key,value");
+  const out: Record<string, string> = {};
+  for (const r of (data || [])) {
+    if (ALLOWED_KEYS.includes(r.key)) out[r.key] = r.value;
+  }
+  return out;
+}
+
+/** Appel minimal à l'API IA configurée (test de connexion, sans quota). */
+async function testAiConnection(provider: string, apiKey: string, model: string): Promise<{ ok: boolean; error?: string }> {
+  const apiUrl =
+    provider === "anthropic" ? "https://api.anthropic.com/v1/messages" : "https://api.xkiro.com/v1/messages";
+  try {
+    // Même format d'appel que la fonction copilot (xKiro est compatible Anthropic).
+    const resp = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "x-api-key": apiKey,
+        "anthropic-version": "2023-06-01",
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        model,
+        max_tokens: 10,
+        system: "test de connexion",
+        messages: [{ role: "user", content: "Réponds uniquement : ok" }],
+      }),
+      signal: AbortSignal.timeout(25000),
+    });
+    if (!resp.ok) return { ok: false, error: "L'API IA a répondu avec le statut " + resp.status + "." };
+    return { ok: true };
+  } catch {
+    return { ok: false, error: "L'API IA est injoignable (délai dépassé ou réseau)." };
+  }
+}
+
+Deno.serve(async (req) => {
+  // Preflight CORS du navigateur : répondre 204 avec les en-têtes CORS.
+  if (req.method === "OPTIONS") {
+    return new Response(null, { status: 204, headers: corsHeaders });
+  }
+
+  const jwt = (req.headers.get("Authorization") || "").replace("Bearer ", "");
+  if (!jwt) return json({ error: "Non authentifié" }, 401);
+
+  // 1. Vérifier l'utilisateur via son JWT Supabase
+  const supabase = createClient(
+    Deno.env.get("SUPABASE_URL")!,
+    Deno.env.get("SUPABASE_ANON_KEY")!,
+    { global: { headers: { Authorization: `Bearer ${jwt}` } } }
+  );
+  const { data: { user }, error: authErr } = await supabase.auth.getUser();
+  if (authErr || !user) return json({ error: "Session invalide" }, 401);
+
+  // 2. Droits admin — SÉCURITÉ : lus EXCLUSIVEMENT depuis app_metadata
+  // (écriture serveur uniquement), jamais depuis user_metadata.
+  const isAdmin = ((user.app_metadata || {}) as Record<string, any>).is_admin === true;
+  if (!isAdmin) return json({ error: "Accès réservé aux administrateurs." }, 403);
+
+  const admin = createClient(
+    Deno.env.get("SUPABASE_URL")!,
+    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
+  );
+
+  // 3. GET : renvoie les paramètres, secrets masqués.
+  if (req.method === "GET") {
+    const settings = await readSettings(admin);
+    for (const k of SENSITIVE_KEYS) {
+      if (settings[k]) settings[k] = maskSecret(settings[k]);
+    }
+    return json({ settings });
+  }
+  if (req.method !== "POST") return json({ error: "GET ou POST uniquement" }, 405);
+
+  const body = await req.json().catch(() => ({}));
+
+  // 4. Action 'test_ai' : appel minimal à l'API IA configurée.
+  if (body.action === "test_ai") {
+    const settings = await readSettings(admin);
+    const provider = settings["ai_provider"] || "xkiro";
+    // Priorité à la table, fallback sur le secret d'environnement.
+    // La clé n'est JAMAIS journalisée.
+    const apiKey = settings["ai_api_key"] || Deno.env.get("ANTHROPIC_API_KEY") || "";
+    const model =
+      settings["ai_model"] || (provider === "anthropic" ? "claude-haiku-4-5" : "qwen/qwen3.8-max:free");
+    if (!apiKey) return json({ ok: false, error: "Aucune clé API IA configurée." });
+    return json(await testAiConnection(provider, apiKey, model));
+  }
+
+  // 5. Écriture d'un paramètre : { key, value } (whitelist stricte).
+  const { key, value } = body;
+  if (typeof key !== "string" || !ALLOWED_KEYS.includes(key)) {
+    return json({ error: "Clé de paramètre non autorisée." }, 400);
+  }
+  let val = typeof value === "string" ? value : String(value ?? "");
+  if (key === "ai_provider" && !PROVIDERS.includes(val)) {
+    return json({ error: "Fournisseur invalide (xkiro|anthropic)." }, 400);
+  }
+  if (key.startsWith("quota_")) {
+    const n = parseInt(val, 10);
+    if (!Number.isFinite(n) || n < 0) return json({ error: "Quota invalide (entier positif)." }, 400);
+    val = String(n);
+  }
+  // Garde-fou : une clé API vide ne doit jamais écraser la clé existante
+  // (le frontend n'envoie pas le champ quand il est vide). S'applique aux
+  // 3 nouvelles clés secrètes comme à ai_api_key (cloudflare_account_id,
+  // non sensible, peut être vidé volontairement).
+  const SECRET_WRITE_KEYS = ["ai_api_key", "chariow_api_key", "cloudflare_api_token", "supabase_mgmt_token"];
+  if (SECRET_WRITE_KEYS.includes(key) && val.trim() === "") {
+    return json({ ok: true, unchanged: true });
+  }
+  const { error: upErr } = await admin
+    .from("fm_sys_settings")
+    .upsert(
+      { key, value: val, updated_at: new Date().toISOString(), updated_by: user.id },
+      { onConflict: "key" }
+    );
+  if (upErr) return json({ error: "Échec de l'enregistrement." }, 500);
+  return json({ ok: true });
+});
