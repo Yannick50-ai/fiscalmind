@@ -49,6 +49,7 @@ const AI_URLS: Record<string, string> = {
 const SYSTEM_PROMPT = `Tu es le copilote comptable et fiscal de FiscalMind Africa, destiné aux PME de la zone OHADA.
 Règles :
 - Référentiel : SYSCOHADA révisé (2018). Fiscalité : le PAYS DE L'UTILISATEUR est précisé en fin de prompt avec ses taux et organismes — applique-les obligatoirement.
+- Comptes : utilise les SOUS-COMPTES du plan SYSCOHADA révisé quand tu proposes des écritures (ex. 411001 pour un client nommé, 401001 pour un fournisseur nommé, 521001 pour la banque principale). Ne reste pas aux comptes racines (411, 401) quand le tiers est identifié.
 - Réponds en français, ton professionnel, concis, structuré (listes si pertinent). Montants dans la monnaie du pays de l'utilisateur.
 - Cite les références (articles du CGI, numéros de comptes) uniquement si tu les connais avec certitude. Ne JAMAIS inventer un numéro d'article : en cas de doute, écris « à vérifier dans le CGI en vigueur » et propose la démarche de vérification.
 - Refuse poliment tout conseil de fraude ou d'optimisation agressive ; propose l'alternative conforme.
@@ -95,10 +96,11 @@ const COUNTRY_TAX: Record<string, {tva: string; is: string; salary: string; soci
   "Togo": { tva: "18 %", is: "27 %", salary: "IRPP (Impôt sur le Revenu des Personnes Physiques) — catégorie revenus d'emplois", social: "CNSS (Caisse Nationale de Sécurité Sociale)", authority: "OTR (Office Togolais des Recettes)", currency: "XOF", caution: "" },
 };
 
-function countryContext(country: unknown, taxOverrides?: Record<string, any>): string {
+function countryContext(country: unknown, taxOverrides?: Record<string, any>, fiscalContext?: Record<string, any>): string {
   const key = typeof country === "string" && COUNTRY_TAX[country] ? country : "Burkina Faso";
   const c = COUNTRY_TAX[key];
   const ov = taxOverrides || {};
+  const fc = fiscalContext || {};
   const fmt = (v: any) => String(v).replace(".", ",") + " %";
   const num = (v: any) => v !== undefined && v !== null && !isNaN(Number(v));
   const tva = num(ov.tva) ? fmt(ov.tva) + " (personnalisé par l'utilisateur)" : c.tva;
@@ -109,7 +111,15 @@ function countryContext(country: unknown, taxOverrides?: Record<string, any>): s
     const sa = num(ov.sal) ? fmt(ov.sal) : "?";
     social = "employeur " + e + ", salarié " + sa + " (personnalisé par l'utilisateur)";
   }
-  return `\n\nPAYS DE L'UTILISATEUR : ${key} — applique OBLIGATOIREMENT sa fiscalité : TVA ${tva} · IS ${is} · Impôt sur salaires : ${c.salary} · Sécurité sociale : ${social} · Administration fiscale : ${c.authority} · Montants en ${c.currency}.${c.caution ? " " + c.caution : ""} Sources officielles du pays : ${COUNTRY_SOURCES[key] || "sources en cours de validation"}. Quand tu cites un taux ou une règle, mentionne la source officielle correspondante. Si un taux est marqué « à vérifier », signale-le explicitement au lieu de l'affirmer.`;
+  // Contexte fiscal de l'entreprise (12/10/2026)
+  let fiscalNote = "";
+  if (fc.tvaSubject === false) {
+    fiscalNote = " L'entreprise N'EST PAS assujettie à la TVA : ne jamais conseiller de facturer ou récupérer la TVA.";
+  }
+  if (fc.bicPrelevement === true) {
+    fiscalNote += " L'entreprise applique le prélèvement BIC de 2% sur ses achats.";
+  }
+  return `\n\nPAYS DE L'UTILISATEUR : ${key} — applique OBLIGATOIREMENT sa fiscalité : TVA ${tva} · IS ${is} · Impôt sur salaires : ${c.salary} · Sécurité sociale : ${social} · Administration fiscale : ${c.authority} · Montants en ${c.currency}.${c.caution ? " " + c.caution : ""}${fiscalNote} Sources officielles du pays : ${COUNTRY_SOURCES[key] || "sources en cours de validation"}. Quand tu cites un taux ou une règle, mentionne la source officielle correspondante. Si un taux est marqué « à vérifier », signale-le explicitement au lieu de l'affirmer.`;
 }
 
 function json(req: Request, obj: unknown, status = 200): Response {
@@ -139,7 +149,7 @@ Deno.serve(async (req) => {
   if (authErr || !user) return json(req, { error: "Session invalide" }, 401);
 
   const body = await req.json().catch(() => ({}));
-  const { question, country, taxOverrides, action } = body;
+  const { question, country, taxOverrides, fiscalContext, action } = body;
 
   // Plan et droits — SÉCURITÉ : lus EXCLUSIVEMENT depuis app_metadata (écriture serveur uniquement).
   const period = new Date().toISOString().slice(0, 7); // YYYY-MM
@@ -257,7 +267,7 @@ Deno.serve(async (req) => {
     body: JSON.stringify({
       model: aiModel,
       max_tokens: 1000,
-      system: [{ type: "text", text: SYSTEM_PROMPT + countryContext(country, taxOverrides), cache_control: { type: "ephemeral" } }],
+      system: [{ type: "text", text: SYSTEM_PROMPT + countryContext(country, taxOverrides, fiscalContext), cache_control: { type: "ephemeral" } }],
       messages: [{ role: "user", content: question }],
     }),
   });

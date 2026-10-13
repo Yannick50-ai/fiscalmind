@@ -1,4 +1,9 @@
 // FiscalMind Africa — Webhook SasPay (remplace chariow-webhook, 11/10/2026).
+// Correctifs 12/10/2026 (audit croisé) :
+//   - Recherche utilisateur par email via RPC SQL (fini le listUsers() limité à 50)
+//   - Idempotence : transaction_id stocké (contrainte unique) → rejeu ignoré
+//   - Durées cumulées : renouvellement = max(expiration en cours, maintenant) + durée
+//   - En-têtes CORS aussi sur la réponse "JSON invalide"
 //
 // Réception des événements SasPay :
 //   - Vérification HMAC-SHA256 : signature = HMAC(secret, timestamp + "." + corps_brut)
@@ -11,6 +16,23 @@
 //   44900 → pro (30 j)       | 449000 → pro (365 j)       | 31400 → pro fondateur (30 j)
 //
 // Secrets requis : SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, SASPAY_WEBHOOK_SECRET.
+// SQL requis (à exécuter une fois dans le SQL Editor) :
+//   CREATE TABLE IF NOT EXISTS public.saspay_transactions (
+//     id bigserial PRIMARY KEY,
+//     transaction_id text UNIQUE NOT NULL,
+//     email text NOT NULL,
+//     montant integer NOT NULL,
+//     plan text NOT NULL,
+//     created_at timestamptz DEFAULT now()
+//   );
+//   ALTER TABLE public.saspay_transactions ENABLE ROW LEVEL SECURITY;
+//   CREATE OR REPLACE FUNCTION public.find_user_by_email(p_email text)
+//   RETURNS TABLE (id uuid, email text, app_metadata jsonb)
+//   LANGUAGE sql SECURITY DEFINER SET search_path = 'public, auth'
+//   AS $$ SELECT id, email, raw_app_meta_data FROM auth.users
+//          WHERE lower(email) = lower(p_email) LIMIT 1 $$;
+//   REVOKE EXECUTE ON FUNCTION public.find_user_by_email(text) FROM PUBLIC, anon, authenticated;
+//   GRANT EXECUTE ON FUNCTION public.find_user_by_email(text) TO service_role;
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.3";
 
@@ -34,6 +56,13 @@ function corsHeaders(req: Request): Record<string, string> {
   };
 }
 
+function jsonError(req: Request, error: string, status: number, extra: Record<string, unknown> = {}) {
+  return new Response(JSON.stringify({ error, ...extra }), {
+    status,
+    headers: { "content-type": "application/json", ...corsHeaders(req) },
+  });
+}
+
 async function hmacHex(secret: string, data: string): Promise<string> {
   const key = await crypto.subtle.importKey(
     "raw", new TextEncoder().encode(secret),
@@ -55,17 +84,13 @@ Deno.serve(async (req) => {
     return new Response(null, { status: 204, headers: corsHeaders(req) });
   }
   if (req.method !== "POST") {
-    return new Response(JSON.stringify({ error: "POST uniquement" }), {
-      status: 405, headers: { "content-type": "application/json", ...corsHeaders(req) },
-    });
+    return jsonError(req, "POST uniquement", 405);
   }
 
   const secret = Deno.env.get("SASPAY_WEBHOOK_SECRET") || "";
   if (!secret) {
     console.error("[saspay-webhook] SASPAY_WEBHOOK_SECRET manquant");
-    return new Response(JSON.stringify({ error: "Webhook non configuré" }), {
-      status: 500, headers: { "content-type": "application/json", ...corsHeaders(req) },
-    });
+    return jsonError(req, "Webhook non configuré", 500);
   }
 
   // 1. Vérifier la signature HMAC
@@ -77,23 +102,19 @@ Deno.serve(async (req) => {
   const age = Date.now() - Number(timestamp) * 1000;
   if (!timestamp || isNaN(Number(timestamp)) || age < 0 || age > 5 * 60 * 1000) {
     console.warn("[saspay-webhook] Timestamp invalide ou expiré");
-    return new Response(JSON.stringify({ error: "Timestamp invalide" }), {
-      status: 401, headers: { "content-type": "application/json", ...corsHeaders(req) },
-    });
+    return jsonError(req, "Timestamp invalide", 401);
   }
 
   const attendue = await hmacHex(secret, timestamp + "." + corpsBrut);
   if (!timingSafeEqual(signature.toLowerCase(), attendue.toLowerCase())) {
     console.warn("[saspay-webhook] Signature invalide");
-    return new Response(JSON.stringify({ error: "Signature invalide" }), {
-      status: 401, headers: { "content-type": "application/json", ...corsHeaders(req) },
-    });
+    return jsonError(req, "Signature invalide", 401);
   }
 
   // 2. Traiter l'événement
   let event: any;
   try { event = JSON.parse(corpsBrut); }
-  catch { return new Response(JSON.stringify({ error: "JSON invalide" }), { status: 400 }); }
+  catch { return jsonError(req, "JSON invalide", 400); }
 
   // Test de connexion SasPay
   if (event.event === "webhook.test") {
@@ -112,39 +133,65 @@ Deno.serve(async (req) => {
   const data = event.data || {};
   const montant = Number(data.amount || data.montant || 0);
   const email = String(data.customer_email || data.email || data.customer?.email || "").toLowerCase().trim();
+  const txId = String(data.transaction_id || data.id || data.reference || data.txn_id || "").trim();
 
   if (!email) {
     console.warn("[saspay-webhook] transaction.success sans email");
-    return new Response(JSON.stringify({ error: "Email manquant" }), {
-      status: 400, headers: { "content-type": "application/json", ...corsHeaders(req) },
-    });
+    return jsonError(req, "Email manquant", 400);
   }
 
   const mapping = PLAN_PAR_MONTANT[montant];
   if (!mapping) {
     console.warn("[saspay-webhook] Montant non reconnu :", montant);
-    return new Response(JSON.stringify({ error: "Montant non reconnu", montant }), {
-      status: 400, headers: { "content-type": "application/json", ...corsHeaders(req) },
-    });
+    return jsonError(req, "Montant non reconnu", 400, { montant });
   }
 
-  // 3. Activer la licence
   const supabase = createClient(
     Deno.env.get("SUPABASE_URL")!,
     Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
   );
 
-  // Trouver l'utilisateur par email
-  const { data: users } = await supabase.auth.admin.listUsers();
-  const user = (users?.users || []).find((u: any) => (u.email || "").toLowerCase() === email);
-  if (!user) {
-    console.warn("[saspay-webhook] Utilisateur introuvable :", email);
-    return new Response(JSON.stringify({ error: "Utilisateur introuvable" }), {
-      status: 404, headers: { "content-type": "application/json", ...corsHeaders(req) },
+  // 3. Idempotence : ignorer les transactions déjà traitées
+  if (txId) {
+    const { error: txErr } = await supabase.from("saspay_transactions").insert({
+      transaction_id: txId,
+      email,
+      montant,
+      plan: mapping.plan,
     });
+    if (txErr) {
+      if (txErr.code === "23505") {
+        console.log(`[saspay-webhook] Transaction déjà traitée : ${txId}`);
+        return new Response(JSON.stringify({ ok: true, duplicate: true }), {
+          headers: { "content-type": "application/json", ...corsHeaders(req) },
+        });
+      }
+      console.error("[saspay-webhook] Échec enregistrement transaction :", txErr.message);
+      return jsonError(req, "Échec enregistrement", 500);
+    }
+  } else {
+    console.warn("[saspay-webhook] transaction.success sans ID de transaction (pas d'idempotence)");
   }
 
-  const expire = new Date(Date.now() + mapping.jours * 24 * 3600 * 1000).toISOString();
+  // 4. Trouver l'utilisateur par email (RPC SQL, sans limite de 50)
+  const { data: found, error: findErr } = await supabase.rpc("find_user_by_email", { p_email: email });
+  if (findErr) {
+    console.error("[saspay-webhook] Échec recherche utilisateur :", findErr.message);
+    return jsonError(req, "Échec recherche utilisateur", 500);
+  }
+  const user = (found || [])[0];
+  if (!user) {
+    console.warn("[saspay-webhook] Utilisateur introuvable :", email);
+    return jsonError(req, "Utilisateur introuvable", 404);
+  }
+
+  // 5. Activer la licence — durée cumulée avec l'expiration en cours
+  const currentExpire = user.app_metadata?.plan_expires_at
+    ? new Date(user.app_metadata.plan_expires_at).getTime()
+    : 0;
+  const base = Math.max(currentExpire, Date.now());
+  const expire = new Date(base + mapping.jours * 24 * 3600 * 1000).toISOString();
+
   const { error: updErr } = await supabase.auth.admin.updateUserById(user.id, {
     app_metadata: {
       ...(user.app_metadata || {}),
@@ -157,13 +204,11 @@ Deno.serve(async (req) => {
 
   if (updErr) {
     console.error("[saspay-webhook] Échec activation :", updErr.message);
-    return new Response(JSON.stringify({ error: "Échec activation" }), {
-      status: 500, headers: { "content-type": "application/json", ...corsHeaders(req) },
-    });
+    return jsonError(req, "Échec activation", 500);
   }
 
-  console.log(`[saspay-webhook] Licence activée : ${email} → ${mapping.plan} (${mapping.jours}j)`);
-  return new Response(JSON.stringify({ ok: true, plan: mapping.plan, email }), {
+  console.log(`[saspay-webhook] Licence activée : ${email} → ${mapping.plan} (${mapping.jours}j, expire ${expire})`);
+  return new Response(JSON.stringify({ ok: true, plan: mapping.plan, email, expires_at: expire }), {
     headers: { "content-type": "application/json", ...corsHeaders(req) },
   });
 });

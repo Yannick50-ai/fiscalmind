@@ -32,6 +32,12 @@ import { compteResultatSIG } from '../../../src/engine/compte-resultat-sig.js';
 import { bilanModele2 } from '../../../src/engine/bilan-modele2.js';
 import { tafireData } from '../../../src/engine/tafire.js';
 import { tftData } from '../../../src/engine/tft.js';
+import { getAccount } from '../../../src/engine/chart-of-accounts.js';
+
+function getAccountLabel(num) {
+  const a = getAccount(String(num || ''));
+  return a ? a.intitule : '';
+}
 import { buildExcelDoc, downloadExcel, buildMultiSheetExcel, downloadMultiSheetExcel, safeSheetName, renderSharedPrintHeader, fmtX } from '../exports.js';
 import { ACCOUNTS } from '../../../src/engine/chart-of-accounts.js';
 
@@ -48,6 +54,8 @@ const TABS = [
   ['cr', '📈 Résultat'],
   ['tafire', '💧 TAFIRE'],
   ['tft', '💧 TFT'],
+  ['agee', '⏳ Balance âgée'],
+  ['cloture', '🔒 Clôture'],
 ];
 
 function shell() { return document.getElementById('appMain'); }
@@ -96,8 +104,10 @@ export async function renderEtatsPage(query) {
       S.periode = { debut: '2025-01-01', fin: '2025-12-31' };
       S.company = { nom: 'Entreprise Démo (exemple)' };
     } else {
-      const [entries, periode, company] = await Promise.all([
-        loadEntries(), defaultPeriode(), loadCompany(),
+      // Charger les écritures d'abord (évite double appel en parallèle — 13/10/2026)
+      const entries = await loadEntries();
+      const [periode, company] = await Promise.all([
+        defaultPeriode(entries), loadCompany(),
       ]);
       S.entries = entries;
       S.periode = periode;
@@ -122,6 +132,10 @@ export async function renderEtatsPage(query) {
     + '<select id="etatsExercice" class="form-input" data-testid="etats-exercice" aria-label="Exercice"></select>'
     + '<button class="btn btn-secondary btn-sm" id="etatsPrint" data-testid="etats-print">🖨️ Imprimer / PDF</button>'
     + '<button class="btn btn-secondary btn-sm" id="etatsDownload" data-testid="etats-download">⬇️ CSV</button>'
+    + '<button class="btn btn-secondary btn-sm" id="etatsFec" title="Exporter le Fichier des Écritures Comptables">📄 FEC</button>'
+    // Option : masquer les sous-totaux (13/10/2026)
+    + '<label style="display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer;" title="Afficher seulement les totaux principaux">'
+    + '<input type="checkbox" id="etatsHideSub" style="width:16px;height:16px;"> Masquer les sous-totaux</label>'
     + '</div>'
     + '<div class="form-group" style="margin-bottom:10px;">'
     + '<label class="form-label" for="companyInput">Entreprise (en-tête des exports)</label>'
@@ -162,6 +176,13 @@ export async function renderEtatsPage(query) {
   });
   $('#etatsPrint').addEventListener('click', () => { renderPrintHeader(); window.print(); });
   $('#etatsDownload').addEventListener('click', exportDownload);
+  const fecBtn = $('#etatsFec');
+  if (fecBtn) fecBtn.addEventListener('click', exportFEC);
+  // Masquer/afficher les sous-totaux (13/10/2026)
+  const hideSub = $('#etatsHideSub');
+  if (hideSub) hideSub.addEventListener('change', () => {
+    document.body.classList.toggle('hide-subtotals', hideSub.checked);
+  });
   if (isDemoMode()) wireDemoExit();
   $all('[data-tab]').forEach((b) => b.addEventListener('click', () => {
     S.tab = b.dataset.tab;
@@ -239,6 +260,8 @@ function renderContent() {
   else if (S.tab === 'cr') c.innerHTML = renderCR();
   else if (S.tab === 'tafire') c.innerHTML = renderTafire();
   else if (S.tab === 'tft') c.innerHTML = renderTft();
+  else if (S.tab === 'agee') { c.innerHTML = renderBalanceAgee(); }
+  else if (S.tab === 'cloture') { c.innerHTML = renderCloture(); bindCloture(); }
 }
 
 function tableWrap(inner) {
@@ -749,4 +772,214 @@ function exportCsv() {
       ['Variation de trésorerie réelle', t.dTresoReel],
     ]));
   }
+}
+
+/* ------------------------------------------------------------------ */
+/* Balance âgée clients/fournisseurs (13/10/2026)                       */
+/* ------------------------------------------------------------------ */
+
+function renderBalanceAgee() {
+  const today = new Date().toISOString().slice(0, 10);
+  const lines = toLines(S.entries);
+  // Grouper par compte tiers (411, 401) non lettré
+  const tiers = {};
+  const entriesById = {};
+  (S.entries || []).forEach((e) => { entriesById[e.id] = e; });
+
+  lines.forEach((l) => {
+    const c = String(l.compte || '');
+    if (c.slice(0, 3) !== '411' && c.slice(0, 3) !== '401') return;
+    if (l.lettre) return; // lettré = soldé
+    const e = entriesById[l.entryId];
+    const date = (e && e.date) || l.date || today;
+    if (!tiers[c]) tiers[c] = { compte: c, total: 0, tranches: { '0-30': 0, '31-60': 0, '61-90': 0, '90+': 0 } };
+    const montant = (l.debit || 0) - (l.credit || 0);
+    // Pour 411 : débit = créance ; pour 401 : on inverse (dette = crédit - débit)
+    const net = c.slice(0, 3) === '411' ? montant : -montant;
+    if (net <= 0) return;
+    tiers[c].total += net;
+    const jours = Math.floor((new Date(today) - new Date(date)) / 86400000);
+    const tranche = jours <= 30 ? '0-30' : jours <= 60 ? '31-60' : jours <= 90 ? '61-90' : '90+';
+    tiers[c].tranches[tranche] += net;
+  });
+
+  const rows = Object.values(tiers).filter((t) => t.total > 0)
+    .sort((a, b) => b.total - a.total);
+
+  if (!rows.length) {
+    return '<div class="empty-state"><div>Aucune créance/dette non lettrée.</div></div>';
+  }
+
+  let h = '<div class="stmt-head"><h3 class="stmt-title">Balance âgée — créances et dettes non lettrées</h3></div>'
+    + tableWrap('<table class="etats-table"><thead><tr>'
+    + '<th>Compte</th><th>Intitulé</th><th class="num">Total</th>'
+    + '<th class="num">0-30 j</th><th class="num">31-60 j</th><th class="num">61-90 j</th><th class="num">90+ j</th>'
+    + '</tr></thead><tbody>');
+
+  let tot = 0, t30 = 0, t60 = 0, t90 = 0, t90p = 0;
+  rows.forEach((t) => {
+    tot += t.total; t30 += t.tranches['0-30']; t60 += t.tranches['31-60'];
+    t90 += t.tranches['61-90']; t90p += t.tranches['90+'];
+    h += '<tr><td><strong>' + esc(t.compte) + '</strong></td>'
+      + '<td>' + esc(getAccountLabel(t.compte)) + '</td>'
+      + '<td class="num"><strong>' + fmtN(t.total) + '</strong></td>'
+      + '<td class="num">' + fmtN(t.tranches['0-30']) + '</td>'
+      + '<td class="num">' + fmtN(t.tranches['31-60']) + '</td>'
+      + '<td class="num">' + fmtN(t.tranches['61-90']) + '</td>'
+      + '<td class="num" style="' + (t.tranches['90+'] > 0 ? 'color:#dc2626;font-weight:700;' : '') + '">'
+      + fmtN(t.tranches['90+']) + '</td></tr>';
+  });
+  h += '<tr class="row-total"><td colspan="2"><strong>TOTAUX</strong></td>'
+    + '<td class="num"><strong>' + fmtN(tot) + '</strong></td>'
+    + '<td class="num"><strong>' + fmtN(t30) + '</strong></td>'
+    + '<td class="num"><strong>' + fmtN(t60) + '</strong></td>'
+    + '<td class="num"><strong>' + fmtN(t90) + '</strong></td>'
+    + '<td class="num"><strong>' + fmtN(t90p) + '</strong></td></tr>';
+  h += '</tbody></table>';
+  return h;
+}
+
+/* ------------------------------------------------------------------ */
+/* Clôture d'exercice (13/10/2026)                                      */
+/* ------------------------------------------------------------------ */
+
+function renderCloture() {
+  const year = String(S.periode.debut).slice(0, 4);
+  return '<div class="stmt-head"><h3 class="stmt-title">Clôture de l\'exercice ' + esc(year) + '</h3></div>'
+    + '<div class="card"><div class="card-body">'
+    + '<p class="muted-sm">Génère les écritures de clôture : soldes des comptes de charges (6) et de produits (7) vers le compte 131 (résultat net).</p>'
+    + '<div id="clotureResult"></div>'
+    + '<button class="btn btn-primary" id="btnClotureCalc" style="width:100%;justify-content:center;margin:8px 0;">Calculer la clôture</button>'
+    + '<button class="btn btn-secondary" id="btnCloturePass" style="width:100%;justify-content:center;display:none;">Passer les écritures de clôture</button>'
+    + '</div></div>';
+}
+
+function bindCloture() {
+  const btnCalc = $('#btnClotureCalc');
+  if (!btnCalc) return;
+  btnCalc.addEventListener('click', async () => {
+    const year = String(S.periode.debut).slice(0, 4);
+    const { closingEntries } = await import('../../../src/engine/cloture.js');
+    const { ecritures, totalProduits, totalCharges, resultat } = closingEntries(S.entries, year);
+    S.clotureData = { ecritures, resultat, year };
+
+    const div = $('#clotureResult');
+    const resLabel = resultat > 0 ? 'Bénéfice' : resultat < 0 ? 'Perte' : 'Équilibre';
+    const resColor = resultat > 0 ? '#166534' : resultat < 0 ? '#dc2626' : '#666';
+    div.innerHTML = '<div style="background:#f8fafc;border:1px solid var(--border);border-radius:10px;padding:12px;margin-bottom:8px;">'
+      + '<div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span>Total produits (7)</span><strong>' + fmtN(totalProduits) + '</strong></div>'
+      + '<div style="display:flex;justify-content:space-between;margin-bottom:6px;"><span>Total charges (6)</span><strong>' + fmtN(totalCharges) + '</strong></div>'
+      + '<div style="display:flex;justify-content:space-between;border-top:1px solid var(--border);padding-top:6px;">'
+      + '<span><strong>Résultat net (' + resLabel + ')</strong></span>'
+      + '<strong style="color:' + resColor + ';">' + fmtN(Math.abs(resultat)) + '</strong></div>'
+      + '<div class="muted-sm" style="margin-top:8px;">' + ecritures.length + ' écriture(s) de clôture générée(s).</div>'
+      + '</div>';
+
+    const btnPass = $('#btnCloturePass');
+    if (btnPass && ecritures.length > 0) {
+      btnPass.style.display = 'flex';
+      btnPass.onclick = async () => {
+        const { confirmDialog } = await import('../ui.js');
+        const ok = await confirmDialog('Passer la clôture ?',
+          ecritures.length + ' écritures seront créées au 31/12/' + year + '. Résultat : ' + fmtN(Math.abs(resultat)) + ' F (' + resLabel + ').',
+          { okLabel: 'Passer la clôture' });
+        if (!ok) return;
+        try {
+          const { saveEntry } = await import('../store.js');
+          for (const e of ecritures) {
+            await saveEntry({ ...e, statut: 'valide', dateValidation: new Date().toISOString().slice(0, 10) });
+          }
+          // Recharger les écritures
+          const { loadEntries } = await import('../store.js');
+          S.entries = await loadEntries();
+          toast('Clôture passée : ' + ecritures.length + ' écritures.', 'success');
+          render();
+        } catch (err) {
+          toast('Erreur : ' + (err.message || 'impossible'), 'error');
+        }
+      };
+    }
+  });
+}
+
+/* ------------------------------------------------------------------ */
+/* Export FEC — Fichier des Écritures Comptables (13/10/2026)           */
+/* Format : JournalCode;JournalLib;EcritureNum;EcritureDate;CompteNum;  */
+/* CompteLib;CompAuxNum;CompAuxLib;PieceRef;PieceDate;EcritureLib;      */
+/* Debit;Credit;EcritureLet;DateLet;ValidDate;Montantdevise;Idevise      */
+/* ------------------------------------------------------------------ */
+
+function exportFEC() {
+  const year = String(S.periode.debut).slice(0, 4);
+  const entries = (S.entries || []).filter((e) =>
+    String(e.date || '').slice(0, 4) === year);
+  
+  if (!entries.length) {
+    toast('Aucune écriture pour l\'exercice ' + year + '.', 'error');
+    return;
+  }
+
+  // En-tête FEC
+  const header = 'JournalCode;JournalLib;EcritureNum;EcritureDate;CompteNum;CompteLib;'
+    + 'CompAuxNum;CompAuxLib;PieceRef;PieceDate;EcritureLib;Debit;Credit;'
+    + 'EcritureLet;DateLet;ValidDate;Montantdevise;Idevise';
+  
+  const rows = [header];
+  let num = 0;
+  
+  // Trier par date puis par pièce
+  const sorted = [...entries].sort((a, b) =>
+    String(a.date || '').localeCompare(String(b.date || '')) || 
+    String(a.piece || '').localeCompare(String(b.piece || '')));
+  
+  sorted.forEach((e) => {
+    num++;
+    const ecritureNum = String(num).padStart(6, '0');
+    const ecritureDate = String(e.date || '').replace(/-/g, '');
+    const pieceDate = ecritureDate;
+    const validDate = e.statut === 'valide' ? String(e.dateValidation || e.date || '').replace(/-/g, '') : '';
+    
+    (e.lignes || []).forEach((l) => {
+      const compte = String(l.compte || '');
+      const isAux = /^(411|401)\d{3,}$/.test(compte);
+      const compteNum = isAux ? compte.slice(0, 3) : compte;
+      const compAuxNum = isAux ? compte : '';
+      const compAuxLib = isAux ? (l.libelle || '') : '';
+      
+      const fmtMontant = (n) => String(Math.round(n || 0)).replace('.', ',');
+      
+      rows.push([
+        e.journal || '',           // JournalCode
+        e.journal || '',           // JournalLib
+        ecritureNum,                // EcritureNum
+        ecritureDate,               // EcritureDate (AAAAMMJJ)
+        compteNum,                  // CompteNum
+        getAccountLabel(compteNum), // CompteLib
+        compAuxNum,                 // CompAuxNum
+        compAuxLib,                 // CompAuxLib
+        e.piece || '',              // PieceRef
+        pieceDate,                  // PieceDate
+        (e.libelle || '').replace(/;/g, ','), // EcritureLib
+        fmtMontant(l.debit),        // Debit
+        fmtMontant(l.credit),       // Credit
+        l.lettre || '',             // EcritureLet
+        '',                         // DateLet
+        validDate,                  // ValidDate
+        '',                         // Montantdevise
+        '',                         // Idevise
+      ].join(';'));
+    });
+  });
+
+  const csv = '\uFEFF' + rows.join('\r\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'FEC_' + year + '_' + S.company.replace(/[^a-zA-Z0-9]/g, '_') + '.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  toast('FEC exporté : ' + entries.length + ' écritures.', 'success');
 }

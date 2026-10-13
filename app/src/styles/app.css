@@ -360,3 +360,8 @@
   .print-only { display: block; font-size: 11px; color: #333; margin-bottom: 8px; }
   .obj-panel { break-inside: avoid; }
 }
+
+/* --- Classeur : lignes d'écriture (12/10/2026 : mise en page inline, ce bloc ne sert plus) --- */
+
+/* Masquer les sous-totaux dans les États (13/10/2026) */
+body.hide-subtotals .etats-table .row-sub { display: none; }

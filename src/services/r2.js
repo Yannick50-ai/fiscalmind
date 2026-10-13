@@ -20,7 +20,12 @@ export const R2_ALLOWED_MIME = new Set([
   'image/jpeg',
   'image/png',
   'image/webp',
+  'image/gif',
+  'image/bmp',
+  'image/tiff',
   'application/pdf',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // .docx
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', // .xlsx
 ]);
 
 export function r2Error(code, message) {
@@ -163,6 +168,19 @@ export function createR2Service({ edgeCall, fetchImpl = globalThis.fetch }) {
     /** Liste les documents de l'utilisateur. */
     async listDocs() {
       return edgeCall('list', {});
+    },
+
+    /**
+     * Demande une URL de téléchargement pré-signée pour voir le document (12/10/2026).
+     * @returns {{ download_url: string }}
+     */
+    async getDownloadUrl({ key }) {
+      if (!key) throw r2Error('INVALID_KEY', 'Clé de document manquante');
+      const res = await edgeCall('download-url', { key });
+      if (!res || !res.download_url) {
+        throw r2Error('DOWNLOAD_URL_FAILED', "Le service n'a pas fourni d'URL de téléchargement");
+      }
+      return res;
     },
 
     quotaStatus,

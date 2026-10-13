@@ -6,7 +6,7 @@
 // - garde stricte : plan === 'admin' (is_admin lu depuis app_metadata côté
 //   serveur) sinon redirection ; jamais d'action sur soi-même ni sur un admin.
 
-import { esc, toast, $ } from '../ui.js';
+import { esc, toast, $, confirmDialog } from '../ui.js';
 import { getSession, supabaseService, getAccessToken } from '../auth.js';
 import { refreshQuota, isAdmin } from '../licence.js';
 import { navigate } from '../router.js';
@@ -438,7 +438,7 @@ function openLicenseModal(uid, session) {
     } catch (e) { toast((e && e.message) || 'Échec.', 'error'); }
   });
   $('#licRevoke').addEventListener('click', async () => {
-    if (!window.confirm('Révoquer la licence de ce compte ? Il repassera en démo.')) return;
+    if (!await confirmDialog('Révoquer la licence ?', 'Le compte repassera en démo.', { okLabel: 'Révoquer', danger: true })) return;
     try {
       const { svc, token } = await svcToken();
       await svc.adminAction({ accessToken: token, action: 'revoke', user_id: uid });
@@ -456,8 +456,8 @@ async function deleteUser(uid, session) {
   if (!u || !canManageUser(u, session.uid)) return;
   const email = u.email || '?';
   // Double confirmation (plus stricte que l'original : action irréversible)
-  if (!window.confirm('Supprimer définitivement le compte ' + email + ' ?\n\nIl ne pourra plus se connecter et ses données liées seront effacées.')) return;
-  if (!window.confirm('Confirmez-vous vraiment la suppression de ' + email + ' ? Cette action est IRRÉVERSIBLE.')) return;
+  if (!await confirmDialog('Supprimer le compte ?', email + '\nIl ne pourra plus se connecter et ses données liées seront effacées.', { okLabel: 'Continuer', danger: true })) return;
+  if (!await confirmDialog('Confirmation finale', 'Supprimer définitivement ' + email + ' ?\nCette action est IRRÉVERSIBLE.', { okLabel: 'Supprimer', danger: true })) return;
   try {
     const { svc, token } = await svcToken();
     await svc.adminAction({ accessToken: token, action: 'delete_user', user_id: uid });

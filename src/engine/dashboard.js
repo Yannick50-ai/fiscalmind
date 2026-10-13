@@ -63,9 +63,9 @@ export function kpis(entries, { from, to } = {}) {
   const m = marge(list, { from, to });
 
   const tresorerie = r0(sumRubrique(soldesCumul, PREFIXES_TRESO));
-  const s443 = (soldesCumul['443'] && soldesCumul['443'].solde) || 0;
-  const s4452 = (soldesCumul['4452'] && soldesCumul['4452'].solde) || 0;
-  const tva = r0(-s443 - s4452); // >0 : à décaisser, <0 : crédit de TVA
+  const s443 = sumRubrique(soldesCumul, ['443']);
+  const s445 = sumRubrique(soldesCumul, ['445']);
+  const tva = r0(-s443 - s445); // >0 : à décaisser, <0 : crédit de TVA
 
   // Créances clients (411) et dettes fournisseurs (401) non lettrées, sur la période.
   let creancesClients = 0;
@@ -202,7 +202,7 @@ export function upcomingDeadlines(calendars, todayISO, withinDays = 30) {
 
 /**
  * Marge brute = CA − coût d'achat des marchandises/matières consommées
- * (soldes débiteurs des comptes PREFIXES_ACHATS, sens 'D').
+ * (soldes des comptes PREFIXES_ACHATS — le 603 créditeur déduit le coût).
  * tauxMarge = margeBrute / CA * 100 (0 si CA = 0).
  * @returns { margeBrute, tauxMarge, ca, achats }
  */
@@ -210,7 +210,8 @@ export function marge(entries, { from, to } = {}) {
   const list = Array.isArray(entries) ? entries : [];
   const soldes = periodBalances(toLines(list.filter((e) => inRange(e && e.date, from, to))), { from, to });
   const ca = r0(-sumRubrique(soldes, ['70']));
-  const achats = r0(sumRubrique(soldes, PREFIXES_ACHATS, null, 'D'));
+  // Sans filtre de sens : le 603 (variation de stocks, souvent créditeur) doit déduire le coût (13/10/2026)
+  const achats = r0(sumRubrique(soldes, PREFIXES_ACHATS));
   const margeBrute = r0(ca - achats);
   return { margeBrute, tauxMarge: ca === 0 ? 0 : r1((margeBrute / ca) * 100), ca, achats };
 }

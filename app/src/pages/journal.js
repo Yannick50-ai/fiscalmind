@@ -58,6 +58,7 @@ export async function renderJournalPage() {
     + '<select id="exerciceSelect" class="form-input" data-testid="exercice-select" aria-label="Exercice"></select>'
     + (demo ? '' : '<button class="btn btn-secondary btn-sm" id="journauxBtn" data-testid="journaux-btn">📚 Journaux</button>')
     + (demo ? '' : '<button class="btn btn-primary btn-sm" id="newEntryBtn" data-testid="new-entry-btn">＋ Écriture</button>')
+    + (demo ? '' : '<button class="btn btn-secondary btn-sm" id="lockMonthBtn" title="Verrouiller le mois courant">🔒 Mois</button>')
     + '</div>'
     + '<div class="journal-filters">'
     + '<input class="form-input" id="journalSearch" data-testid="journal-search" type="search" placeholder="🔍 Rechercher (libellé, compte, pièce)">'
@@ -76,6 +77,24 @@ export async function renderJournalPage() {
   if (!demo) {
     $('#newEntryBtn').addEventListener('click', () => openEntryModal(null));
     $('#journauxBtn').addEventListener('click', openJournauxModal);
+    const lockBtn = $('#lockMonthBtn');
+    if (lockBtn) lockBtn.addEventListener('click', async () => {
+      // Verrouiller le mois courant (13/10/2026)
+      const { confirmDialog } = await import('../ui.js');
+      const { loadLockedMonths, saveLockedMonths } = await import('../store.js');
+      const ym = new Date().toISOString().slice(0, 7);
+      const locked = await loadLockedMonths();
+      if (locked.includes(ym)) {
+        toast('Le mois ' + ym + ' est déjà verrouillé.', 'info');
+        return;
+      }
+      const ok = await confirmDialog('Verrouiller ' + ym + ' ?',
+        'Les écritures de ce mois deviendront intangibles (ni modification, ni suppression).',
+        { okLabel: 'Verrouiller' });
+      if (!ok) return;
+      await saveLockedMonths([...locked, ym]);
+      toast('Mois ' + ym + ' verrouillé.', 'success');
+    });
   }
   $('#journalSearch').addEventListener('input', (e) => { S.q = e.target.value; renderList(); });
   $('#journalFilter').addEventListener('change', (e) => { S.filter = e.target.value; renderList(); });
@@ -103,8 +122,11 @@ async function reload() {
       renderList();
       return;
     }
-    const [entries, journaux, periode] = await Promise.all([
-      loadEntries(), loadJournaux(), defaultPeriode(),
+    // Charger les écritures d'abord, puis la période à partir de celles-ci
+    // (évite un double appel loadEntries() en parallèle — 13/10/2026)
+    const entries = await loadEntries();
+    const [journaux, periode] = await Promise.all([
+      loadJournaux(), defaultPeriode(entries),
     ]);
     S.entries = entries;
     S.journaux = journaux;
@@ -190,17 +212,35 @@ function renderList() {
     // ni suppression) ; l'admin peut les modifier et les supprimer.
     // En mode démo (visite sans compte) : tout est en lecture seule.
     const demoLocked = e.demo && !isAdmin();
+    // Flexibilité (13/10/2026) : même validée, une écriture reste modifiable/supprimable
+    // Le badge 🟢 Validée reste affiché pour le suivi visuel.
+    // Rapprochement bancaire : bouton Pointer pour les écritures BQ (13/10/2026)
+    const pointeBtn = (e.journal === 'BQ' && !demoLocked && !isDemoMode())
+      ? '<button class="btn btn-secondary btn-sm" data-pointe="' + esc(e.id) + '" title="Rapprochement bancaire">'
+        + (e.pointe ? '✅ Pointé' : '⬜ Pointer') + '</button> '
+      : '';
+    // Délettrer si l'écriture a des lignes lettrées (13/10/2026)
+    const unletterBtn = ((e.lignes || []).some((l) => l.lettre) && !demoLocked && !isDemoMode())
+      ? '<button class="btn btn-secondary btn-sm" data-unletter="' + esc(e.id) + '" title="Retirer le lettrage">🔓 Délettrer</button> '
+      : '';
     const actions = (demoLocked || isDemoMode())
       ? '<span class="event-badge" title="Lecture seule — mode démo">👁️ Démo</span>'
-      : '<button class="btn btn-secondary btn-sm" data-edit="' + esc(e.id) + '" aria-label="Modifier">✏️</button> '
+      : pointeBtn + unletterBtn
+      + '<button class="btn btn-secondary btn-sm" data-edit="' + esc(e.id) + '" aria-label="Modifier">✏️</button> '
       + '<button class="btn btn-secondary btn-sm" data-del="' + esc(e.id) + '" data-testid="delete-entry-btn" aria-label="Supprimer">🗑️</button>';
-    return '<article class="entry-card" data-testid="entry-card" data-entry-id="' + esc(e.id) + '">'
+    return '<article class="entry-card" data-testid="entry-card" data-entry-id="' + esc(e.id) + '"'
+      + ((e.extourneDe || e.contrePasseePar) ? ' style="border:2px solid #d97706;background:#fffbeb;"' : '') + '>'
       + '<div class="entry-head"><span class="entry-date">' + esc(fmtDate(e.date)) + '</span>'
       + '<span class="event-badge">' + esc(e.journal) + '</span>'
       + (e.piece ? '<span class="entry-piece">' + esc(e.piece) + '</span>' : '')
       + (e.doc ? '<span class="entry-doc" title="Document source">📎 ' + esc(e.doc) + '</span>' : '')
       + '<span class="entry-total">' + fmt(ed) + '</span></div>'
       + '<div class="entry-lib">' + esc(e.libelle) + '</div>'
+      + (e.extourneDe
+        ? '<div style="font-size:12px;color:#d97706;font-weight:700;background:#fef3c7;border-radius:8px;padding:6px 8px;margin:6px 0;">🔗 Extourne de la pièce ' + esc(e.extourneJournal ? e.extourneJournal + ' ' : '') + 'n° ' + esc(e.extournePiece || (S.entries.find((x) => x.id === e.extourneDe) || {}).piece || '?') + '</div>'
+        : e.contrePasseePar
+        ? '<div style="font-size:12px;color:#d97706;font-weight:700;background:#fef3c7;border-radius:8px;padding:6px 8px;margin:6px 0;">🔗 Contre-passée par la pièce ' + esc(e.contrePasseeJournal ? e.contrePasseeJournal + ' ' : '') + 'n° ' + esc(e.contrePasseePiece || (S.entries.find((x) => x.id === e.contrePasseePar) || {}).piece || '?') + '</div>'
+        : '')
       + '<div class="entry-lines">' + lines + '</div>'
       + '<div class="entry-actions">' + actions + '</div></article>';
   }).join('');
@@ -221,11 +261,55 @@ function renderList() {
     + '<span class="muted" data-testid="journal-count">' + list.length + ' écriture(s)</span></div>';
 
   $all('[data-edit]').forEach((b) => b.addEventListener('click', () => openEntryModal(b.dataset.edit)));
+  // Délettrer une écriture (13/10/2026)
+  $all('[data-unletter]').forEach((b) => b.addEventListener('click', async () => {
+    const id = b.dataset.unletter;
+    const entry = S.entries.find((e) => String(e.id) === String(id));
+    if (!entry) return;
+    try {
+      const { saveEntry } = await import('../store.js');
+      const upd = {
+        ...entry,
+        lignes: (entry.lignes || []).map((l) => {
+          const nl = { ...l };
+          delete nl.lettre;
+          return nl;
+        }),
+      };
+      await saveEntry(upd);
+      S.entries = S.entries.map((e) => String(e.id) === String(id) ? upd : e);
+      toast('Écriture délettrée.', 'success');
+      renderList();
+    } catch (err) {
+      toast('Erreur : ' + (err.message || 'impossible'), 'error');
+    }
+  }));
+  // Rapprochement bancaire : toggle Pointé (13/10/2026)
+  $all('[data-pointe]').forEach((b) => b.addEventListener('click', async () => {
+    const id = b.dataset.pointe;
+    const entry = S.entries.find((e) => String(e.id) === String(id));
+    if (!entry) return;
+    try {
+      const { saveEntry } = await import('../store.js');
+      entry.pointe = !entry.pointe;
+      await saveEntry(entry);
+      toast(entry.pointe ? 'Écriture pointée.' : 'Pointage retiré.', 'success');
+      renderList();
+    } catch (err) {
+      toast('Erreur : ' + (err.message || 'impossible'), 'error');
+    }
+  }));
   $all('[data-del]').forEach((b) => b.addEventListener('click', () => confirmDelete(b)));
 }
 
 async function confirmDelete(btn) {
   const id = btn.dataset.del;
+  // Empêcher la suppression d'une écriture lettrée (13/10/2026)
+  const e = (S.entries || []).find((x) => String(x.id) === String(id));
+  if (e && (e.lignes || []).some((l) => l.lettre)) {
+    toast('Écriture lettrée : délettrez d\'abord.', 'error');
+    return;
+  }
   if (btn.dataset.confirm === '1') {
     btn.disabled = true;
     try {
@@ -257,9 +341,11 @@ function ensureDatalist() {
   document.getElementById('accountList').innerHTML = opts;
 }
 
-function openEntryModal(entryId) {
+async function openEntryModal(entryId) {
   const codes = journalCodes(S.journaux);
   const existing = entryId ? S.entries.find((e) => e.id === entryId) : null;
+  // Flexibilité (13/10/2026) : même validée ou mois verrouillé, modifiable
+  // (l'utilisateur assume la responsabilité)
   S.draft = existing
     ? { id: existing.id, date: existing.date, journal: existing.journal, piece: existing.piece || '', libelle: existing.libelle, lignes: existing.lignes.map((l) => ({ ...l })) }
     : { id: null, date: todayISO(), journal: Object.keys(codes)[0] || 'OD', piece: '', libelle: '', lignes: [{ compte: '', debit: 0, credit: 0 }, { compte: '', debit: 0, credit: 0 }] };

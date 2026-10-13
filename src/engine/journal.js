@@ -101,7 +101,25 @@ function normalizedEntry(entry) {
     libelle: String(entry.libelle || '').trim(),
     lignes,
     // Traçabilité au document source (Classeur Intelligent) : conservée si présente.
-    ...(entry.doc ? { doc: String(entry.doc).slice(0, 120) } : {})
+    ...(entry.doc ? { doc: String(entry.doc).slice(0, 120) } : {}),
+    // Métadonnées préservées (13/10/2026) : statut, lettrage, extourne, R2
+    ...(entry.statut ? { statut: String(entry.statut) } : {}),
+    ...(entry.dateValidation ? { dateValidation: String(entry.dateValidation) } : {}),
+    ...(entry.r2Key ? { r2Key: String(entry.r2Key) } : {}),
+    ...(entry.extourneDe ? { extourneDe: String(entry.extourneDe) } : {}),
+    ...(entry.extournePiece ? { extournePiece: String(entry.extournePiece) } : {}),
+    ...(entry.extourneJournal ? { extourneJournal: String(entry.extourneJournal) } : {}),
+    ...(entry.contrePasseePar ? { contrePasseePar: String(entry.contrePasseePar) } : {}),
+    ...(entry.contrePasseePiece ? { contrePasseePiece: String(entry.contrePasseePiece) } : {}),
+    ...(entry.contrePasseeJournal ? { contrePasseeJournal: String(entry.contrePasseeJournal) } : {}),
+    ...(entry.demo ? { demo: true } : {}),
+    // Traçabilité (13/10/2026) : qui a créé/modifié et quand
+    ...(entry.createdBy ? { createdBy: String(entry.createdBy) } : {}),
+    ...(entry.createdAt ? { createdAt: String(entry.createdAt) } : {}),
+    ...(entry.modifiedBy ? { modifiedBy: String(entry.modifiedBy) } : {}),
+    ...(entry.modifiedAt ? { modifiedAt: String(entry.modifiedAt) } : {}),
+    // Rapprochement bancaire (13/10/2026)
+    ...(entry.pointe ? { pointe: true } : {})
   };
 }
 

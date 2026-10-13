@@ -229,11 +229,18 @@ async function send() {
   box.scrollTop = box.scrollHeight;
 
   try {
+    let tvaSubject = true, bicPrelevement = false;
+    try {
+      const { loadTvaSubject, loadBicPrelevement } = await import('../store.js');
+      tvaSubject = await loadTvaSubject();
+      bicPrelevement = await loadBicPrelevement();
+    } catch (e) { /* défauts */ }
     const res = await svc.askCopilot({
       accessToken: token,
       question: message,
       country: await countryName(),
       taxOverrides: {},
+      fiscalContext: { tvaSubject, bicPrelevement },
     });
     typing.remove();
     if (!res || !res.answer) {

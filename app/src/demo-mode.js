@@ -1,21 +1,23 @@
 // FiscalMind Africa — Mode démo (visite sans compte).
 // Quand actif : les vrais modules (Journal, États, Copilote, Lettrage, Calendrier)
 // s'ouvrent avec les données de démonstration, en lecture seule.
+// Le flag est en mémoire uniquement (règle « zéro stockage local ») :
+// un rechargement de page fait sortir du mode démo.
 
-const FLAG = 'fm_demo_mode';
+let demoModeActive = false;
 let demoEntries = null;
 
 export function isDemoMode() {
-  try { return sessionStorage.getItem(FLAG) === '1'; } catch (e) { return false; }
+  return demoModeActive;
 }
 
 export function enterDemoMode() {
-  try { sessionStorage.setItem(FLAG, '1'); } catch (e) {}
+  demoModeActive = true;
   demoEntries = null; // recharge au prochain accès
 }
 
 export function exitDemoMode() {
-  try { sessionStorage.removeItem(FLAG); } catch (e) {}
+  demoModeActive = false;
   demoEntries = null;
 }
 

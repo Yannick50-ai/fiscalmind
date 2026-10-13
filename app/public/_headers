@@ -1,0 +1,11 @@
+# En-têtes de sécurité — Cloudflare Pages les applique à chaque réponse.
+# Fichier servi tel quel depuis dist/ (Vite copie public/ → dist/).
+# Audit du 12/10/2026 : pas d'iframe, pas de caméra/micro/géolocalisation dans l'app.
+
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+  Content-Security-Policy: default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' https://esm.sh; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' data: https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: blob:; connect-src 'self' https://eetmaaopaatbbwhwbdcx.supabase.co wss://eetmaaopaatbbwhwbdcx.supabase.co https://*.r2.cloudflarestorage.com; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests
+*/

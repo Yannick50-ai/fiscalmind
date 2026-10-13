@@ -100,12 +100,13 @@ function roundFcfa(n) {
 
 /**
  * Capacité d'autofinancement (NOTE 34 du classeur, K13) :
- * RN + dotations (681/691/697) − reprises (791/798/799/797)
+ * RN + dotations (68, 69, 85) − reprises (78, 79, 86)
  * + VCEAC (81) − produits des cessions (82).
+ * Élargi le 13/10/2026 : 68/69/85 au lieu de 681/691/697 seuls.
  */
 function cafOf(mouv, xi) {
-  const dot = sfd(mouv, ['681', '691', '697']);
-  const rep = sfc(mouv, ['791', '798', '799', '797']) - sfd(mouv, ['791', '798', '799', '797']);
+  const dot = sfd(mouv, ['68', '69', '85']);
+  const rep = sfc(mouv, ['78', '79', '86']) - sfd(mouv, ['78', '79', '86']);
   const vceac = sfd(mouv, ['81']);
   const pceac = sfc(mouv, ['82']) - sfd(mouv, ['82']);
   return roundFcfa(xi + dot - rep + vceac - pceac);
@@ -326,7 +327,7 @@ export function ratiosGestion(entries, { year, effectif } = {}) {
           '> 0',
           'Ressources internes dégagées par l’activité : elles financent investissements et remboursements sans emprunt.',
           { seuil: { min: 0 },
-            formule: 'Résultat net + dotations (681/691/697) − reprises (791/798/799/797) + VCEAC (81) − produits de cession (82)' }),
+            formule: 'Résultat net + dotations (68/69/85) − reprises (78/79/86) + VCEAC (81) − produits de cession (82)' }),
       ] },
     ],
   };

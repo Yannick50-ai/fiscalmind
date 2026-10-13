@@ -7,7 +7,7 @@
 // Pays : sélecteur parmi les 17 pays OHADA (défaut BF, persisté sur le serveur).
 
 import { esc, $, $all, toast } from '../ui.js';
-import { loadCountry, saveCountry } from '../store.js';
+import { loadCountry, saveCountry, getEffectiveCnssFrequency, loadTvaSubject, loadBicPrelevement } from '../store.js';
 import { getCountry, countryCodes } from '../../../src/data/countries.js';
 import { getMonthDeadlines } from '../../../src/data/calendars.js';
 import { isDemoMode, demoBannerHtml, wireDemoExit } from '../demo-mode.js';
@@ -17,7 +17,53 @@ const MONTHS = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet'
   'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
 const DAYS = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
 
-const S = { code: 'BF', year: 0, month: 0 };
+const S = { code: 'BF', year: 0, month: 0, cnssFreq: 'trimestrielle', tvaSubject: true, bicPrelevement: false };
+
+/** Échéances CNSS dynamiques selon la fréquence configurée (12/10/2026).
+ *  Mensuelle (≥ 20 salariés) : le 15 de chaque mois.
+ *  Trimestrielle (< 20 salariés) : 30/04, 31/07, 31/10, 31/01. */
+function cnssDeadlines(mois) {
+  const out = [];
+  if (S.cnssFreq === 'mensuelle') {
+    out.push({ mois, jour: 15, label: 'Déclaration + paiement CNSS', impot: 'SOC', periodicite: 'Mensuelle (≥ 20 salariés)' });
+  } else {
+    const trim = { 4: 30, 7: 31, 10: 31, 1: 31 };
+    if (trim[mois]) {
+      out.push({ mois, jour: trim[mois], label: 'Déclaration + paiement CNSS', impot: 'SOC', periodicite: 'Trimestrielle (< 20 salariés)' });
+    }
+  }
+  return out;
+}
+
+/** Corrections BF d'après la DGI (bordereau eSINTAX sept. 2026, 12/10/2026) :
+ *  - IUTS/TPA/FSP : le 12 du mois (pas le 10) — le « 10 » est obsolète
+ *  - TVA : le 15 du mois (pas le 25) — masquée si l'entreprise n'est pas assujettie
+ *  - TPA, FSP, timbres, retenues foncières : absents → ajoutés
+ *  - Prélèvements BIC : affichés seulement si l'entreprise les applique
+ *  Le fichier calendars.js est généré (ne pas éditer), on corrige ici. */
+function bfMonthlyFixes(mois) {
+  if (S.code !== 'BF') return [];
+  const out = [
+    { mois, jour: 12, label: 'Déclaration IUTS', impot: 'SAL', periodicite: 'Mensuelle (retenue à la source)' },
+    { mois, jour: 12, label: 'Taxe patronale d\u2019apprentissage (TPA)', impot: 'SAL', periodicite: 'Mensuelle — 3 % masse salariale' },
+    { mois, jour: 12, label: 'FSP — Fonds de Soutien Patriotique', impot: 'SAL', periodicite: 'Mensuelle — 1 % du salaire net' },
+    { mois, jour: 15, label: 'Droits de timbres sur états', impot: 'TIMBRE', periodicite: 'Mensuelle' },
+    { mois, jour: 15, label: 'Retenues sur revenus fonciers', impot: 'FONCIER', periodicite: 'Mensuelle (retenue à la source)' },
+  ];
+  if (S.tvaSubject) {
+    out.push({ mois, jour: 15, label: 'Déclaration TVA', impot: 'TVA', periodicite: 'Mensuelle' });
+  }
+  if (S.bicPrelevement) {
+    out.push({ mois, jour: 15, label: 'Prélèvements BIC (acomptes)', impot: 'BIC', periodicite: 'Mensuelle (retenue à la source)' });
+  }
+  return out;
+}
+
+/** Labels statiques BF à remplacer par les échéances corrigées. */
+function isBfReplaced(label) {
+  if (S.code !== 'BF') return false;
+  return /^(déclaration iuts|déclaration tva|tpa|fsp|cnss|droits de timbres|prélèvements|retenues sur revenus)/i.test(label || '');
+}
 
 function shell() { return document.getElementById('appMain'); }
 
@@ -25,6 +71,7 @@ function impotBadge(impot) {
   const colors = {
     TVA: '#dbeafe;color:#1e40af', IS: '#dcfce7;color:#166534', SAL: '#fef3c7;color:#92400e',
     SOC: '#fae8ff;color:#86198f', ANNUEL: '#ffedd5;color:#9a3412',
+    TIMBRE: '#e0e7ff;color:#3730a3', BIC: '#d1fae5;color:#065f46', FONCIER: '#fce7f3;color:#9d174d',
   };
   const style = colors[impot] || '#f1f5f9;color:#475569';
   return '<span class="event-badge" style="background:' + style.split(';')[0] + ';color:'
@@ -33,7 +80,12 @@ function impotBadge(impot) {
 
 function render() {
   const country = getCountry(S.code) || getCountry('BF');
-  const deadlines = getMonthDeadlines(S.code, S.month + 1);
+  const staticDeadlines = getMonthDeadlines(S.code, S.month + 1);
+  // Remplacer les échéances CNSS statiques par les dynamiques (fréquence configurée)
+  // + corrections BF d'après la DGI (IUTS/TPA/FSP au 12, TVA au 15)
+  const deadlines = staticDeadlines.filter((d) => !/cnss/i.test(d.label || '') && !isBfReplaced(d.label))
+    .concat(cnssDeadlines(S.month + 1))
+    .concat(bfMonthlyFixes(S.month + 1));
   const byDay = {};
   deadlines.forEach((d) => { (byDay[d.jour] = byDay[d.jour] || []).push(d); });
 
@@ -171,6 +223,13 @@ export async function renderCalendrierPage() {
     S.code = await loadCountry();
   } catch (e) { S.code = 'BF'; }
   if (!getCountry(S.code)) S.code = 'BF';
+  try {
+    S.cnssFreq = await getEffectiveCnssFrequency();
+  } catch (e) { S.cnssFreq = 'trimestrielle'; }
+  try {
+    S.tvaSubject = await loadTvaSubject();
+    S.bicPrelevement = await loadBicPrelevement();
+  } catch (e) { /* valeurs par défaut */ }
   const now = new Date();
   S.year = now.getFullYear();
   S.month = now.getMonth();

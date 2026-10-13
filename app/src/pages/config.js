@@ -15,6 +15,9 @@ import {
   loadTaxOverrides, saveTaxOverrides, saveEntry, CloudError,
   loadCompanyR1, saveCompanyR1, loadDirigeants, saveDirigeants,
   loadAssocies, saveAssocies,
+  loadEmployeeCount, saveEmployeeCount, loadCnssFrequency, saveCnssFrequency,
+  loadTvaSubject, saveTvaSubject, loadBicPrelevement, saveBicPrelevement,
+  loadDefaultAccounts, saveDefaultAccounts,
 } from '../store.js';
 import { getQuotaInfo, isAdmin } from '../licence.js';
 import { getAccessToken, supabaseService, getSession } from '../auth.js';
@@ -42,7 +45,20 @@ const PLANS = {
 const S = {
   company: '', ifu: '', regime: '', country: 'BF', overrides: {},
   r1: {}, dirigeants: [], associes: [],
+  employeeCount: 0, cnssFrequency: 'auto',
+  tvaSubject: true, bicPrelevement: false,
+  defaultAccounts: { client: '411', fournisseur: '401', tvaCollectee: '4431', tvaDeductible: '4451', vente: '701', achat: '601' },
 };
+
+function cnssFrequencyOptions() {
+  const opts = [
+    ['auto', 'Automatique (selon effectif : ≥ 20 = mensuelle)'],
+    ['mensuelle', 'Mensuelle (≥ 20 salariés)'],
+    ['trimestrielle', 'Trimestrielle (< 20 salariés)'],
+  ];
+  return opts.map(([v, label]) => '<option value="' + v + '"' + (S.cnssFrequency === v ? ' selected' : '') + '>'
+    + esc(label) + '</option>').join('');
+}
 
 const R1_LABELS = [
   ['sigle', 'Sigle'],
@@ -73,10 +89,18 @@ const R1_LABELS = [
 ];
 
 function regimeOptions() {
-  const vals = ['', 'BIC', 'BNC', 'BA'];
+  // Régimes fiscaux du Burkina Faso (le 12/10/2026 : BIC/BNC/BA étaient des
+  // catégories françaises, incompréhensibles pour l'utilisateur).
+  const vals = ['', 'CME', 'RSI', 'RNI'];
+  const labels = {
+    '': '— Choisir —',
+    'CME': 'CME — Contribution des Micro-Entreprises',
+    'RSI': 'RSI — Régime Simplifié d\u2019Imposition',
+    'RNI': 'RNI — Régime Normal d\u2019Imposition',
+  };
   if (S.regime && !vals.includes(S.regime)) vals.push(S.regime);
   return vals.map((v) => '<option value="' + esc(v) + '"' + (S.regime === v ? ' selected' : '') + '>'
-    + (v === '' ? '— Choisir —' : esc(v)) + '</option>').join('');
+    + esc(labels[v] || v) + '</option>').join('');
 }
 
 function personRowHtml(kind, p, idx) {
@@ -243,7 +267,35 @@ function render() {
     + '<label style="font-size:12px;">IFU<input id="cfg-ifu" class="form-input" value="' + esc(S.ifu) + '" maxlength="40"></label>'
     + '<label style="font-size:12px;">Régime fiscal<select id="cfg-regime" class="form-input">' + regimeOptions() + '</select></label>'
     + '</div>'
+    + '<div class="form-grid-2">'
+    + '<label style="font-size:12px;">Nombre de salariés<input id="cfg-employees" type="number" min="0" class="form-input" value="' + esc(String(S.employeeCount)) + '"></label>'
+    + '<label style="font-size:12px;">Fréquence CNSS<select id="cfg-cnss" class="form-input">' + cnssFrequencyOptions() + '</select></label>'
+    + '</div>'
+    + '<p class="muted-sm" style="margin:4px 0 0;">CNSS : ≥ 20 salariés = déclaration mensuelle (le 15), &lt; 20 = trimestrielle.</p>'
+    + '<div class="form-grid-2" style="margin-top:8px;">'
+    + '<label style="font-size:12px;display:flex;align-items:center;gap:8px;"><input type="checkbox" id="cfg-tva" ' + (S.tvaSubject ? 'checked' : '') + ' style="width:18px;height:18px;"> Entreprise assujettie à la TVA</label>'
+    + '<label style="font-size:12px;display:flex;align-items:center;gap:8px;"><input type="checkbox" id="cfg-bic" ' + (S.bicPrelevement ? 'checked' : '') + ' style="width:18px;height:18px;"> Prélèvement BIC 2% applicable</label>'
+    + '</div>'
     + '<button class="btn btn-primary" id="cfgSaveCompany" data-testid="cfg-save-company" style="width:100%;justify-content:center;margin-top:8px;">Enregistrer</button>'
+    + '</div></div>'
+
+    // --- Comptes comptables par défaut (13/10/2026 — inspiré Dolibarr) ---
+    + '<div class="card" style="margin-bottom:12px;"><div class="card-body">'
+    + '<h3 class="card-title" style="margin-bottom:4px;">🧾 Comptes par défaut</h3>'
+    + '<p class="muted-sm">Utilisés automatiquement lors de la saisie des écritures.</p>'
+    + '<div class="form-grid-2">'
+    + '<label style="font-size:12px;">Clients<input id="cfg-acc-client" class="form-input" value="' + esc(S.defaultAccounts.client) + '" maxlength="10"></label>'
+    + '<label style="font-size:12px;">Fournisseurs<input id="cfg-acc-fournisseur" class="form-input" value="' + esc(S.defaultAccounts.fournisseur) + '" maxlength="10"></label>'
+    + '</div>'
+    + '<div class="form-grid-2">'
+    + '<label style="font-size:12px;">TVA collectée<input id="cfg-acc-tvacol" class="form-input" value="' + esc(S.defaultAccounts.tvaCollectee) + '" maxlength="10"></label>'
+    + '<label style="font-size:12px;">TVA déductible<input id="cfg-acc-tvaded" class="form-input" value="' + esc(S.defaultAccounts.tvaDeductible) + '" maxlength="10"></label>'
+    + '</div>'
+    + '<div class="form-grid-2">'
+    + '<label style="font-size:12px;">Ventes<input id="cfg-acc-vente" class="form-input" value="' + esc(S.defaultAccounts.vente) + '" maxlength="10"></label>'
+    + '<label style="font-size:12px;">Achats<input id="cfg-acc-achat" class="form-input" value="' + esc(S.defaultAccounts.achat) + '" maxlength="10"></label>'
+    + '</div>'
+    + '<button class="btn btn-primary" id="cfgSaveAccounts" style="width:100%;justify-content:center;margin-top:8px;">Enregistrer les comptes</button>'
     + '</div></div>'
 
     // --- Identification DSF (fiches R1–R3) ---
@@ -312,16 +364,50 @@ function render() {
 
   $('#cfgSaveCompany').addEventListener('click', async () => {
     try {
-      await saveCompany($('#cfg-company').value);
-      await saveCompanyIfu($('#cfg-ifu').value);
-      await saveCompanyRegime($('#cfg-regime').value);
-      S.company = $('#cfg-company').value.trim() || 'Mon entreprise';
+      const company = $('#cfg-company').value;
+      const ifu = $('#cfg-ifu').value;
+      const regime = $('#cfg-regime').value;
+      const employees = $('#cfg-employees').value;
+      const cnssFreq = $('#cfg-cnss').value;
+      const tvaSubject = $('#cfg-tva').checked;
+      const bicPrelevement = $('#cfg-bic').checked;
+      await saveCompany(company);
+      await saveCompanyIfu(ifu);
+      await saveCompanyRegime(regime);
+      await saveEmployeeCount(employees);
+      await saveCnssFrequency(cnssFreq);
+      await saveTvaSubject(tvaSubject);
+      await saveBicPrelevement(bicPrelevement);
+      // Mettre à jour l'état local (le 12/10/2026 : seul S.company était mis à jour,
+      // l'IFU et le régime affichés revenaient aux anciennes valeurs).
+      S.company = company.trim() || 'Mon entreprise';
+      S.ifu = ifu.trim();
+      S.regime = regime;
+      S.employeeCount = parseInt(employees, 10) || 0;
+      S.cnssFrequency = cnssFreq;
+      S.tvaSubject = tvaSubject;
+      S.bicPrelevement = bicPrelevement;
       toast('Entreprise enregistrée.', 'success');
     } catch (e) { toast('Sauvegarde impossible : ' + errMsg(e), 'error'); }
   });
 
-  $('#cfgSaveTax').addEventListener('click', async () => {
-    const ov = {};
+  $('#cfgSaveAccounts').addEventListener('click', async () => {
+    try {
+      const accounts = {
+        client: $('#cfg-acc-client').value,
+        fournisseur: $('#cfg-acc-fournisseur').value,
+        tvaCollectee: $('#cfg-acc-tvacol').value,
+        tvaDeductible: $('#cfg-acc-tvaded').value,
+        vente: $('#cfg-acc-vente').value,
+        achat: $('#cfg-acc-achat').value,
+      };
+      await saveDefaultAccounts(accounts);
+      S.defaultAccounts = await loadDefaultAccounts();
+      toast('Comptes par défaut enregistrés.', 'success');
+    } catch (e) { toast('Sauvegarde impossible : ' + errMsg(e), 'error'); }
+  });
+
+  $('#cfgSaveTax').addEventListener('click', async () => {    const ov = {};
     shell().querySelectorAll('[data-taxkey]').forEach((inp) => { ov[inp.dataset.taxkey] = inp.value.trim(); });
     try {
       await saveTaxOverrides(ov);
@@ -550,12 +636,16 @@ function bindDemoSection() {
 async function load() {
   shell().innerHTML = '<div class="loading-state">Chargement de la configuration…</div>';
   try {
-    const [company, ifu, regime, country, overrides, r1, dirigeants, associes] = await Promise.all([
+    const [company, ifu, regime, country, overrides, r1, dirigeants, associes, employeeCount, cnssFrequency, tvaSubject, bicPrelevement, defaultAccounts] = await Promise.all([
       loadCompany(), loadCompanyIfu(), loadCompanyRegime(), loadCountry(), loadTaxOverrides(),
-      loadCompanyR1(), loadDirigeants(), loadAssocies(),
+      loadCompanyR1(), loadDirigeants(), loadAssocies(), loadEmployeeCount(), loadCnssFrequency(),
+      loadTvaSubject(), loadBicPrelevement(), loadDefaultAccounts(),
     ]);
     S.company = company; S.ifu = ifu; S.regime = regime; S.country = country; S.overrides = overrides;
     S.r1 = r1; S.dirigeants = dirigeants; S.associes = associes;
+    S.employeeCount = employeeCount; S.cnssFrequency = cnssFrequency;
+    S.tvaSubject = tvaSubject; S.bicPrelevement = bicPrelevement;
+    S.defaultAccounts = defaultAccounts;
     render();
   } catch (e) {
     shell().innerHTML = errorHtml(errMsg(e));

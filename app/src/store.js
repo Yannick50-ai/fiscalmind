@@ -153,14 +153,30 @@ export async function savePeriode(periode) {
 }
 
 /** Période par défaut : préférence enregistrée, sinon année des données, sinon année en cours. */
-export async function defaultPeriode() {
-  const saved = await loadPeriode();
-  if (saved && saved.debut && saved.fin) return saved;
+export async function defaultPeriode(existingEntries) {
+  // Sans session : lever AUTH (comportement attendu par les tests)
+  const { client, uid } = ctx();
   let y = String(new Date().getFullYear());
   try {
-    const entries = await loadEntries();
-    if (entries.length && entries[0].date) y = String(entries[0].date).slice(0, 4);
+    const entries = existingEntries || await loadEntries();
+    // Année la PLUS RÉCENTE des écritures (13/10/2026)
+    if (entries.length) {
+      const maxYear = entries.reduce((m, e) => {
+        const ey = String(e.date || '').slice(0, 4);
+        return ey > m ? ey : m;
+      }, '');
+      if (/^\d{4}$/.test(maxYear)) y = maxYear;
+    }
   } catch (e) { /* période par défaut quand même */ }
+  // Période sauvegardée : l'utiliser seulement si elle contient l'année la plus récente
+  // (évite de rester bloqué sur un vieil exercice — 13/10/2026)
+  try {
+    const saved = await loadPeriode();
+    if (saved && saved.debut && saved.fin) {
+      const savedYear = String(saved.debut).slice(0, 4);
+      if (savedYear === y) return saved;
+    }
+  } catch (e) { /* ignorer */ }
   return { debut: y + '-01-01', fin: y + '-12-31' };
 }
 
@@ -262,6 +278,95 @@ export async function loadCompanyRegime() {
 }
 export async function saveCompanyRegime(regime) {
   return setSetting('company_regime', String(regime || '').trim().slice(0, 60));
+}
+
+/** Nombre de salariés (pour la fréquence CNSS : >= 20 = mensuelle, < 20 = trimestrielle). */
+export async function loadEmployeeCount() {
+  const v = await getSetting('employee_count', 0);
+  const n = parseInt(v, 10);
+  return Number.isFinite(n) && n >= 0 ? n : 0;
+}
+export async function saveEmployeeCount(n) {
+  const v = parseInt(n, 10);
+  return setSetting('employee_count', Number.isFinite(v) && v >= 0 ? v : 0);
+}
+
+/** Fréquence CNSS : 'auto' (déduite de l'effectif), 'mensuelle' ou 'trimestrielle' (forçage manuel). */
+export async function loadCnssFrequency() {
+  const v = await getSetting('cnss_frequency', 'auto');
+  return ['auto', 'mensuelle', 'trimestrielle'].includes(v) ? v : 'auto';
+}
+export async function saveCnssFrequency(f) {
+  return setSetting('cnss_frequency', ['auto', 'mensuelle', 'trimestrielle'].includes(f) ? f : 'auto');
+}
+
+/** Fréquence CNSS effective : manuelle si forçée, sinon déduite (≥ 20 salariés = mensuelle). */
+export async function getEffectiveCnssFrequency() {
+  const f = await loadCnssFrequency();
+  if (f !== 'auto') return f;
+  const n = await loadEmployeeCount();
+  return n >= 20 ? 'mensuelle' : 'trimestrielle';
+}
+
+/** Assujetti à la TVA (défaut : oui). Si non, le calendrier masque la TVA. */
+export async function loadTvaSubject() {
+  const v = await getSetting('tva_subject', true);
+  return v !== false && v !== 'false' && v !== 0;
+}
+export async function saveTvaSubject(yes) {
+  return setSetting('tva_subject', !!yes);
+}
+
+/** Prélèvement BIC 2% applicable (défaut : non). Si oui, le calendrier l'affiche. */
+export async function loadBicPrelevement() {
+  const v = await getSetting('bic_prelevement', false);
+  return v === true || v === 'true' || v === 1;
+}
+export async function saveBicPrelevement(yes) {
+  return setSetting('bic_prelevement', !!yes);
+}
+
+/* ------------------------------------------------------------------ */
+/* Mois verrouillés — validation par période (13/10/2026)               */
+/* Format : ["2026-09", "2026-10"] — un mois verrouillé est intangible  */
+/* ------------------------------------------------------------------ */
+
+export async function loadLockedMonths() {
+  const v = await getSetting('locked_months', []);
+  return Array.isArray(v) ? v : [];
+}
+export async function saveLockedMonths(months) {
+  return setSetting('locked_months', Array.isArray(months) ? months : []);
+}
+export async function isMonthLocked(yearMonth) {
+  const locked = await loadLockedMonths();
+  return locked.includes(String(yearMonth));
+}
+
+/* ------------------------------------------------------------------ */
+/* Comptes comptables par défaut (13/10/2026 — inspiré Dolibarr)        */
+/* Clés : client, fournisseur, tvaCollectee, tvaDeductible, vente, achat */
+/* ------------------------------------------------------------------ */
+
+export const DEFAULT_ACCOUNTS = {
+  client: '411',
+  fournisseur: '401',
+  tvaCollectee: '4431',
+  tvaDeductible: '4451',
+  vente: '701',
+  achat: '601',
+};
+
+export async function loadDefaultAccounts() {
+  const v = await getSetting('default_accounts', {});
+  return { ...DEFAULT_ACCOUNTS, ...(v || {}) };
+}
+export async function saveDefaultAccounts(accounts) {
+  const clean = {};
+  for (const k of Object.keys(DEFAULT_ACCOUNTS)) {
+    if (accounts[k]) clean[k] = String(accounts[k]).trim();
+  }
+  return setSetting('default_accounts', clean);
 }
 
 /* ------------------------------------------------------------------ */

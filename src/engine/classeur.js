@@ -128,11 +128,41 @@ export function impotsLabel(name, salaryTaxShort) {
 
 /**
  * Détails d'un bordereau DGI : [{ label, amount, account }]
- * (port de fmExtractImpotsDetails : noms entre « liste des montants » et
- * « montant total déclaré », montants après).
+ * Gère le format tableau eSINTAX : "01Nom de la taxe PERIODE 2026 15/10/2026 201 729 201 729"
+ * (12/10/2026 : l'ancien format « noms puis montants séparés » ne fonctionnait pas
+ * sur les vrais bordereaux — réécriture pour le format tabulaire réel).
  */
 export function extractImpotsDetails(text, salaryTaxShort) {
   const lines = String(text || '').split('\n').map((l) => l.trim()).filter(Boolean);
+  const out = [];
+  // Chaque ligne de taxe : 2 chiffres + nom + période + date + montants
+  const rowRe = /^(\d{2})\s*(.+?)\s+(JANVIER|FEVRIER|FÉVRIER|MARS|AVRIL|MAI|JUIN|JUILLET|AOÛT|AOUT|SEPTEMBRE|OCTOBRE|NOVEMBRE|DECEMBRE|DÉCEMBRE|TRIMESTRE\s+\d)\s+(\d{4})\s+\d{2}\/\d{2}\/\d{4}\s+([\d\s]+)$/i;
+  for (const l of lines) {
+    const m = l.match(rowRe);
+    if (!m) continue;
+    const name = m[2].trim();
+    // Montants : "201 729 201 729" (déclaré + payé, identiques) → prendre la 1re moitié
+    const tokens = m[5].trim().split(/\s+/).filter(Boolean);
+    const half = Math.ceil(tokens.length / 2);
+    const amount = cleanAmount(tokens.slice(0, half).join(''));
+    if (!name || amount <= 0) continue;
+    // Éviter les lignes d'en-tête
+    if (/^(période|date limite|montant|n°)$/i.test(name)) continue;
+    out.push({
+      label: impotsLabel(name, salaryTaxShort),
+      amount,
+      account: impotsAccount(name),
+    });
+  }
+  // Repli : ancien format (noms puis montants séparés)
+  if (out.length === 0) {
+    return extractImpotsDetailsLegacy(lines, salaryTaxShort);
+  }
+  return out;
+}
+
+/** Ancien format : noms entre « liste des montants » et « montant total déclaré ». */
+function extractImpotsDetailsLegacy(lines, salaryTaxShort) {
   const start = lines.findIndex((l) => /liste des montants/i.test(l));
   const amtIdx = lines.findIndex((l) => /montant total d[ée]clar[ée]/i.test(l));
   if (start < 0 || amtIdx < 0) return [];
@@ -184,7 +214,13 @@ export function extractInvoiceData(text, fileName, salaryTaxShort) {
 }
 
 function pieceOf(fileName) {
-  return String(fileName || '').replace(/\.[^.]+$/, '').slice(0, 24);
+  const p = String(fileName || '').replace(/\.[^.]+$/, '').slice(0, 24);
+  // Si pas de nom de fichier, générer à partir de la date (12/10/2026)
+  if (!p) {
+    const d = new Date();
+    return 'BORD' + d.getFullYear() + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0');
+  }
+  return p;
 }
 
 function mkEntry({ id, date, journal, piece, libelle, lignes }) {
@@ -319,9 +355,23 @@ export function toCanonical(entry) {
     libelle: entry.libelle,
     lignes: (entry.lignes || []).map((l) => ({
       compte: String(l.compte || ''),
+      libelle: l.libelle || '',
       debit: Math.round(Number(l.debit) || 0),
       credit: Math.round(Number(l.credit) || 0),
+      // Conserver le lettrage à la modification (13/10/2026)
+      ...(l.lettre ? { lettre: String(l.lettre) } : {}),
     })),
+    // Conserver les métadonnées (13/10/2026)
+    ...(entry.statut ? { statut: String(entry.statut) } : {}),
+    ...(entry.dateValidation ? { dateValidation: String(entry.dateValidation) } : {}),
+    ...(entry.doc ? { doc: entry.doc } : {}),
+    ...(entry.r2Key ? { r2Key: entry.r2Key } : {}),
+    ...(entry.extourneDe ? { extourneDe: entry.extourneDe } : {}),
+    ...(entry.extournePiece ? { extournePiece: entry.extournePiece } : {}),
+    ...(entry.extourneJournal ? { extourneJournal: entry.extourneJournal } : {}),
+    ...(entry.contrePasseePar ? { contrePasseePar: entry.contrePasseePar } : {}),
+    ...(entry.contrePasseePiece ? { contrePasseePiece: entry.contrePasseePiece } : {}),
+    ...(entry.contrePasseeJournal ? { contrePasseeJournal: entry.contrePasseeJournal } : {}),
   };
 }
 

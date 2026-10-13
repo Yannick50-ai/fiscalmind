@@ -86,7 +86,7 @@ export function createOcrService({ invokeOcr }) {
      * @param {boolean} p.consent - CONSENTEMENT EXPLICITE requis (false → refus)
      * @returns {Promise<{ text: string, raw: object }>}
      */
-    async requestOcr({ accessToken, dataUrl, language = 'fre', consent = false }) {
+    async requestOcr({ accessToken, dataUrl, language = 'fre', consent = false, tvaSubject = true, bicPrelevement = false }) {
       if (consent !== true) {
         throw ocrError('CONSENT_REQUIRED', "Envoi au service OCR refusé : consentement explicite requis");
       }
@@ -99,7 +99,7 @@ export function createOcrService({ invokeOcr }) {
 
       let res;
       try {
-        res = await invokeOcr({ accessToken, body: { base64Image: dataUrl, language: v.language } });
+        res = await invokeOcr({ accessToken, body: { base64Image: dataUrl, language: v.language, tvaSubject, bicPrelevement } });
       } catch (e) {
         const err = ocrError('OCR_SERVICE_ERROR', 'Service OCR indisponible');
         err.cause = e;

@@ -980,6 +980,7 @@ export const ACCOUNTS = {
   '6085': { intitule: "frais sur achats (6)", sens: 'D' },
   '6089': { intitule: "Rabais, Remises et Ristournes obtenus (non ventilés)", sens: 'D' },
   '61': { intitule: "TRANSPORTS", sens: 'D' },
+  '611': { intitule: "TRANSPORTS SUR ACHATS", sens: 'D' },
   '612': { intitule: "TRANSPORTS SUR VENTES", sens: 'D' },
   '613': { intitule: "TRANSPORTS POUR LE COMPTE DE TIERS", sens: 'D' },
   '614': { intitule: "TRANSPORTS DU PERSONNEL", sens: 'D' },

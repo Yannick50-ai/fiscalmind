@@ -334,8 +334,10 @@ function renderContent() {
 export async function renderDashboardPage() {
   shell().innerHTML = '<div data-testid="dashboard-page"><div class="loading-state">Chargement du tableau de bord…</div></div>';
   try {
-    const [entries, periode, country] = await Promise.all([
-      loadEntries(), defaultPeriode(), countryOf(),
+    // Charger les écritures d'abord (évite double appel en parallèle — 13/10/2026)
+    const entries = await loadEntries();
+    const [periode, country] = await Promise.all([
+      defaultPeriode(entries), countryOf(),
     ]);
     S.entries = entries;
     S.periode = periode;

@@ -193,7 +193,7 @@ export function autoLetterEntries(entries) {
     return l;
   };
 
-  const toLetter = []; // { ref, compte, lettre }
+  const toLetter = []; // { entryId, lineIndex, compte, lettre }
   let matched = 0;
 
   Object.entries(byAccount).forEach(([compte, mouvs]) => {
@@ -212,8 +212,8 @@ export function autoLetterEntries(entries) {
       );
       if (di >= 0) {
         const lettre = getNextLetter();
-        toLetter.push({ ref: debits[di].ref, compte, lettre });
-        toLetter.push({ ref: c.ref, compte, lettre });
+        toLetter.push({ entryId: debits[di].entryId, lineIndex: debits[di].lineIndex, compte, lettre });
+        toLetter.push({ entryId: c.entryId, lineIndex: c.lineIndex, compte, lettre });
         usedDebit.add(di);
         usedCredit.add(ci);
         matched += 2;
@@ -223,19 +223,16 @@ export function autoLetterEntries(entries) {
 
   // Appliquer les lettres
   let result = entries || [];
-  const byRefCompte = {};
+  const byKey = {};
   toLetter.forEach((t) => {
-    const key = t.ref + '|' + t.compte;
-    byRefCompte[key] = t.lettre;
+    byKey[t.entryId + '|' + t.lineIndex + '|' + t.compte] = t.lettre;
   });
   result = result.map((e) => ({
     ...e,
-    lignes: (e.lignes || []).map((l) => {
-      const key = (e.id || e.ref) + '|' + String(l.compte);
-      // Chercher par ref d'écriture
-      const mKey = Object.keys(byRefCompte).find((k) => k.startsWith((e.id || e.ref) + '|') && k.endsWith('|' + String(l.compte)));
-      if (mKey && !l.lettre) {
-        return { ...l, lettre: byRefCompte[mKey] };
+    lignes: (e.lignes || []).map((l, li) => {
+      const key = e.id + '|' + li + '|' + String(l.compte);
+      if (byKey[key] && !l.lettre) {
+        return { ...l, lettre: byKey[key] };
       }
       return l;
     }),

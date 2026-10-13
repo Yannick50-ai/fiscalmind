@@ -75,12 +75,13 @@ function render() {
       + esc(fmtN(bal.solde)) + '</strong></span></div><div class="card-body">';
     if (nl.length) {
       card += '<div style="overflow-x:auto;"><table class="financial-table"><thead><tr>'
-        + '<th></th><th>Date</th><th>Libellé</th>'
+        + '<th></th><th>Jnl</th><th>Date</th><th>Libellé</th>'
         + '<th style="text-align:right;">Débit</th><th style="text-align:right;">Crédit</th>'
         + '</tr></thead><tbody>'
         + nl.map((m) => '<tr><td><input type="checkbox" class="lt-sel" data-c="' + esc(c) + '"'
           + ' value="' + esc(m.entryId) + '|' + m.lineIndex + '"'
           + ' style="width:18px;height:18px;accent-color:var(--primary);" aria-label="Sélectionner"></td>'
+          + '<td style="white-space:nowrap;"><strong>' + esc(m.journal || '') + '</strong></td>'
           + '<td style="white-space:nowrap;">' + esc(fmtDate(m.date)) + '</td>'
           + '<td>' + esc(m.libelle) + '</td>'
           + '<td style="text-align:right;white-space:nowrap;">' + esc(fmtN(m.debit)) + '</td>'
@@ -135,13 +136,14 @@ function renderDetail(compte) {
     + esc(fmtN(Math.abs(tot.solde))) + '</strong></div></div>';
   if (gl.rows.length) {
     h += '<div style="overflow-x:auto;"><table class="financial-table"><thead><tr>'
-      + '<th>Date</th><th>Libellé</th>'
+      + '<th>Jnl</th><th>Date</th><th>Libellé</th>'
       + '<th style="text-align:right;">Débit</th><th style="text-align:right;">Crédit</th>'
       + '<th style="text-align:right;">Solde</th><th style="text-align:center;">Let.</th>'
       + '</tr></thead><tbody>'
       + gl.rows.map((r) => {
         const lettre = (g.find((m) => m.entryId === r.id && m.compte === compte) || {}).lettre || '';
-        return '<tr><td style="white-space:nowrap;">' + esc(fmtDate(r.date)) + '</td>'
+        return '<tr><td style="white-space:nowrap;"><strong>' + esc(r.journal || '') + '</strong></td>'
+          + '<td style="white-space:nowrap;">' + esc(fmtDate(r.date)) + '</td>'
           + '<td>' + esc(r.libelle) + '</td>'
           + '<td style="text-align:right;white-space:nowrap;">' + esc(fmtN(r.debit)) + '</td>'
           + '<td style="text-align:right;white-space:nowrap;">' + esc(fmtN(r.credit)) + '</td>'

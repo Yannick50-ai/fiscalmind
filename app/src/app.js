@@ -17,6 +17,7 @@ import { renderNotesPage } from './pages/notes.js';
 import { renderEchangesPage } from './pages/echanges.js';
 import { renderFichesPage } from './pages/fiches.js';
 import { renderClasseurPage } from './pages/classeur.js';
+import { renderPlanComptablePage } from './pages/plan-comptable.js';
 import { renderAuditPage } from './pages/audit.js';
 import { renderAmortissementsPage } from './pages/amortissements.js';
 import { renderAssurancesPage } from './pages/assurances.js';
@@ -115,6 +116,7 @@ startRouter({
   'copilote': { guard: true, render: () => { showShell(); markNav('copilote'); renderCopilotePage(); setHeader('Copilote IA'); } },
   'admin': { guard: true, render: () => { showShell(); markNav('admin'); renderAdminPage(); setHeader('Administration'); } },
   'classeur': { guard: true, render: () => { showShell(); markNav('classeur'); renderClasseurPage(); setHeader('Classeur Intelligent'); } },
+  'plan-comptable': { guard: true, render: () => { showShell(); markNav('plan-comptable'); renderPlanComptablePage(); setHeader('Plan comptable'); } },
   'audit': { guard: true, render: () => { showShell(); markNav('audit'); renderAuditPage(); setHeader('Audit Readiness'); } },
   'amortissements': { guard: true, render: () => { showShell(); markNav('amortissements'); renderAmortissementsPage(); setHeader('Amortissements'); } },
   'assurances': { guard: true, render: () => { showShell(); markNav('assurances'); renderAssurancesPage(); setHeader('Assurances'); } },
