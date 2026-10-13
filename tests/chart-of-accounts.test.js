@@ -10,10 +10,10 @@ import {
 } from '../src/engine/chart-of-accounts.js';
 import { accountLabel } from '../src/engine/labels.js';
 
-test('plan complet : 1420 comptes distincts (1421 lignes dont un doublon exact « 91 »)', () => {
+test('plan complet : 1421 comptes distincts (1422 lignes dont un doublon exact « 91 »)', () => {
   // Le fichier source liste 1421 lignes ; la clé '91' y figure deux fois
-  // avec un contenu identique → 1420 clés distinctes (voir NOTES.md).
-  assert.equal(Object.keys(ACCOUNTS).length, 1420);
+  // avec un contenu identique → 1421 clés distinctes (voir NOTES.md). 611 réintégré le 13/10/2026.
+  assert.equal(Object.keys(ACCOUNTS).length, 1421);
 });
 
 test('neuf classes du plan révisé', () => {

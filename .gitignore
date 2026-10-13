@@ -1,0 +1,31 @@
+# Dépendances
+node_modules/
+
+# Builds
+dist/
+dist-e2e/
+app/dist/
+app/dist-e2e/
+
+# Environnements et secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+
+# Captures d'écran de test (40 Mo+, preuves visuelles uniquement)
+app/screenshots/
+
+# Fichiers résiduels
+*.bak
+*.bak-cors
+*.tmp
+
+# OS / éditeurs
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
